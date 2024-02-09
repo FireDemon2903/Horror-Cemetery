@@ -5,7 +5,8 @@ using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerInput))]
 [RequireComponent(typeof(AudioSource))]
-public class PlayerControls : MonoBehaviour
+[RequireComponent(typeof(Rigidbody))]
+public class PlayerControler : MonoBehaviour
 {
     // --------------- Player Movespeed ---------------
     public float BasePlayerSpeed = 10;
@@ -19,14 +20,23 @@ public class PlayerControls : MonoBehaviour
     bool IsCrouched = false;
     bool IsJumping = false;
 
+    Vector2 movement;
+
     // --------------- Components on this object ---------------
     PlayerInput mPlayerInput;
     AudioSource mAudioSource;
+    Rigidbody mRigidbody;
 
     private void Start()
     {
         mPlayerInput = GetComponent<PlayerInput>();
         mAudioSource = GetComponent<AudioSource>();
+        mRigidbody = GetComponent<Rigidbody>();
+    }
+
+    private void FixedUpdate()
+    {
+        mRigidbody.AddForce(new Vector3(movement.x, 0f, movement.y) * Speed);
     }
 
     #region Inputs
@@ -36,7 +46,7 @@ public class PlayerControls : MonoBehaviour
     /// <param name="value">Vector2</param>
     void OnMove(InputValue value)
     {
-
+        movement = value.Get<Vector2>();
     }
     /// <summary>
     /// Delta mouse
