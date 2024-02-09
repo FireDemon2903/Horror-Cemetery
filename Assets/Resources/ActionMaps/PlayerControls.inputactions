@@ -15,6 +15,33 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "e11fb19e-d569-4a2b-8da7-28a0f662afd7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Run",
+                    "type": "Button",
+                    "id": "0a15e890-c74d-4cb3-8678-4e7c7b53b326",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Crouch",
+                    "type": "Button",
+                    "id": "d5771a58-9e8a-465f-ac0a-30325cd162bc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Look",
                     "type": "Value",
                     "id": "d152e66e-41ca-4522-93f2-53fc4196c055",
@@ -33,49 +60,13 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "PickUp",
+                    "name": "Interact",
                     "type": "Button",
                     "id": "dd41e37c-4c72-4846-9856-906f67f8d528",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Drop",
-                    "type": "Button",
-                    "id": "243b3206-b1a0-4e3c-b569-910447a5b202",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Run",
-                    "type": "Button",
-                    "id": "0a15e890-c74d-4cb3-8678-4e7c7b53b326",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Crouch",
-                    "type": "Button",
-                    "id": "d5771a58-9e8a-465f-ac0a-30325cd162bc",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Jump",
-                    "type": "Button",
-                    "id": "e11fb19e-d569-4a2b-8da7-28a0f662afd7",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
                 },
                 {
                     "name": "Scroll",
@@ -156,45 +147,23 @@
                 },
                 {
                     "name": "",
-                    "id": "6422402d-e585-4eeb-bac7-e9fe30fcb387",
-                    "path": "<Gamepad>/rightStick",
-                    "interactions": "",
+                    "id": "0ecc348e-6d65-4535-8531-06c20c1e305f",
+                    "path": "<Keyboard>/leftCtrl",
+                    "interactions": "Press(behavior=2)",
                     "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Look",
+                    "groups": "",
+                    "action": "Crouch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "f289243b-0e57-4a33-8bc3-9d37ebe16a75",
-                    "path": "<Mouse>/delta",
-                    "interactions": "",
+                    "id": "1f1c67f1-f85d-4af4-8d45-93d172dcea0d",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "Press(behavior=2)",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "510168cd-7c7a-4be0-9501-0caf6bb6bf1a",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "PickUp",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "25caa112-a758-428e-8e60-14c7d924941a",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Drop",
+                    "groups": "",
+                    "action": "Run",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -211,23 +180,12 @@
                 },
                 {
                     "name": "",
-                    "id": "0ecc348e-6d65-4535-8531-06c20c1e305f",
-                    "path": "<Keyboard>/leftCtrl",
-                    "interactions": "Hold",
+                    "id": "510168cd-7c7a-4be0-9501-0caf6bb6bf1a",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Crouch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "1f1c67f1-f85d-4af4-8d45-93d172dcea0d",
-                    "path": "<Keyboard>/leftShift",
-                    "interactions": "Hold",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Run",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -239,6 +197,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6422402d-e585-4eeb-bac7-e9fe30fcb387",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f289243b-0e57-4a33-8bc3-9d37ebe16a75",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
