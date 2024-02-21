@@ -12,13 +12,15 @@ using UnityEngine.UIElements;
 public class PlayerControler : MonoBehaviour
 {
     // --------------- Player Movement ---------------
-    public float BasePlayerSpeed = 10;
+    public float BasePlayerSpeed = 10f;                                         // Base player speed
+    //float jumpForce = 100;                                                    // Ther force with which the player jumps
+    public float mRotationSens = 15f;                                                  // Mouse sensetivity
+    readonly float GrabDist = 10;
+
     // Prioritises crouching speed. If player is crouched, then speed will remain halfed,
     // even thought they are technically running in the eyes of the code.
     float SpeedMultiplyer => IsCrouched ? .5f : IsRunning ? 2f : 1f;        // Player speed multiplyer. Dependant on state
     float Speed => BasePlayerSpeed * SpeedMultiplyer;                       // Total player speed after state checks
-
-    float mRotationSens = 10f;                                              // Mouse sensetivity
 
     Vector2 newRotation;                                                    // Rotation input
     Vector2 movement;                                                       // Movement input
@@ -34,7 +36,9 @@ public class PlayerControler : MonoBehaviour
     // --------------- Player States ---------------
     bool IsRunning = false;
     bool IsCrouched = false;
-    bool IsJumping = false;
+    //bool IsJumping = false;
+
+    GameObject ObjectInSight;
 
     // --------------- Components on this object ---------------
     PlayerInput mPlayerInput;
@@ -48,6 +52,9 @@ public class PlayerControler : MonoBehaviour
         mAudioSource = GetComponent<AudioSource>();
         mRigidbody = GetComponent<Rigidbody>();
         //mCharacterController = GetComponent<CharacterController>();
+
+        materialPropertyBlock = new();
+        materialPropertyBlock.SetColor("_Color", Color.black);
     }
 
     private void FixedUpdate()
@@ -57,7 +64,27 @@ public class PlayerControler : MonoBehaviour
 
     private void Update()
     {
-        
+        // If the player looks at anything in the 'Interactable' layer within grabdistance
+        if (Physics.Raycast(transform.position, transform.forward, out var hitInfo, GrabDist)
+            && !hitInfo.collider.gameObject.isStatic)
+        {
+            ObjectInSight = hitInfo.collider.gameObject;
+            print(hitInfo.collider.gameObject.name);
+
+            //if (hitInfo.collider.gameObject.layer == LayerMask.NameToLayer("Interabtable"))
+            //{
+            //    print("Interactible");
+
+
+            //    // set newcolour
+            //}
+
+            hitInfo.collider.gameObject.GetComponent<MeshRenderer>().SetPropertyBlock(materialPropertyBlock);
+
+        }
+
+        //Debug.DrawLine(transform.position, transform.forward * GrabDist, Color.green);
+        Debug.DrawRay(transform.position, transform.forward * GrabDist, Color.green);
     }
 
     // TODO: Jump, fire, interact, crouch hitbox
@@ -121,7 +148,7 @@ public class PlayerControler : MonoBehaviour
     /// Button: Spacebar
     /// </summary>
     /// <param name="value">Button (checkinit)</param>
-    void OnJump(InputValue value) { IsJumping = !IsJumping; }
+    //void OnJump(InputValue value) { IsJumping = !IsJumping; }
     #endregion Inputs
 
 }
