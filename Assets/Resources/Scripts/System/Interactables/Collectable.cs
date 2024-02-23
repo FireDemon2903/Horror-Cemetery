@@ -9,7 +9,8 @@ public class Collectable : MonoBehaviour, IInteractable
         if (TryGetComponent<IPart>(out var part))
         {
             part.Collect(controler);
-            print($"This {gameObject.name} was picked up by {sender.name}");
+            print($"{sender.name} picked up a '{part.GetType()}'");
+            Destroy(gameObject);
         }
     }
 }

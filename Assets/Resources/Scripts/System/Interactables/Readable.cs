@@ -7,12 +7,6 @@ public class Readable : MonoBehaviour, IInteractable
     public void Interact(GameObject sender)
     {
         print($"This object was read by {sender.name}");
-
         sender.SendMessage("PlayClip", clip);
-
-
     }
-
-
-
 }

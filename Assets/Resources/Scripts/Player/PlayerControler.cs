@@ -12,6 +12,7 @@ public class PlayerControler : MonoBehaviour
 {
     // Game Manager
     public GameObject gameManagerObj { get; private set; }
+    MixLevels mixLevel;
 
     // --------------- Player Movement ---------------
     public float BasePlayerSpeed = 10f;                                         // Base player speed
@@ -55,14 +56,16 @@ public class PlayerControler : MonoBehaviour
     //int Bullets = 0;                            // Full bullets
 
     // Move to dedicated crafting script later:
-    public List<object> OwnedParts = new();
+    public List<Enum> OwnedParts = new();
 
-    static bool CanCraftItem<T>(List<T> ownedParts, params T[] requiredParts) { return requiredParts.All(part => ownedParts.Contains(part)); }
+    // This does not work...
+    static bool CanCraftItem<Enum>(List<Enum> ownedParts, params Enum[] requiredParts) { return requiredParts.All(part => ownedParts.Contains(part)); }
+
     bool canCraftGun => CanCraftItem(OwnedParts, Gunparts.GunBarrel, Gunparts.GunHandle, Gunparts.GunCyllinder);
     bool canCraftBullet => CanCraftItem(OwnedParts, Bulletparts.Casing, Bulletparts.Casing);
 
     // --------------- Methods ---------------
-    private void Start()
+    private void Awake()
     {
         mPlayerInput = GetComponent<PlayerInput>();
         mRigidbody = GetComponent<Rigidbody>();
@@ -70,10 +73,11 @@ public class PlayerControler : MonoBehaviour
         mAudioSources = GetComponents<AudioSource>();
 
         gameManagerObj = GameObject.Find("GM");
+        //mixLevel = GameObject.Find("GM").GetComponent<MixLevels>();
 
         // Set vol ex (should be done in GUI)
-        //gameManagerObj.SendMessage("SetReaderLvl", -20f);
-        //gameManagerObj.SendMessage("SetSFXLvl", 10f);
+        gameManagerObj.SendMessage("SetReaderLvl", -20f);
+        //mixLevel.SetReaderLvl(-20f);
 
         // Move to GM later
         mAudioMixer = Resources.Load<AudioMixer>("Audio/PlayerAudioMixer");
@@ -212,6 +216,6 @@ public class PlayerControler : MonoBehaviour
     /// Button: Spacebar
     /// </summary>
     /// <param name="value">Button (checkinit)</param>
-    //void OnJump(InputValue value) { IsJumping = !IsJumping; }
+    void OnJump(InputValue value) { /*IsJumping = !IsJumping;*/ print($"Bullet: {canCraftBullet}, Gun: {canCraftGun}"); }
     #endregion Inputs
 }
