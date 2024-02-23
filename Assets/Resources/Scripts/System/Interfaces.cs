@@ -23,3 +23,11 @@ public interface IPart
     /// <param name="playerControler">PlayerControler script</param>
     void Collect(PlayerControler playerControler);
 }
+
+/// <summary>
+/// Interface for enemy scripts
+/// </summary>
+public interface IEnemy
+{
+
+}

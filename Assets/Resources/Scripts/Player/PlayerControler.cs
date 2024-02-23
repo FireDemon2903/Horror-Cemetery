@@ -51,7 +51,6 @@ public class PlayerControler : MonoBehaviour
     public enum Gunparts { GunBarrel, GunHandle, GunCyllinder }
     public enum Bulletparts { Gunpowder, Casing }
 
-
     //bool HasGun = false;
     //int Bullets = 0;                            // Full bullets
 
