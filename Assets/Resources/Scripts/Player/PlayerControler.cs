@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
+using Outline = cakeslice.Outline;
 
 [RequireComponent(typeof(PlayerInput), typeof(Rigidbody))]              // Player Reqs
 [RequireComponent(typeof(AudioMixer), typeof(AudioSource))]             // Sound Reqs
@@ -12,8 +13,8 @@ public class PlayerControler : MonoBehaviour
     // --------------- Player Movement ---------------
     public float BasePlayerSpeed = 10f;                                         // Base player speed
     //float jumpForce = 100;                                                    // Ther force with which the player jumps
-    public float mRotationSens = 15f;                                                  // Mouse sensetivity
-    readonly float GrabDist = 10;
+    public float RotationSens = 15f;                                                  // Mouse sensetivity
+    readonly float GrabDist = 10;                                               // Grab/Interact/Attack distance
 
     // Prioritises crouching speed. If player is crouched, then speed will remain halfed,
     // even thought they are technically running in the eyes of the code.
@@ -22,26 +23,24 @@ public class PlayerControler : MonoBehaviour
 
     Vector2 newRotation;                                                    // Rotation input
     Vector2 movement;                                                       // Movement input
-
     // TODO: stop floating and clipping
     Vector3 newPosition => transform.position + (Speed * Time.deltaTime * (transform.forward * movement.y + transform.right * movement.x));
-
 
     // --------------- Player States ---------------
     bool IsRunning = false;
     bool IsCrouched = false;
     //bool IsJumping = false;
 
-    MaterialPropertyBlock materialPropertyBlock;
+    //MaterialPropertyBlock materialPropertyBlock;              // No longer in use
+    //Color HighlightColour = Color.grey;
     GameObject LastObjectInSight = null;
     LayerMask interactiblesLayer = 8;
 
     // --------------- Components on this object ---------------
-    PlayerInput mPlayerInput;
-    AudioSource[] mAudioSources;                                                    // 0: reading, 1: sound, 2: radio
-    AudioMixer mAudioMixer;         // Move to GM later
-
     Rigidbody mRigidbody;
+    PlayerInput mPlayerInput;
+    AudioSource[] mAudioSources;                                                    // 0: reading, 1: sound, 2: radio & bgm
+    AudioMixer mAudioMixer;         // Move to GM later
 
     private void Start()
     {
@@ -53,7 +52,8 @@ public class PlayerControler : MonoBehaviour
         gameManagerObj = GameObject.Find("GM");
 
         // Set vol ex (should be done in GUI)
-        gameManagerObj.SendMessage("SetReaderLv", -60f);
+        gameManagerObj.SendMessage("SetReaderLvl", -20f);
+        gameManagerObj.SendMessage("SetSFXLvl", 10f);
 
         // Move to GM later
         mAudioMixer = Resources.Load<AudioMixer>("Audio/PlayerAudioMixer");
@@ -61,7 +61,8 @@ public class PlayerControler : MonoBehaviour
         mAudioSources[0].outputAudioMixerGroup = mAudioMixer.FindMatchingGroups("Readable")[0];
         mAudioSources[1].outputAudioMixerGroup = mAudioMixer.FindMatchingGroups("SFX")[0];
 
-        materialPropertyBlock = new();
+
+        //materialPropertyBlock = new();
         //materialPropertyBlock.SetColor("_Color", Color.black);
     }
 
@@ -85,16 +86,18 @@ public class PlayerControler : MonoBehaviour
                     // Revert changes to the last object in sight
                     if (LastObjectInSight != null)
                     {
-                        LastObjectInSight.GetComponent<MeshRenderer>().SetPropertyBlock(null);
+                        Destroy(LastObjectInSight.GetComponent<Outline>());
+                        //LastObjectInSight.GetComponent<MeshRenderer>().SetPropertyBlock(null);
                     }
 
                     // Store the original material properties of the current object
-                    hitInfo.collider.gameObject.GetComponent<MeshRenderer>().GetPropertyBlock(materialPropertyBlock);
+                    //hitInfo.collider.gameObject.GetComponent<MeshRenderer>().GetPropertyBlock(materialPropertyBlock);
 
                     // Change the color of the current object
-                    Color newColor = Color.black;
-                    materialPropertyBlock.SetColor("_Color", newColor);
-                    hitInfo.collider.gameObject.GetComponent<MeshRenderer>().SetPropertyBlock(materialPropertyBlock);
+                    //materialPropertyBlock.SetColor("_Color", HighlightColour);
+                    //hitInfo.collider.gameObject.GetComponent<MeshRenderer>().SetPropertyBlock(materialPropertyBlock);
+                    var a = hitInfo.collider.gameObject.AddComponent<Outline>();
+                    a.color = 1;        // Green
 
                     // Update the last object in sight
                     LastObjectInSight = hitInfo.collider.gameObject;
@@ -104,7 +107,8 @@ public class PlayerControler : MonoBehaviour
         else if (LastObjectInSight != null)
         {
             // Revert changes to the last object in sight when it leaves sight
-            LastObjectInSight.GetComponent<MeshRenderer>().SetPropertyBlock(null);
+            //LastObjectInSight.GetComponent<MeshRenderer>().SetPropertyBlock(null);
+            Destroy(LastObjectInSight.GetComponent<Outline>());
             LastObjectInSight = null;
         }
 
@@ -118,7 +122,7 @@ public class PlayerControler : MonoBehaviour
         mAudioSources[0].clip = clip;
         mAudioSources[0].Play();
 
-        // TODO: Display to player that they can stop audio by pressing 'v'
+        // TODO: Display to player that they can stop audio by pressing 'V'
     }
 
     // TODO: Jump(?), fire, interact, crouch hitbox
@@ -142,7 +146,7 @@ public class PlayerControler : MonoBehaviour
         if (rotate.sqrMagnitude < 0.01) return;
 
         // Scale
-        float rotateSpeed = mRotationSens * Time.deltaTime;
+        float rotateSpeed = RotationSens * Time.deltaTime;
 
         // Set y
         newRotation.y += rotate.x * rotateSpeed;
@@ -164,7 +168,7 @@ public class PlayerControler : MonoBehaviour
     /// Button: E
     /// </summary>
     /// <param name="value">Button</param>
-    void OnInteract(InputValue value) { if (LastObjectInSight) LastObjectInSight.SendMessage("Interact", gameObject, options: SendMessageOptions.RequireReceiver); }
+    void OnInteract() { if (LastObjectInSight) LastObjectInSight.SendMessage("Interact", gameObject, options: SendMessageOptions.RequireReceiver); }
     
     /// <summary>
     /// Button: V
