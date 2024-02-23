@@ -38,7 +38,8 @@ public class PlayerControler : MonoBehaviour
     bool IsCrouched = false;
     //bool IsJumping = false;
 
-    GameObject ObjectInSight;
+    GameObject LastObjectInSight = null;
+    //GameObject ObjectInSight = null;
 
     // --------------- Components on this object ---------------
     PlayerInput mPlayerInput;
@@ -54,7 +55,7 @@ public class PlayerControler : MonoBehaviour
         //mCharacterController = GetComponent<CharacterController>();
 
         materialPropertyBlock = new();
-        materialPropertyBlock.SetColor("_Color", Color.black);
+        //materialPropertyBlock.SetColor("_Color", Color.black);
     }
 
     private void FixedUpdate()
@@ -68,19 +69,34 @@ public class PlayerControler : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.forward, out var hitInfo, GrabDist)
             && !hitInfo.collider.gameObject.isStatic)
         {
-            ObjectInSight = hitInfo.collider.gameObject;
             print(hitInfo.collider.gameObject.name);
 
-            //if (hitInfo.collider.gameObject.layer == LayerMask.NameToLayer("Interabtable"))
-            //{
-            //    print("Interactible");
+            // Check if the object is different from the last one in sight
+            if (hitInfo.collider.gameObject != LastObjectInSight)
+            {
+                // Revert changes to the last object in sight
+                if (LastObjectInSight != null)
+                {
+                    LastObjectInSight.GetComponent<MeshRenderer>().SetPropertyBlock(null);
+                }
 
+                // Store the original material properties of the current object
+                hitInfo.collider.gameObject.GetComponent<MeshRenderer>().GetPropertyBlock(materialPropertyBlock);
 
-            //    // set newcolour
-            //}
+                // Change the color of the current object
+                Color newColor = Color.yellow; // Change this to your desired color
+                materialPropertyBlock.SetColor("_Color", newColor);
+                hitInfo.collider.gameObject.GetComponent<MeshRenderer>().SetPropertyBlock(materialPropertyBlock);
 
-            hitInfo.collider.gameObject.GetComponent<MeshRenderer>().SetPropertyBlock(materialPropertyBlock);
-
+                // Update the last object in sight
+                LastObjectInSight = hitInfo.collider.gameObject;
+            }
+        }
+        else if (LastObjectInSight != null)
+        {
+            // Revert changes to the last object in sight when it leaves sight
+            LastObjectInSight.GetComponent<MeshRenderer>().SetPropertyBlock(null);
+            LastObjectInSight = null;
         }
 
         //Debug.DrawLine(transform.position, transform.forward * GrabDist, Color.green);
