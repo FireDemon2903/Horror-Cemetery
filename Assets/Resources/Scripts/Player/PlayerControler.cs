@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
@@ -8,7 +11,7 @@ using Outline = cakeslice.Outline;
 public class PlayerControler : MonoBehaviour
 {
     // Game Manager
-    GameObject gameManagerObj;
+    public GameObject gameManagerObj { get; private set; }
 
     // --------------- Player Movement ---------------
     public float BasePlayerSpeed = 10f;                                         // Base player speed
@@ -42,6 +45,24 @@ public class PlayerControler : MonoBehaviour
     AudioSource[] mAudioSources;                                                    // 0: reading, 1: sound, 2: radio & bgm
     AudioMixer mAudioMixer;         // Move to GM later
 
+    // --------------- Collectibles ---------------
+
+    // TODO: Crafting and pickup
+    public enum Gunparts { GunBarrel, GunHandle, GunCyllinder }
+    public enum Bulletparts { Gunpowder, Casing }
+
+
+    //bool HasGun = false;
+    //int Bullets = 0;                            // Full bullets
+
+    // Move to dedicated crafting script later:
+    public List<object> OwnedParts = new();
+
+    static bool CanCraftItem<T>(List<T> ownedParts, params T[] requiredParts) { return requiredParts.All(part => ownedParts.Contains(part)); }
+    bool canCraftGun => CanCraftItem(OwnedParts, Gunparts.GunBarrel, Gunparts.GunHandle, Gunparts.GunCyllinder);
+    bool canCraftBullet => CanCraftItem(OwnedParts, Bulletparts.Casing, Bulletparts.Casing);
+
+    // --------------- Methods ---------------
     private void Start()
     {
         mPlayerInput = GetComponent<PlayerInput>();
@@ -52,8 +73,8 @@ public class PlayerControler : MonoBehaviour
         gameManagerObj = GameObject.Find("GM");
 
         // Set vol ex (should be done in GUI)
-        gameManagerObj.SendMessage("SetReaderLvl", -20f);
-        gameManagerObj.SendMessage("SetSFXLvl", 10f);
+        //gameManagerObj.SendMessage("SetReaderLvl", -20f);
+        //gameManagerObj.SendMessage("SetSFXLvl", 10f);
 
         // Move to GM later
         mAudioMixer = Resources.Load<AudioMixer>("Audio/PlayerAudioMixer");

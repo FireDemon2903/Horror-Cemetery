@@ -9,5 +9,10 @@ public class Readable : MonoBehaviour, IInteractable
         print($"This object was read by {sender.name}");
 
         sender.SendMessage("PlayClip", clip);
+
+
     }
+
+
+
 }
