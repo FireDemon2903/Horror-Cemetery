@@ -1,15 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 [RequireComponent(typeof(PlayerInput), typeof(Rigidbody))]              // Player Reqs
 [RequireComponent(typeof(AudioMixer), typeof(AudioSource))]             // Sound Reqs
 public class PlayerControler : MonoBehaviour
 {
+    // Game Manager
+    GameObject gameManagerObj;
+
     // --------------- Player Movement ---------------
     public float BasePlayerSpeed = 10f;                                         // Base player speed
     //float jumpForce = 100;                                                    // Ther force with which the player jumps
@@ -47,17 +46,20 @@ public class PlayerControler : MonoBehaviour
     private void Start()
     {
         mPlayerInput = GetComponent<PlayerInput>();
+        mRigidbody = GetComponent<Rigidbody>();
+
         mAudioSources = GetComponents<AudioSource>();
 
-        //AudioExtension audioExtension = GameObject.Find("GM").GetComponent<AudioExtension>();
-        
+        gameManagerObj = GameObject.Find("GM");
+
+        // Set vol ex (should be done in GUI)
+        gameManagerObj.SendMessage("SetReaderLv", -60f);
+
         // Move to GM later
         mAudioMixer = Resources.Load<AudioMixer>("Audio/PlayerAudioMixer");
 
         mAudioSources[0].outputAudioMixerGroup = mAudioMixer.FindMatchingGroups("Readable")[0];
         mAudioSources[1].outputAudioMixerGroup = mAudioMixer.FindMatchingGroups("SFX")[0];
-
-        mRigidbody = GetComponent<Rigidbody>();
 
         materialPropertyBlock = new();
         //materialPropertyBlock.SetColor("_Color", Color.black);
@@ -74,9 +76,9 @@ public class PlayerControler : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.forward, out var hitInfo, GrabDist)
             && !hitInfo.collider.gameObject.isStatic)
         {
+            // ... And the layer is correct (doesn't work if searching on layer 8 for some reason...)
             if (hitInfo.collider.gameObject.layer == interactiblesLayer)
             {
-
                 // Check if the object is different from the last one in sight
                 if (hitInfo.collider.gameObject != LastObjectInSight)
                 {
@@ -106,7 +108,6 @@ public class PlayerControler : MonoBehaviour
             LastObjectInSight = null;
         }
 
-        //Debug.DrawLine(transform.position, transform.forward * GrabDist, Color.green);
         Debug.DrawRay(transform.position, transform.forward * GrabDist, Color.green);
     }
 
@@ -189,5 +190,4 @@ public class PlayerControler : MonoBehaviour
     /// <param name="value">Button (checkinit)</param>
     //void OnJump(InputValue value) { IsJumping = !IsJumping; }
     #endregion Inputs
-
 }

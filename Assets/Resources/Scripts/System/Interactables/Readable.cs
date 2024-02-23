@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Readable : MonoBehaviour, IInteractable
@@ -12,6 +10,4 @@ public class Readable : MonoBehaviour, IInteractable
 
         sender.SendMessage("PlayClip", clip);
     }
-
-
 }
