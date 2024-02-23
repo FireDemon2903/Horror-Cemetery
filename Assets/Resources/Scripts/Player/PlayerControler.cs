@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
-[RequireComponent(typeof(PlayerInput))]
-[RequireComponent(typeof(AudioSource))]
-[RequireComponent(typeof(Rigidbody))]
-//[RequireComponent (typeof(CharacterController))]
+[RequireComponent(typeof(PlayerInput), typeof(Rigidbody))]              // Player Reqs
+[RequireComponent(typeof(AudioMixer), typeof(AudioSource))]             // Sound Reqs
 public class PlayerControler : MonoBehaviour
 {
     // --------------- Player Movement ---------------
@@ -28,34 +27,37 @@ public class PlayerControler : MonoBehaviour
     // TODO: stop floating and clipping
     Vector3 newPosition => transform.position + (Speed * Time.deltaTime * (transform.forward * movement.y + transform.right * movement.x));
 
-    // used to change color of object when looking at it, and reverting said change
-    // for example line 90 - 109:
-    // Link: Assets\Samples\Input System\1.7.0\In-Game Hints\InGameHintsExample.cs#90
-    MaterialPropertyBlock materialPropertyBlock;
 
     // --------------- Player States ---------------
     bool IsRunning = false;
     bool IsCrouched = false;
     //bool IsJumping = false;
 
+    MaterialPropertyBlock materialPropertyBlock;
     GameObject LastObjectInSight = null;
     LayerMask interactiblesLayer = 8;
-    //GameObject ObjectInSight = null;
 
     // --------------- Components on this object ---------------
     PlayerInput mPlayerInput;
-    AudioSource mAudioSource;
+    AudioSource[] mAudioSources;                                                    // 0: reading, 1: sound, 2: radio
+    AudioMixer mAudioMixer;         // Move to GM later
+
     Rigidbody mRigidbody;
-    //CharacterController mCharacterController;
 
     private void Start()
     {
         mPlayerInput = GetComponent<PlayerInput>();
-        mAudioSource = GetComponent<AudioSource>();
-        mRigidbody = GetComponent<Rigidbody>();
-        //mCharacterController = GetComponent<CharacterController>();
+        mAudioSources = GetComponents<AudioSource>();
 
-        interactiblesLayer = 8;
+        //AudioExtension audioExtension = GameObject.Find("GM").GetComponent<AudioExtension>();
+        
+        // Move to GM later
+        mAudioMixer = Resources.Load<AudioMixer>("Audio/PlayerAudioMixer");
+
+        mAudioSources[0].outputAudioMixerGroup = mAudioMixer.FindMatchingGroups("Readable")[0];
+        mAudioSources[1].outputAudioMixerGroup = mAudioMixer.FindMatchingGroups("SFX")[0];
+
+        mRigidbody = GetComponent<Rigidbody>();
 
         materialPropertyBlock = new();
         //materialPropertyBlock.SetColor("_Color", Color.black);
@@ -88,7 +90,7 @@ public class PlayerControler : MonoBehaviour
                     hitInfo.collider.gameObject.GetComponent<MeshRenderer>().GetPropertyBlock(materialPropertyBlock);
 
                     // Change the color of the current object
-                    Color newColor = Color.yellow; // Change this to your desired color
+                    Color newColor = Color.black;
                     materialPropertyBlock.SetColor("_Color", newColor);
                     hitInfo.collider.gameObject.GetComponent<MeshRenderer>().SetPropertyBlock(materialPropertyBlock);
 
@@ -112,11 +114,10 @@ public class PlayerControler : MonoBehaviour
     {
         if (clip == null) return;
 
-        mAudioSource.clip = clip;
-        mAudioSource.Play();
+        mAudioSources[0].clip = clip;
+        mAudioSources[0].Play();
 
         // TODO: Display to player that they can stop audio by pressing 'v'
-
     }
 
     // TODO: Jump(?), fire, interact, crouch hitbox
@@ -163,8 +164,12 @@ public class PlayerControler : MonoBehaviour
     /// </summary>
     /// <param name="value">Button</param>
     void OnInteract(InputValue value) { if (LastObjectInSight) LastObjectInSight.SendMessage("Interact", gameObject, options: SendMessageOptions.RequireReceiver); }
-
-    void OnStopSound(InputValue value) { mAudioSource.Stop(); }
+    
+    /// <summary>
+    /// Button: V
+    /// </summary>
+    /// <param name="value"></param>
+    void OnStopSound(InputValue value) { mAudioSources[0].Stop(); }
 
     /// <summary>
     /// Button: Left shift. Press And Release
