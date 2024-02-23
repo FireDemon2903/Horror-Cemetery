@@ -30,7 +30,7 @@ public class PlayerControler : MonoBehaviour
 
     // used to change color of object when looking at it, and reverting said change
     // for example line 90 - 109:
-    // Link:C:\Users\jona015v\wkspaces\Horror Cemetery\Assets\Samples\Input System\1.7.0\In-Game Hints\InGameHintsExample.cs#90
+    // Link: Assets\Samples\Input System\1.7.0\In-Game Hints\InGameHintsExample.cs#90
     MaterialPropertyBlock materialPropertyBlock;
 
     // --------------- Player States ---------------
@@ -39,6 +39,7 @@ public class PlayerControler : MonoBehaviour
     //bool IsJumping = false;
 
     GameObject LastObjectInSight = null;
+    LayerMask interactiblesLayer = 8;
     //GameObject ObjectInSight = null;
 
     // --------------- Components on this object ---------------
@@ -53,6 +54,8 @@ public class PlayerControler : MonoBehaviour
         mAudioSource = GetComponent<AudioSource>();
         mRigidbody = GetComponent<Rigidbody>();
         //mCharacterController = GetComponent<CharacterController>();
+
+        interactiblesLayer = 8;
 
         materialPropertyBlock = new();
         //materialPropertyBlock.SetColor("_Color", Color.black);
@@ -69,27 +72,29 @@ public class PlayerControler : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.forward, out var hitInfo, GrabDist)
             && !hitInfo.collider.gameObject.isStatic)
         {
-            print(hitInfo.collider.gameObject.name);
-
-            // Check if the object is different from the last one in sight
-            if (hitInfo.collider.gameObject != LastObjectInSight)
+            if (hitInfo.collider.gameObject.layer == interactiblesLayer)
             {
-                // Revert changes to the last object in sight
-                if (LastObjectInSight != null)
+
+                // Check if the object is different from the last one in sight
+                if (hitInfo.collider.gameObject != LastObjectInSight)
                 {
-                    LastObjectInSight.GetComponent<MeshRenderer>().SetPropertyBlock(null);
+                    // Revert changes to the last object in sight
+                    if (LastObjectInSight != null)
+                    {
+                        LastObjectInSight.GetComponent<MeshRenderer>().SetPropertyBlock(null);
+                    }
+
+                    // Store the original material properties of the current object
+                    hitInfo.collider.gameObject.GetComponent<MeshRenderer>().GetPropertyBlock(materialPropertyBlock);
+
+                    // Change the color of the current object
+                    Color newColor = Color.yellow; // Change this to your desired color
+                    materialPropertyBlock.SetColor("_Color", newColor);
+                    hitInfo.collider.gameObject.GetComponent<MeshRenderer>().SetPropertyBlock(materialPropertyBlock);
+
+                    // Update the last object in sight
+                    LastObjectInSight = hitInfo.collider.gameObject;
                 }
-
-                // Store the original material properties of the current object
-                hitInfo.collider.gameObject.GetComponent<MeshRenderer>().GetPropertyBlock(materialPropertyBlock);
-
-                // Change the color of the current object
-                Color newColor = Color.yellow; // Change this to your desired color
-                materialPropertyBlock.SetColor("_Color", newColor);
-                hitInfo.collider.gameObject.GetComponent<MeshRenderer>().SetPropertyBlock(materialPropertyBlock);
-
-                // Update the last object in sight
-                LastObjectInSight = hitInfo.collider.gameObject;
             }
         }
         else if (LastObjectInSight != null)
@@ -103,7 +108,18 @@ public class PlayerControler : MonoBehaviour
         Debug.DrawRay(transform.position, transform.forward * GrabDist, Color.green);
     }
 
-    // TODO: Jump, fire, interact, crouch hitbox
+    void PlayClip(AudioClip clip)
+    {
+        if (clip == null) return;
+
+        mAudioSource.clip = clip;
+        mAudioSource.Play();
+
+        // TODO: Display to player that they can stop audio by pressing 'v'
+
+    }
+
+    // TODO: Jump(?), fire, interact, crouch hitbox
     #region Inputs
     /// <summary>
     /// Buttons are WASD.
@@ -146,7 +162,9 @@ public class PlayerControler : MonoBehaviour
     /// Button: E
     /// </summary>
     /// <param name="value">Button</param>
-    void OnInteract(InputValue value) { }
+    void OnInteract(InputValue value) { if (LastObjectInSight) LastObjectInSight.SendMessage("Interact", gameObject, options: SendMessageOptions.RequireReceiver); }
+
+    void OnStopSound(InputValue value) { mAudioSource.Stop(); }
 
     /// <summary>
     /// Button: Left shift. Press And Release

@@ -98,6 +98,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""StopSound"",
+                    ""type"": ""Button"",
+                    ""id"": ""f49870e6-b37a-47df-84cc-a4159dca62be"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -254,6 +263,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Scroll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d7ac0fb3-a628-4895-ad32-ceb20b764560"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StopSound"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -270,6 +290,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerActions_Fire = m_PlayerActions.FindAction("Fire", throwIfNotFound: true);
         m_PlayerActions_Interact = m_PlayerActions.FindAction("Interact", throwIfNotFound: true);
         m_PlayerActions_Scroll = m_PlayerActions.FindAction("Scroll", throwIfNotFound: true);
+        m_PlayerActions_StopSound = m_PlayerActions.FindAction("StopSound", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -339,6 +360,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerActions_Fire;
     private readonly InputAction m_PlayerActions_Interact;
     private readonly InputAction m_PlayerActions_Scroll;
+    private readonly InputAction m_PlayerActions_StopSound;
     public struct PlayerActionsActions
     {
         private @PlayerControls m_Wrapper;
@@ -351,6 +373,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Fire => m_Wrapper.m_PlayerActions_Fire;
         public InputAction @Interact => m_Wrapper.m_PlayerActions_Interact;
         public InputAction @Scroll => m_Wrapper.m_PlayerActions_Scroll;
+        public InputAction @StopSound => m_Wrapper.m_PlayerActions_StopSound;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -384,6 +407,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Scroll.started += instance.OnScroll;
             @Scroll.performed += instance.OnScroll;
             @Scroll.canceled += instance.OnScroll;
+            @StopSound.started += instance.OnStopSound;
+            @StopSound.performed += instance.OnStopSound;
+            @StopSound.canceled += instance.OnStopSound;
         }
 
         private void UnregisterCallbacks(IPlayerActionsActions instance)
@@ -412,6 +438,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Scroll.started -= instance.OnScroll;
             @Scroll.performed -= instance.OnScroll;
             @Scroll.canceled -= instance.OnScroll;
+            @StopSound.started -= instance.OnStopSound;
+            @StopSound.performed -= instance.OnStopSound;
+            @StopSound.canceled -= instance.OnStopSound;
         }
 
         public void RemoveCallbacks(IPlayerActionsActions instance)
@@ -439,5 +468,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnFire(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnScroll(InputAction.CallbackContext context);
+        void OnStopSound(InputAction.CallbackContext context);
     }
 }
