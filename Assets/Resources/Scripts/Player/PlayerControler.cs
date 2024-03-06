@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.InputSystem;
 using Outline = cakeslice.Outline;
 
@@ -46,10 +47,18 @@ public class PlayerControler : MonoBehaviour
     LayerMask interactiblesLayer = 8;
 
     // --------------- Components on this object ---------------
+    // RB
     Rigidbody mRigidbody;
     PlayerInput mPlayerInput;
+    
+    // Audio
     AudioSource[] mAudioSources;                                                    // 0: reading, 1: sound, 2: radio & bgm
     AudioMixer mAudioMixer;         // Move to GM later
+
+    // Light
+    Light a;
+    SpotLight FlashLight;
+
 
     // --------------- Collectibles ---------------
 
@@ -87,6 +96,8 @@ public class PlayerControler : MonoBehaviour
 
         //materialPropertyBlock = new();
         //materialPropertyBlock.SetColor("_Color", Color.black);
+
+        
     }
 
     private void FixedUpdate()
@@ -216,5 +227,13 @@ public class PlayerControler : MonoBehaviour
     /// </summary>
     /// <param name="value">Button (checkinit)</param>
     void OnJump(InputValue value) { /*IsJumping = !IsJumping;*/print(OwnedParts.Count); print($"Bullet: {canCraftBullet}, Gun: {canCraftGun}"); }
+    /// <summary>
+    /// Button: F
+    /// </summary>
+    /// <param name="value">Button</param>
+    void OnLightToggle(InputValue value) { }
+
+
+
     #endregion Inputs
 }
