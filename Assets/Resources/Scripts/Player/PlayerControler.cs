@@ -34,8 +34,6 @@ public class PlayerControler : MonoBehaviour
     //                              (transform.forward * movement.y + transform.right * movement.x)
     Vector3 newPosition => transform.position + (Speed * Time.deltaTime * movementDirection);
 
-    //Vector3 newPosition => transform.position + (Speed * Time.deltaTime * xxxx);
-
     // --------------- Player States ---------------
     bool IsRunning = false;
     bool IsCrouched = false;
@@ -49,16 +47,16 @@ public class PlayerControler : MonoBehaviour
     // --------------- Components on this object ---------------
     // RB
     Rigidbody mRigidbody;
-    PlayerInput mPlayerInput;
+    //PlayerInput mPlayerInput;
     
     // Audio
     AudioSource[] mAudioSources;                                                    // 0: reading, 1: sound, 2: radio & bgm
     AudioMixer mAudioMixer;         // Move to GM later
 
     // Light
-    Light a;
-    SpotLight FlashLight;
-
+    Light mLight;
+    int CurrLight => lightTypes.IndexOf(mLight.type);
+    readonly List<UnityEngine.LightType> lightTypes = new() { UnityEngine.LightType.Spot, UnityEngine.LightType.Point };
 
     // --------------- Collectibles ---------------
 
@@ -80,7 +78,7 @@ public class PlayerControler : MonoBehaviour
     // --------------- Methods ---------------
     private void Awake()
     {
-        mPlayerInput = GetComponent<PlayerInput>();
+        //mPlayerInput = GetComponent<PlayerInput>();
         mRigidbody = GetComponent<Rigidbody>();
 
         mAudioSources = GetComponents<AudioSource>();
@@ -93,11 +91,12 @@ public class PlayerControler : MonoBehaviour
         mAudioSources[0].outputAudioMixerGroup = mAudioMixer.FindMatchingGroups("Readable")[0];
         mAudioSources[1].outputAudioMixerGroup = mAudioMixer.FindMatchingGroups("SFX")[0];
 
+        // Assign lights
+        mLight = GetComponentInChildren<Light>();
 
         //materialPropertyBlock = new();
         //materialPropertyBlock.SetColor("_Color", Color.black);
 
-        
     }
 
     private void FixedUpdate()
@@ -159,7 +158,12 @@ public class PlayerControler : MonoBehaviour
         // TODO: Display to player that they can stop audio by pressing 'V'
     }
 
-    // TODO: Jump(?), fire, interact, crouch hitbox
+    public void ToggleLightType()
+    {
+        mLight.type = lightTypes[CurrLight == 0 ? 1 : 0];
+    }
+
+    // TODO: Jump(?), fire, crouch hitbox
     #region Inputs
     /// <summary>
     /// Buttons are WASD.
@@ -229,9 +233,10 @@ public class PlayerControler : MonoBehaviour
     void OnJump(InputValue value) { /*IsJumping = !IsJumping;*/print(OwnedParts.Count); print($"Bullet: {canCraftBullet}, Gun: {canCraftGun}"); }
     /// <summary>
     /// Button: F
+    /// Toggles lighttype
     /// </summary>
     /// <param name="value">Button</param>
-    void OnLightToggle(InputValue value) { }
+    void OnLightToggle(InputValue value) { mLight.enabled = !mLight.enabled; }
 
 
 

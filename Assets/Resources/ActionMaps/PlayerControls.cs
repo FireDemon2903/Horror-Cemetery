@@ -107,6 +107,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""LightToggle"",
+                    ""type"": ""Button"",
+                    ""id"": ""b633705f-551e-45d1-a16d-c90137e7becd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -274,6 +283,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""StopSound"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6efa9dd9-fafc-41f0-a56d-b9c1f6488add"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LightToggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -291,6 +311,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerActions_Interact = m_PlayerActions.FindAction("Interact", throwIfNotFound: true);
         m_PlayerActions_Scroll = m_PlayerActions.FindAction("Scroll", throwIfNotFound: true);
         m_PlayerActions_StopSound = m_PlayerActions.FindAction("StopSound", throwIfNotFound: true);
+        m_PlayerActions_LightToggle = m_PlayerActions.FindAction("LightToggle", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -361,6 +382,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerActions_Interact;
     private readonly InputAction m_PlayerActions_Scroll;
     private readonly InputAction m_PlayerActions_StopSound;
+    private readonly InputAction m_PlayerActions_LightToggle;
     public struct PlayerActionsActions
     {
         private @PlayerControls m_Wrapper;
@@ -374,6 +396,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Interact => m_Wrapper.m_PlayerActions_Interact;
         public InputAction @Scroll => m_Wrapper.m_PlayerActions_Scroll;
         public InputAction @StopSound => m_Wrapper.m_PlayerActions_StopSound;
+        public InputAction @LightToggle => m_Wrapper.m_PlayerActions_LightToggle;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -410,6 +433,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @StopSound.started += instance.OnStopSound;
             @StopSound.performed += instance.OnStopSound;
             @StopSound.canceled += instance.OnStopSound;
+            @LightToggle.started += instance.OnLightToggle;
+            @LightToggle.performed += instance.OnLightToggle;
+            @LightToggle.canceled += instance.OnLightToggle;
         }
 
         private void UnregisterCallbacks(IPlayerActionsActions instance)
@@ -441,6 +467,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @StopSound.started -= instance.OnStopSound;
             @StopSound.performed -= instance.OnStopSound;
             @StopSound.canceled -= instance.OnStopSound;
+            @LightToggle.started -= instance.OnLightToggle;
+            @LightToggle.performed -= instance.OnLightToggle;
+            @LightToggle.canceled -= instance.OnLightToggle;
         }
 
         public void RemoveCallbacks(IPlayerActionsActions instance)
@@ -469,5 +498,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnScroll(InputAction.CallbackContext context);
         void OnStopSound(InputAction.CallbackContext context);
+        void OnLightToggle(InputAction.CallbackContext context);
     }
 }
