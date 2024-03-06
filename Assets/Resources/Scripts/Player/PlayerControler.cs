@@ -17,7 +17,7 @@ public class PlayerControler : MonoBehaviour
     // --------------- Player Movement ---------------
     public float BasePlayerSpeed = 10f;                                         // Base player speed
     //float jumpForce = 100;                                                    // Ther force with which the player jumps
-    public float RotationSens = 15f;                                                  // Mouse sensetivity
+    public float RotationSens = 1f;                                                  // Mouse sensetivity
     readonly float GrabDist = 10;                                               // Grab/Interact/Attack distance
 
     // Prioritises crouching speed. If player is crouched, then speed will remain halfed,
@@ -28,7 +28,12 @@ public class PlayerControler : MonoBehaviour
     Vector2 newRotation;                                                    // Rotation input
     Vector2 movement;                                                       // Movement input
     // TODO: stop floating and clipping
-    Vector3 newPosition => transform.position + (Speed * Time.deltaTime * (transform.forward * movement.y + transform.right * movement.x));
+
+    Vector3 movementDirection => new(transform.forward.x * movement.y + transform.right.x * movement.x, 0, transform.forward.z * movement.y + transform.right.z * movement.x);
+    //                              (transform.forward * movement.y + transform.right * movement.x)
+    Vector3 newPosition => transform.position + (Speed * Time.deltaTime * movementDirection);
+
+    //Vector3 newPosition => transform.position + (Speed * Time.deltaTime * xxxx);
 
     // --------------- Player States ---------------
     bool IsRunning = false;
