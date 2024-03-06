@@ -1,14 +1,18 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Assertions;
-using UnityEngine.Audio;
 
 public class GameManager : MonoBehaviour
 {
-    //AudioMixer audioMixer;
-
+    // Singleton
+    private static GameManager _instance;
+    public static GameManager Instance
+    {
+        get
+        {
+            if (_instance.IsUnityNull()) Debug.LogError("GameManager was null");
+            return _instance;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -18,11 +22,11 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        // Singleton
+        if (_instance != null && _instance != this)         { Destroy(this); }
+        else                                                { _instance = this; }
 
-        //audioMixer = Resources.Load<AudioMixer>("Audio/PlayerAudioMixer");
 
-        //Assert.IsNotNull(audioMixer);
-        //print(GetComponent<MixLevels>().audioMixer.name);
     }
 
     // Update is called once per frame
@@ -30,4 +34,5 @@ public class GameManager : MonoBehaviour
     {
         
     }
+
 }
