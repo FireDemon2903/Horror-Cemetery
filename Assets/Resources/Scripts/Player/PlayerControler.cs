@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.InputSystem;
 using Outline = cakeslice.Outline;
 
@@ -54,7 +52,7 @@ public class PlayerControler : MonoBehaviour
     // Light
     Light mLight;
     int CurrLight => lightTypes.IndexOf(mLight.type);
-    readonly List<UnityEngine.LightType> lightTypes = new() { UnityEngine.LightType.Spot, UnityEngine.LightType.Point };
+    readonly List<LightType> lightTypes = new() { LightType.Spot, LightType.Point };
 
     // --------------- Collectibles ---------------
     public enum Parts { GunBarrel, GunHandle, GunCyllinder, Gunpowder, Casing }
@@ -87,18 +85,19 @@ public class PlayerControler : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //transform.position = newPosition;
         mRigidbody.MovePosition(newPosition);
     }
 
     private void Update()
     {
         // If the player looks at anything in the 'Interactable' layer within grabdistance
-        if (Physics.Raycast(transform.position, transform.forward, out var hitInfo, GrabDist)
+        if (Physics.Raycast(transform.position, transform.forward, out var hitInfo, GrabDist, LayerMask.GetMask("Interactable"))
             && !hitInfo.collider.gameObject.isStatic)
         {
             // ... And the layer is correct (doesn't work if searching on layer 8 for some reason...)
-            if (hitInfo.collider.gameObject.layer == interactiblesLayer)
-            {
+            //if (hitInfo.collider.gameObject.layer == interactiblesLayer)
+            //{
                 // Check if the object is different from the last one in sight
                 if (hitInfo.collider.gameObject != LastObjectInSight)
                 {
@@ -106,31 +105,23 @@ public class PlayerControler : MonoBehaviour
                     if (LastObjectInSight != null)
                     {
                         Destroy(LastObjectInSight.GetComponent<Outline>());
-                        //LastObjectInSight.GetComponent<MeshRenderer>().SetPropertyBlock(null);
                     }
-
-                    // Store the original material properties of the current object
-                    //hitInfo.collider.gameObject.GetComponent<MeshRenderer>().GetPropertyBlock(materialPropertyBlock);
-
-                    // Change the color of the current object
-                    //materialPropertyBlock.SetColor("_Color", HighlightColour);
-                    //hitInfo.collider.gameObject.GetComponent<MeshRenderer>().SetPropertyBlock(materialPropertyBlock);
                     var a = hitInfo.collider.gameObject.AddComponent<Outline>();
                     a.color = 1;        // Green
 
                     // Update the last object in sight
                     LastObjectInSight = hitInfo.collider.gameObject;
                 }
-            }
+            //}
         }
         else if (LastObjectInSight != null)
         {
             // Revert changes to the last object in sight when it leaves sight
-            //LastObjectInSight.GetComponent<MeshRenderer>().SetPropertyBlock(null);
             Destroy(LastObjectInSight.GetComponent<Outline>());
             LastObjectInSight = null;
         }
 
+        // Draw in editor for debugging
         Debug.DrawRay(transform.position, transform.forward * GrabDist, Color.green);
     }
 
