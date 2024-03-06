@@ -60,7 +60,6 @@ public class PlayerControler : MonoBehaviour
 
     // This does not work...
     static bool CanCraftItem<Enum>(List<Enum> ownedParts, params Enum[] requiredParts) { return requiredParts.All(part => ownedParts.Contains(part)); }
-
     bool canCraftGun => CanCraftItem(OwnedParts, Gunparts.GunBarrel, Gunparts.GunHandle, Gunparts.GunCyllinder);
     bool canCraftBullet => CanCraftItem(OwnedParts, Bulletparts.Casing, Bulletparts.Casing);
 
@@ -73,11 +72,6 @@ public class PlayerControler : MonoBehaviour
         mAudioSources = GetComponents<AudioSource>();
 
         gameManagerObj = GameObject.Find("GM");
-        //mixLevel = GameObject.Find("GM").GetComponent<MixLevels>();
-
-        // Set vol ex (should be done in GUI)
-        gameManagerObj.SendMessage("SetReaderLvl", -20f);
-        //mixLevel.SetReaderLvl(-20f);
 
         // Move to GM later
         mAudioMixer = Resources.Load<AudioMixer>("Audio/PlayerAudioMixer");
@@ -216,6 +210,6 @@ public class PlayerControler : MonoBehaviour
     /// Button: Spacebar
     /// </summary>
     /// <param name="value">Button (checkinit)</param>
-    void OnJump(InputValue value) { /*IsJumping = !IsJumping;*/ print($"Bullet: {canCraftBullet}, Gun: {canCraftGun}"); }
+    void OnJump(InputValue value) { /*IsJumping = !IsJumping;*/print(OwnedParts.Count); print($"Bullet: {canCraftBullet}, Gun: {canCraftGun}"); }
     #endregion Inputs
 }

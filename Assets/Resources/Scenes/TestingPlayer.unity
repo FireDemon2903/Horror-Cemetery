@@ -809,8 +809,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1429445195}
-  - component: {fileID: 1429445194}
   - component: {fileID: 1429445196}
+  - component: {fileID: 1429445194}
   m_Layer: 0
   m_Name: GM
   m_TagString: Untagged
@@ -857,6 +857,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a249968d0728ce4b8be2bb317d7abdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioMixer: {fileID: 0}
 --- !u!1 &1573055643
 GameObject:
   m_ObjectHideFlags: 0
