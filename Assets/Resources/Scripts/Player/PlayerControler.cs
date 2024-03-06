@@ -57,17 +57,14 @@ public class PlayerControler : MonoBehaviour
     readonly List<UnityEngine.LightType> lightTypes = new() { UnityEngine.LightType.Spot, UnityEngine.LightType.Point };
 
     // --------------- Collectibles ---------------
-    // TODO: Crafting and pickup
-    public enum Gunparts { GunBarrel, GunHandle, GunCyllinder }
-    public enum Bulletparts { Gunpowder, Casing }
+    public enum Parts { GunBarrel, GunHandle, GunCyllinder, Gunpowder, Casing }
 
     // Move to dedicated crafting script later:
-    public List<Enum> OwnedParts = new();
+    public List<Parts> OwnedParts = new();
 
-    // This does not work...
-    static bool CanCraftItem<Enum>(List<Enum> ownedParts, params Enum[] requiredParts) { return requiredParts.All(part => ownedParts.Contains(part)); }
-    bool canCraftGun => CanCraftItem(OwnedParts, Gunparts.GunBarrel, Gunparts.GunHandle, Gunparts.GunCyllinder);
-    bool canCraftBullet => CanCraftItem(OwnedParts, Bulletparts.Casing, Bulletparts.Casing);
+    static bool CanCraftItem<Parts>(List<Parts> ownedParts, params Parts[] requiredParts) { return requiredParts.All(part => ownedParts.Contains(part)); }
+    bool canCraftGun => CanCraftItem(OwnedParts, Parts.GunBarrel, Parts.GunHandle, Parts.GunCyllinder);
+    bool canCraftBullet => CanCraftItem(OwnedParts, Parts.Casing, Parts.Gunpowder);
 
     // --------------- Methods ---------------
     private void Awake()
@@ -159,7 +156,6 @@ public class PlayerControler : MonoBehaviour
     /// </summary>
     /// <param name="value">Vector2</param>
     void OnMove(InputValue value) { movement = value.Get<Vector2>(); }
-
     /// <summary>
     /// Delta mouse
     /// </summary>
@@ -184,50 +180,41 @@ public class PlayerControler : MonoBehaviour
         // Set new rotation
         transform.localEulerAngles = newRotation;
     }
-
     /// <summary>
     /// Button: LMB
     /// </summary>
     /// <param name="value">Left mouse button. Interaction: press</param>
     void OnFire(InputValue value) { }
-
     /// <summary>
     /// Button: E
     /// </summary>
     /// <param name="value">Button</param>
     void OnInteract() { if (LastObjectInSight) LastObjectInSight.SendMessage("Interact", gameObject, options: SendMessageOptions.RequireReceiver); }
-    
     /// <summary>
     /// Button: V
     /// </summary>
     /// <param name="value"></param>
     void OnStopSound(InputValue value) { mAudioSources[0].Stop(); }
-
     /// <summary>
     /// Button: Left shift. Press And Release
     /// </summary>
     /// <param name="value">Button (checkinit)</param>
     void OnRun(InputValue value) { IsRunning = !IsRunning; }
-
     /// <summary>
     /// Button: Left Control. Press And Release
     /// </summary>
     /// <param name="value">Button (checkinit)</param>
     void OnCrouch(InputValue value) { IsCrouched = !IsCrouched; }
-
     /// <summary>
     /// Button: Spacebar
     /// </summary>
     /// <param name="value">Button (checkinit)</param>
-    void OnJump(InputValue value) { /*IsJumping = !IsJumping;*/print(OwnedParts.Count); print($"Bullet: {canCraftBullet}, Gun: {canCraftGun}"); }
+    void OnJump(InputValue value) { /*IsJumping = !IsJumping;*/ print($"Bullet: {canCraftBullet}, Gun: {canCraftGun}"); }
     /// <summary>
     /// Button: F
     /// Toggles lighttype
     /// </summary>
     /// <param name="value">Button</param>
     void OnLightToggle(InputValue value) { mLight.enabled = !mLight.enabled; }
-
-
-
     #endregion Inputs
 }
