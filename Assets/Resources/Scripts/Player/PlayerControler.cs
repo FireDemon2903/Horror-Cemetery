@@ -40,18 +40,16 @@ public class PlayerControler : MonoBehaviour
     //bool IsJumping = false;
 
     //MaterialPropertyBlock materialPropertyBlock;              // No longer in use
-    //Color HighlightColour = Color.grey;
     GameObject LastObjectInSight = null;
     LayerMask interactiblesLayer = 8;
 
     // --------------- Components on this object ---------------
     // RB
     Rigidbody mRigidbody;
-    //PlayerInput mPlayerInput;
     
     // Audio
     AudioSource[] mAudioSources;                                                    // 0: reading, 1: sound, 2: radio & bgm
-    AudioMixer mAudioMixer;         // Move to GM later
+    AudioMixer mAudioMixer;                                                         // Move to GM later
 
     // Light
     Light mLight;
@@ -59,13 +57,9 @@ public class PlayerControler : MonoBehaviour
     readonly List<UnityEngine.LightType> lightTypes = new() { UnityEngine.LightType.Spot, UnityEngine.LightType.Point };
 
     // --------------- Collectibles ---------------
-
     // TODO: Crafting and pickup
     public enum Gunparts { GunBarrel, GunHandle, GunCyllinder }
     public enum Bulletparts { Gunpowder, Casing }
-
-    //bool HasGun = false;
-    //int Bullets = 0;                            // Full bullets
 
     // Move to dedicated crafting script later:
     public List<Enum> OwnedParts = new();
@@ -78,7 +72,6 @@ public class PlayerControler : MonoBehaviour
     // --------------- Methods ---------------
     private void Awake()
     {
-        //mPlayerInput = GetComponent<PlayerInput>();
         mRigidbody = GetComponent<Rigidbody>();
 
         mAudioSources = GetComponents<AudioSource>();
@@ -93,10 +86,6 @@ public class PlayerControler : MonoBehaviour
 
         // Assign lights
         mLight = GetComponentInChildren<Light>();
-
-        //materialPropertyBlock = new();
-        //materialPropertyBlock.SetColor("_Color", Color.black);
-
     }
 
     private void FixedUpdate()
@@ -158,10 +147,10 @@ public class PlayerControler : MonoBehaviour
         // TODO: Display to player that they can stop audio by pressing 'V'
     }
 
-    public void ToggleLightType()
-    {
-        mLight.type = lightTypes[CurrLight == 0 ? 1 : 0];
-    }
+    /// <summary>
+    /// Toggles the light type (options in ´lightTypes´ list)
+    /// </summary>
+    public void ToggleLightType() { mLight.type = lightTypes[CurrLight + 1 < lightTypes.Count ? CurrLight + 1 : 0]; }
 
     // TODO: Jump(?), fire, crouch hitbox
     #region Inputs
