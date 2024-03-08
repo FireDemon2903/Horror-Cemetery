@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0039957035, g: 0.00021792635, b: 0.000000051515347, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -280,11 +280,76 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerPlaceholder
       objectReference: {fileID: 0}
+    - target: {fileID: 1292228626002776129, guid: 0e86c13a8de22ab46a5b0b468bbcf1f4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e86c13a8de22ab46a5b0b468bbcf1f4, type: 3}
+--- !u!1001 &1200116304
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2210878802195681925, guid: b76141d55811f294d99d428840183907, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.722595
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210878802195681925, guid: b76141d55811f294d99d428840183907, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.9999847
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210878802195681925, guid: b76141d55811f294d99d428840183907, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 10.84137
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210878802195681925, guid: b76141d55811f294d99d428840183907, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210878802195681925, guid: b76141d55811f294d99d428840183907, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210878802195681925, guid: b76141d55811f294d99d428840183907, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210878802195681925, guid: b76141d55811f294d99d428840183907, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210878802195681925, guid: b76141d55811f294d99d428840183907, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210878802195681925, guid: b76141d55811f294d99d428840183907, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210878802195681925, guid: b76141d55811f294d99d428840183907, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2809259738622093299, guid: b76141d55811f294d99d428840183907, type: 3}
+      propertyPath: m_Name
+      value: Quad (testloading new scenes)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6331398867954195301, guid: b76141d55811f294d99d428840183907, type: 3}
+      propertyPath: Area
+      value: TestingPlayer
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b76141d55811f294d99d428840183907, type: 3}
 --- !u!1 &1271967542
 GameObject:
   m_ObjectHideFlags: 0
@@ -561,6 +626,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ForceDarkness
       objectReference: {fileID: 0}
+    - target: {fileID: 4211344580327421056, guid: 80754db325695b841a0ae42074b84079, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -575,3 +644,4 @@ SceneRoots:
   - {fileID: 115344660}
   - {fileID: 1489144408}
   - {fileID: 6809653100107588124}
+  - {fileID: 1200116304}

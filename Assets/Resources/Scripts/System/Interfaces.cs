@@ -41,6 +41,9 @@ public interface IEnemy : IAlive
     void DealDMG(PlayerControler DMGTarget);
 }
 
+/// <summary>
+/// Interface for things that are "alive" (has hp and dmg)
+/// </summary>
 public interface IAlive
 {
     float Health { get; set; }

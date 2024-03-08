@@ -25,7 +25,10 @@ public class Interactor : MonoBehaviour, IInteractable
             //enemy.TakeDMG(controler);  damage shoulld be done elsewhere
 
         }
-        
+        else if (TryGetComponent<EnterArea>(out var area))
+        {
+            area.Interact(sender);
+        }
         // TODO: Sub-Area
 
 

@@ -11,6 +11,16 @@ using Outline = cakeslice.Outline;
 [RequireComponent(typeof(AudioSource))]                                 // Sound Reqs
 public class PlayerControler : MonoBehaviour
 {
+    private static PlayerControler _instance;
+    public static PlayerControler Instance
+    {
+        get
+        {
+            if (_instance.IsUnityNull()) Debug.LogError("Player was null");
+            return _instance;
+        }
+    }
+
     #region--------------- Player Attributes ---------------
     readonly float GrabDist = 10;                                               // Grab/Interact/Attack distance
 
@@ -73,6 +83,11 @@ public class PlayerControler : MonoBehaviour
     #region --------------- Builtin ---------------
     private void Awake()
     {
+        // Singleton
+        if (_instance != null && _instance != this) { Destroy(gameObject); return; }
+        else { _instance = this; }
+
+
         mRigidbody = GetComponent<Rigidbody>();
         mCollider = GetComponent<CapsuleCollider>();
 
@@ -87,6 +102,7 @@ public class PlayerControler : MonoBehaviour
         // Assign audio players to mixergroups
         mAudioSources[0].outputAudioMixerGroup = mAudioMixer.FindMatchingGroups("Readable")[0];
         mAudioSources[1].outputAudioMixerGroup = mAudioMixer.FindMatchingGroups("SFX")[0];
+        mAudioSources[2].outputAudioMixerGroup = mAudioMixer.FindMatchingGroups("Music")[0];
 
         // Assign light
         mLight = GetComponentInChildren<Light>();
