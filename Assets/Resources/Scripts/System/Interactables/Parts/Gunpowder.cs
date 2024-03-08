@@ -1,4 +1,4 @@
-public class Gunpowder : Collectable, IPart
+    public class Gunpowder : Interactor, IPart
 {
     public void Collect(PlayerControler playerControler)
     {

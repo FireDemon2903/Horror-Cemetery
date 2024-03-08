@@ -1,4 +1,4 @@
-public class GunHandle : Collectable, IPart
+public class GunHandle : Interactor, IPart
 {
     public void Collect(PlayerControler playerControler)
     {

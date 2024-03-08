@@ -27,7 +27,25 @@ public interface IPart
 /// <summary>
 /// Interface for enemy scripts
 /// </summary>
-public interface IEnemy
+public interface IEnemy : IAlive
 {
+    /// <summary>
+    /// Method called to damage an enemy instance
+    /// </summary>
+    /// <param name="playerControler">Player that attacked the enemy (source of damage)</param>
+    void TakeDMG(PlayerControler playerControler);
+    /// <summary>
+    /// Method callled to damage another target
+    /// </summary>
+    /// <param name="DMGTarget"></param>
+    void DealDMG(PlayerControler DMGTarget);
+}
 
+/// <summary>
+/// Interface for things that are "alive" (has hp and dmg)
+/// </summary>
+public interface IAlive
+{
+    float Health { get; set; }
+    float DMG { get; set; }
 }
