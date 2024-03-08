@@ -11,9 +11,6 @@ using Outline = cakeslice.Outline;
 [RequireComponent(typeof(AudioSource))]                                 // Sound Reqs
 public class PlayerControler : MonoBehaviour
 {
-    // Game Manager
-    public GameObject gameManagerObj { get; private set; }
-
     #region--------------- Player Attributes ---------------
     readonly float GrabDist = 10;                                               // Grab/Interact/Attack distance
 
@@ -81,8 +78,6 @@ public class PlayerControler : MonoBehaviour
 
         mAudioSources = GetComponents<AudioSource>();
 
-        gameManagerObj = GameObject.Find("GM");
-
         // Assign interactibles layer
         interactiblesLayer = LayerMask.GetMask("Interactable");
 
@@ -140,8 +135,6 @@ public class PlayerControler : MonoBehaviour
 
         mAudioSources[0].clip = clip;
         mAudioSources[0].Play();
-
-        // TODO: Display to player that they can stop audio by pressing 'V'
     }
 
     /// <summary>

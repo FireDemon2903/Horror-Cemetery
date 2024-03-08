@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -26,13 +27,20 @@ public class GameManager : MonoBehaviour
         if (_instance != null && _instance != this)         { Destroy(this); }
         else                                                { _instance = this; }
 
+        // Add the method to the delegate
+        SceneManager.sceneLoaded += OnSceneLoaded;
 
     }
 
-    // Update is called once per frame
-    void Update()
+    // Called whenever a scene is loaded
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        
+        // Do smth
+    }
+
+    public void LoadScene()
+    {
+        //SceneManager.LoadScene(0);
     }
 
 }
