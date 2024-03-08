@@ -154,6 +154,8 @@ public class PlayerControler : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.forward, out var hitInfo, Mathf.Infinity, interactiblesLayer)
             && !hitInfo.collider.gameObject.isStatic)
         {
+            // make smoke at impact point
+            //hitInfo.point
             hitInfo.collider.gameObject.SendMessage("TakeDMG", this, options: SendMessageOptions.DontRequireReceiver);
         }
     }
