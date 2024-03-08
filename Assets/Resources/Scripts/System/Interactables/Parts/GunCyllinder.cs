@@ -1,4 +1,4 @@
-public class GunCyllinder : Collectable, IPart
+public class GunCyllinder : Interactor, IPart
 {
     public void Collect(PlayerControler playerControler)
     {

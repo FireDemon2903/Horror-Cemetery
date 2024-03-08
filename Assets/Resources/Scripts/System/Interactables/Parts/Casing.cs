@@ -1,4 +1,4 @@
-public class Casing : Collectable, IPart
+public class Casing : Interactor, IPart
 {
     public void Collect(PlayerControler playerControler)
     {

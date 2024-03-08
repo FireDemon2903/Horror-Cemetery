@@ -211,7 +211,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""aa7743fc-353f-4b5d-b948-f3d53184faf2"",
                     ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": ""Press(behavior=2)"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Fire"",
