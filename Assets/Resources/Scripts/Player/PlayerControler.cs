@@ -28,7 +28,7 @@ public class PlayerControler : MonoBehaviour
     // --------------- Player Movement ---------------
     public float BasePlayerSpeed = 10f;                                         // Base player speed
     //float jumpForce = 100;                                                    // Ther force with which the player jumps
-    public float RotationSens = 50f;                                            // Mouse sensetivity
+    float RotationSens = 50f;                                                   // Mouse sensetivity
 
     // Prioritises crouching speed. If player is crouched, then speed will remain halfed,
     // even thought they are technically running in the eyes of the code.
@@ -197,7 +197,7 @@ public class PlayerControler : MonoBehaviour
         newRotation.x = Mathf.Clamp(newRotation.x - rotate.y * rotateSpeed, -89, 89);
 
         // Set new rotation
-        transform.localEulerAngles = newRotation;
+        transform.eulerAngles = newRotation;
     }
     
     /// <summary>

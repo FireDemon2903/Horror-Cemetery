@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     public List<Transform> ActiveZoneTransitions;
     // The position of the last zone transition player used
     public Vector3 EnteredFrom;
+    //public Quaternion RotationFrom;
 
     public GameObject playerObject;
     public enum Parts { GunBarrel, GunHandle, GunCyllinder, Gunpowder, Casing }
@@ -45,9 +46,9 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
 
         // Spawn the player
-        playerObject = Instantiate(Resources.Load<GameObject>(@"Prefabs/PlayerPlaceholder"), new Vector3(0f, 5f, 0f), Quaternion.identity);
+        playerObject = Instantiate(Resources.Load<GameObject>(@"Prefabs/PlayerPlaceholder"));
 
-        EnteredFrom = transform.position;
+        //EnteredFrom = new Vector3(0f, 5f, 0f);
     }
 
     // Called whenever a scene is loaded
@@ -87,6 +88,7 @@ public class GameManager : MonoBehaviour
         {
             // Move player to the place they entered from in main
             playerObject.transform.position = EnteredFrom;
+            //playerObject.transform.SetPositionAndRotation(EnteredFrom, RotationFrom);
         }
     }
 
