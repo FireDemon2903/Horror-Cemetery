@@ -32,7 +32,7 @@ public class PlayerControler : MonoBehaviour
 
     // Prioritises crouching speed. If player is crouched, then speed will remain halfed,
     // even thought they are technically running in the eyes of the code.
-    float SpeedMultiplyer => IsCrouched ? .5f : IsRunning ? 2f : 1f;        // Player speed multiplyer. Dependant on state
+    float SpeedMultiplyer => IsCrouched ? .25f : IsRunning ? 3f : 1f;        // Player speed multiplyer. Dependant on state
     float Speed => BasePlayerSpeed * SpeedMultiplyer;                       // Total player speed after state checks
 
     Vector2 newRotation;                                                    // Rotation input
@@ -166,6 +166,8 @@ public class PlayerControler : MonoBehaviour
             hitInfo.collider.gameObject.SendMessage("TakeDMG", this, options: SendMessageOptions.DontRequireReceiver);
         }
     }
+
+    public void SetRotationSens(float sens) { RotationSens = sens; }
 
     // TODO: Jump(?), crouch renderer/model
     #region --------------- Inputs ---------------
