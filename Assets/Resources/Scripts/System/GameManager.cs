@@ -1,6 +1,10 @@
+using System.Collections.Generic;
+using System.Linq;
 using Unity.Collections;
 using Unity.VisualScripting;
+using UnityEditor.Networking.PlayerConnection;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -16,18 +20,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    Transform MainSpawn;
-    Transform[] SubareaSpawnsInMain;
+    // List of SubAreas
+    public List<Transform> ActiveZoneTransitions;
+    // The position of the last zone transition player used
+    public Vector3 EnteredFrom;
 
     public GameObject playerObject;
+    public enum Parts { GunBarrel, GunHandle, GunCyllinder, Gunpowder, Casing }
 
     Scene OldScene;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
 
     private void Awake()
     {
@@ -40,23 +41,27 @@ public class GameManager : MonoBehaviour
 
         // Spawn the player
         playerObject = Instantiate(Resources.Load<GameObject>(@"Prefabs/PlayerPlaceholder"), new Vector3(0f, 5f, 0f), Quaternion.identity);
+
+        EnteredFrom = transform.position;
     }
 
     // Called whenever a scene is loaded
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Move important object to new scene
-        move(scene);
-
         // Unload the old scene
         if (OldScene.name != null) SceneManager.UnloadSceneAsync(OldScene);
+
+        // Find ZoneTransitions
+        SetZones();
+
+        // Move important object to new scene
+        move(scene);
 
         OldScene = scene;
     }
 
     public void LoadScene(string sceneName, LoadSceneMode mode)
     {
-        //move(SceneManager.GetSceneByName(sceneName));
         SceneManager.LoadScene(sceneName, mode);
     }
 
@@ -64,8 +69,24 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.MoveGameObjectToScene(gameObject, scene);
         SceneManager.MoveGameObjectToScene(playerObject, scene);
+
+        if (SceneManager.GetActiveScene().name != "TestingAreaLoading")
+        {
+            // find entrancepoint
+            Transform en = GameObject.FindWithTag("Respawn").transform;
+
+            // move playter to entrancepoint
+            playerObject.transform.position = en.position;
+        }
+        else
+        {
+            // Move player to the place they entered from in main
+            playerObject.transform.position = EnteredFrom;
+        }
     }
 
+    public static bool CanCraftItem<Parts>(List<Parts> ownedParts, params Parts[] requiredParts) { return requiredParts.All(part => ownedParts.Contains(part)); }
 
+    void SetZones() { ActiveZoneTransitions.Clear(); ActiveZoneTransitions = GameObject.FindGameObjectsWithTag("ZoneTransition").Select(obj => obj.transform).ToList(); }
 
 }
