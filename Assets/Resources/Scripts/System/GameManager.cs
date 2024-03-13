@@ -1,10 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Collections;
 using Unity.VisualScripting;
-using UnityEditor.Networking.PlayerConnection;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
