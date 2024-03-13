@@ -20,6 +20,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Names of Areas to be used in ´Load´ objects
+    public enum Scenenames
+    {
+        TestingAreaLoading, // Main
+        TestingPlayer,
+        TestingVision
+    }
+
     // List of SubAreas
     public List<Transform> ActiveZoneTransitions;
     // The position of the last zone transition player used

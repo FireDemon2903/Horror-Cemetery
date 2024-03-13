@@ -4,7 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class EnterArea : MonoBehaviour, IInteractable
 {
-    public string SceneName;
+    //public string SceneName;
+    public GameManager.Scenenames Area;
     int IndexInGM => GameManager.Instance.ActiveZoneTransitions.IndexOf(transform.parent.transform);
 
     public void Interact(GameObject sender)
@@ -16,6 +17,6 @@ public class EnterArea : MonoBehaviour, IInteractable
             GameManager.Instance.EnteredFrom = GameManager.Instance.ActiveZoneTransitions[IndexInGM].position;
 
         // Load Area
-        GameManager.Instance.LoadScene(SceneName, LoadSceneMode.Additive);
+        GameManager.Instance.LoadScene(Area.SelectedName(false), LoadSceneMode.Additive);
     }
 }
