@@ -9,6 +9,7 @@ using Outline = cakeslice.Outline;
 [RequireComponent(typeof(PlayerInput))]                                 // Player input
 [RequireComponent (typeof(CapsuleCollider), typeof(Rigidbody))]         // Collision (and more)
 [RequireComponent(typeof(AudioSource))]                                 // Sound Reqs
+
 public class PlayerControler : MonoBehaviour
 {
     private static PlayerControler _instance;
@@ -69,14 +70,11 @@ public class PlayerControler : MonoBehaviour
     readonly List<LightType> lightTypes = new() { LightType.Spot, LightType.Point };
 
     // --------------- Collectibles ---------------
-    public enum Parts { GunBarrel, GunHandle, GunCyllinder, Gunpowder, Casing }
-
     // Move to dedicated crafting script later:
-    public List<Parts> OwnedParts = new();
+    public List<GameManager.Parts> OwnedParts = new();
 
-    static bool CanCraftItem<Parts>(List<Parts> ownedParts, params Parts[] requiredParts) { return requiredParts.All(part => ownedParts.Contains(part)); }
-    bool canCraftGun => CanCraftItem(OwnedParts, Parts.GunBarrel, Parts.GunHandle, Parts.GunCyllinder);
-    bool canCraftBullet => CanCraftItem(OwnedParts, Parts.Casing, Parts.Gunpowder);
+    bool canCraftGun => GameManager.CanCraftItem(OwnedParts, GameManager.Parts.GunBarrel, GameManager.Parts.GunHandle, GameManager.Parts.GunCyllinder);
+    bool canCraftBullet => GameManager.CanCraftItem(OwnedParts, GameManager.Parts.Casing, GameManager.Parts.Gunpowder);
     #endregion--------------- Player Attributes ---------------
 
     #region --------------- Methods ---------------
@@ -176,6 +174,7 @@ public class PlayerControler : MonoBehaviour
     /// </summary>
     /// <param name="value">Vector2</param>
     void OnMove(InputValue value) { movement = value.Get<Vector2>(); }
+
     /// <summary>
     /// Delta mouse
     /// </summary>
@@ -200,6 +199,7 @@ public class PlayerControler : MonoBehaviour
         // Set new rotation
         transform.localEulerAngles = newRotation;
     }
+    
     /// <summary>
     /// Button: LMB
     /// </summary>
@@ -210,6 +210,7 @@ public class PlayerControler : MonoBehaviour
         if (DMGMode == 1) { DoRangedDMG(); return; }
         // Else if the last/current object in sight is not null, then tell the other object to kill itself
         if (!LastObjectInSight.IsUnityNull()) LastObjectInSight.SendMessage("TakeDMG", this, options: SendMessageOptions.RequireReceiver); }
+    
     /// <summary>
     /// Button: E
     /// </summary>
@@ -232,16 +233,19 @@ public class PlayerControler : MonoBehaviour
             }
         }
     }
+    
     /// <summary>
     /// Button: V
     /// </summary>
     /// <param name="value"></param>
     void OnStopSound(InputValue value) { mAudioSources[0].Stop(); }
+    
     /// <summary>
     /// Button: Left shift. Press And Release
     /// </summary>
     /// <param name="value">Button (checkinit)</param>
     void OnRun(InputValue value) { IsRunning = !IsRunning; }
+    
     /// <summary>
     /// Button: Left Control. Press And Release
     /// </summary>
@@ -274,12 +278,14 @@ public class PlayerControler : MonoBehaviour
             Camera.main.transform.localPosition += Vector3.up * 1;
         }
     }
+    
     // Primarily used for testing, but not required
     /// <summary>
     /// Button: Spacebar
     /// </summary>
     /// <param name="value">Button (checkinit)</param>
     void OnJump(InputValue value) { /*IsJumping = !IsJumping;*/ print($"Bullet: {canCraftBullet}, Gun: {canCraftGun}"); }
+    
     /// <summary>
     /// Button: F
     /// Toggles lighttype
