@@ -54,6 +54,9 @@ public class GameManager : MonoBehaviour
     // Called whenever a scene is loaded
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        // If the player starts the game, dont
+        //if (scene.name == "MenuTest") return;
+
         // Unload the old scene
         if (OldScene.name != null) SceneManager.UnloadSceneAsync(OldScene);
 
@@ -96,7 +99,6 @@ public class GameManager : MonoBehaviour
 
     void SetZones() { ActiveZoneTransitions.Clear(); ActiveZoneTransitions = GameObject.FindGameObjectsWithTag("ZoneTransition").Select(obj => obj.transform).ToList(); }
 
-    public void SetRotationSens(float sens) { /*PlayerControler.Instance.RotationSens = sens; */ print(sens); }
     // Menu at timestamp
     // https://youtu.be/JJ8S_RqHt6o?t=177
 }
