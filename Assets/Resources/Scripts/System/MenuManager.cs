@@ -9,7 +9,9 @@ public class MenuManager : MonoBehaviour
 {
     public float PlayerSens;
 
-    GameObject? LastMenu;
+    bool isPaused = false;
+
+    [SerializeField] GameObject PauseMenu;
 
     public void SetRotationSens(float sens)
     {
@@ -27,27 +29,27 @@ public class MenuManager : MonoBehaviour
 
     //public void StartGame() { SceneManager.LoadScene(""); }
 
-    public void OpenMenu(GameObject Menu)
-    {
-        Menu.SetActive(true);
-    }
-
+    public void OpenMenu(GameObject Menu) { Menu.SetActive(true); }
     public void CloseMenu(GameObject Menu) { Menu.SetActive(false); }
 
-    public void Pause()
+    public void OnPause()
     {
-        Time.timeScale -= Time.timeScale;
+        if (!isPaused)
+        {
+            isPaused = !isPaused;
+            Time.timeScale -= Time.timeScale;
         
-        // Open pause menu
-        //OpenMenu(null);
-    }
+            // Open pause menu
+            OpenMenu(PauseMenu);
+        }
+        else
+        {
+            isPaused = !isPaused;
+            // Close pause menu
+            CloseMenu(PauseMenu);
 
-    public void UnPause()
-    {
-        Time.timeScale = 1.0f;
-
-        // Close pause menu
-        //CloseMenu(null);
+            Time.timeScale = 1.0f;
+        }
     }
 
     public void Quit() { Application.Quit(); }

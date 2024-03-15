@@ -98,7 +98,4 @@ public class GameManager : MonoBehaviour
     public static bool CanCraftItem<Parts>(List<Parts> ownedParts, params Parts[] requiredParts) { return requiredParts.All(part => ownedParts.Contains(part)); }
 
     void SetZones() { ActiveZoneTransitions.Clear(); ActiveZoneTransitions = GameObject.FindGameObjectsWithTag("ZoneTransition").Select(obj => obj.transform).ToList(); }
-
-    // Menu at timestamp
-    // https://youtu.be/JJ8S_RqHt6o?t=177
 }
