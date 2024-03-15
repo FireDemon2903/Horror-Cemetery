@@ -647,10 +647,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1939226967}
     m_Modifications:
-    - target: {fileID: 4656637670900446882, guid: 4e4e6f1d6d95cb744aee7c34e49790e9, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
-      value: 
-      objectReference: {fileID: 1620130337}
     - target: {fileID: 4833378313247534028, guid: 4e4e6f1d6d95cb744aee7c34e49790e9, type: 3}
       propertyPath: m_Name
       value: StartMenu

@@ -4,30 +4,26 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEditor;
+using System.Linq.Expressions;
 
 public class MenuManager : MonoBehaviour
 {
     public float PlayerSens;
 
     bool isPaused = false;
+    bool isPauseMenu => PauseMenu.activeSelf;
 
-    [SerializeField] GameObject PauseMenu;
+    public GameObject PauseMenu;
 
     public void SetRotationSens(float sens)
     {
-        /*PlayerControler.Instance.RotationSens = sens; */ print(sens);
-
-        // TODO: Call player instance to change sens
-
-        //PlayerControler.Instance.RotationSens = sens;
-
-        // save the sens
-        PlayerSens = sens;
+        PlayerControler.Instance.RotationSens = sens;
     }
 
     public void ChangeGraphicsQuality(int quality) { QualitySettings.SetQualityLevel(quality); }
 
-    //public void StartGame() { SceneManager.LoadScene(""); }
+    public void StartGame() { SceneManager.LoadScene("TestingAreaLoading"); }
 
     public void OpenMenu(GameObject Menu) { Menu.SetActive(true); }
     public void CloseMenu(GameObject Menu) { Menu.SetActive(false); }
@@ -41,15 +37,26 @@ public class MenuManager : MonoBehaviour
         
             // Open pause menu
             OpenMenu(PauseMenu);
+            print(isPaused);
+            print(PauseMenu.name);
         }
-        else
+        else if (isPaused && isPauseMenu)
         {
-            isPaused = !isPaused;
-            // Close pause menu
-            CloseMenu(PauseMenu);
-
-            Time.timeScale = 1.0f;
+            Resume();
         }
+    }
+
+    public void Resume()
+    {
+        isPaused = !isPaused;
+
+        print(isPaused);
+        print(PauseMenu.name);
+
+        // Close pause menu
+        CloseMenu(PauseMenu);
+
+        Time.timeScale = 1.0f;
     }
 
     public void Quit() { Application.Quit(); }
