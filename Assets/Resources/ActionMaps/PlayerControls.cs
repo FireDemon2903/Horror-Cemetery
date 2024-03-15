@@ -309,6 +309,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleObjectives"",
+                    ""type"": ""Button"",
+                    ""id"": ""08d08df1-118a-4dea-83f7-0223215298da"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -320,6 +329,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""35336f65-ed46-4a3e-a99a-7564d5c4147e"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleObjectives"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -343,6 +363,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         // MenuActions
         m_MenuActions = asset.FindActionMap("MenuActions", throwIfNotFound: true);
         m_MenuActions_Pause = m_MenuActions.FindAction("Pause", throwIfNotFound: true);
+        m_MenuActions_ToggleObjectives = m_MenuActions.FindAction("ToggleObjectives", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -523,11 +544,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_MenuActions;
     private List<IMenuActionsActions> m_MenuActionsActionsCallbackInterfaces = new List<IMenuActionsActions>();
     private readonly InputAction m_MenuActions_Pause;
+    private readonly InputAction m_MenuActions_ToggleObjectives;
     public struct MenuActionsActions
     {
         private @PlayerControls m_Wrapper;
         public MenuActionsActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Pause => m_Wrapper.m_MenuActions_Pause;
+        public InputAction @ToggleObjectives => m_Wrapper.m_MenuActions_ToggleObjectives;
         public InputActionMap Get() { return m_Wrapper.m_MenuActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -540,6 +563,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
+            @ToggleObjectives.started += instance.OnToggleObjectives;
+            @ToggleObjectives.performed += instance.OnToggleObjectives;
+            @ToggleObjectives.canceled += instance.OnToggleObjectives;
         }
 
         private void UnregisterCallbacks(IMenuActionsActions instance)
@@ -547,6 +573,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
+            @ToggleObjectives.started -= instance.OnToggleObjectives;
+            @ToggleObjectives.performed -= instance.OnToggleObjectives;
+            @ToggleObjectives.canceled -= instance.OnToggleObjectives;
         }
 
         public void RemoveCallbacks(IMenuActionsActions instance)
@@ -580,5 +609,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     public interface IMenuActionsActions
     {
         void OnPause(InputAction.CallbackContext context);
+        void OnToggleObjectives(InputAction.CallbackContext context);
     }
 }

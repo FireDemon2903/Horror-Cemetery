@@ -6,15 +6,37 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEditor;
 using System.Linq.Expressions;
+using UnityEngine.InputSystem;
+using Unity.VisualScripting;
 
 public class MenuManager : MonoBehaviour
 {
+    private static MenuManager _instance;
+    public static MenuManager Instance
+    {
+        get
+        {
+            if (_instance.IsUnityNull()) Debug.LogError("GameManager was null");
+            return _instance;
+        }
+    }
+
     public float PlayerSens;
 
     bool isPaused = false;
     bool isPauseMenu => PauseMenu.activeSelf;
 
     public GameObject PauseMenu;
+
+    private void Awake()
+    {
+        // Singleton
+        if (_instance != null && _instance != this) { Destroy(gameObject); return; }
+        else { _instance = this; }
+
+        //DontDestroyOnLoad(gameObject);
+    }
+
 
     public void SetRotationSens(float sens)
     {
@@ -60,4 +82,9 @@ public class MenuManager : MonoBehaviour
     }
 
     public void Quit() { Application.Quit(); }
+
+    public void OnToggleObjectives(InputValue value)
+    {
+        GameManager.Instance.ObjectivesObj.SetActive(!GameManager.Instance.ObjectivesObj.activeSelf);
+    }
 }
