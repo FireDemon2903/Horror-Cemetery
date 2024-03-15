@@ -1,7 +1,7 @@
-public class GunCyllinder : Collectable, IPart
+public class GunCyllinder : Interactor, IPart
 {
     public void Collect(PlayerControler playerControler)
     {
-        playerControler.OwnedParts.Add(PlayerControler.Parts.GunCyllinder);
+        playerControler.OwnedParts.Add(GameManager.Parts.GunCyllinder);
     }
 }
