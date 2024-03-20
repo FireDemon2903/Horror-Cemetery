@@ -6,14 +6,10 @@ using UnityEngine;
 
 public static class Extensions
 {
-    public static void SightTest(this GameObject me, GameObject other, float dist)
+    public static bool SightTest(this GameObject me, GameObject other, float viewDist, int layer=0)
     {
-        // detectDistance is your detect radius.
-        if (Vector3.Distance(me.transform.position, other.transform.position) <= dist)
-        {
-            new Ray(other.transform.position, me.transform.position - other.transform.position);
-            // if ray on wall , ignore it.
-            // todo
-        }
+        Debug.DrawRay(me.transform.position, (other.transform.position - me.transform.position).normalized * viewDist);
+
+        return Physics.Raycast(me.transform.position, other.transform.position - me.transform.position, out var hitInfo, viewDist) && hitInfo.transform == other.transform;
     }
 }

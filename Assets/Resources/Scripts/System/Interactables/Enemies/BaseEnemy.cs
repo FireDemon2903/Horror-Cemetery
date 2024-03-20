@@ -6,7 +6,11 @@ public class BaseEnemy : Interactor, IEnemy
     public float Health { get; set; }
     public float DMG { get; set; }
 
-    public float detectDisctance = 10f;
+    internal float detectDisctance = 25f;
+
+    internal bool playerInSight => gameObject.SightTest(PlayerControler.Instance.gameObject, detectDisctance);
+
+    internal delegate void MoveDelegate();
 
     public virtual void TakeDMG(PlayerControler DMGSource)
     {

@@ -10,7 +10,7 @@ public class EnterArea : MonoBehaviour, IInteractable
 
     public void Interact(GameObject sender)
     {
-        // Save mainArea gamestate
+        // TODO: Save mainArea gamestate
 
         // Save the position the player came from
         if (SceneManager.GetActiveScene().name == "TestingAreaLoading")

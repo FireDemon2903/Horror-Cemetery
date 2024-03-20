@@ -39,9 +39,11 @@ public class PlayerControler : MonoBehaviour
     Vector2 movement;                                                       // Movement input
     // TODO: stop clipping
 
-    Vector3 movementDirection => new(transform.forward.x * movement.y + transform.right.x * movement.x, 0, transform.forward.z * movement.y + transform.right.z * movement.x);
-    //                              (transform.forward * movement.y + transform.right * movement.x)
-    Vector3 newPosition => transform.position + (Speed * Time.deltaTime * movementDirection);
+    //Vector3 movementDirection => new(transform.forward.x * movement.y + transform.right.x * movement.x, 0, transform.forward.z * movement.y + transform.right.z * movement.x);
+    //Vector3 newPosition => transform.position + (Speed * Time.deltaTime * movementDirection);
+
+    Vector3 movementDirection => new(transform.forward.x * movement.y + transform.right.x * movement.x, Physics.gravity.y, transform.forward.z * movement.y + transform.right.z * movement.x);
+    Vector3 newVelocity => movementDirection * Speed;    
 
     // --------------- Player Alive ---------------
     float DMGMult = 1.0f;
@@ -104,12 +106,14 @@ public class PlayerControler : MonoBehaviour
 
         // Assign light
         mLight = GetComponentInChildren<Light>();
+        mLight.enabled = false;
     }
 
     private void FixedUpdate()
     {
-        //transform.position = newPosition;
-        mRigidbody.MovePosition(newPosition);
+        //mRigidbody.MovePosition(newPosition);
+
+        mRigidbody.velocity = newVelocity;
     }
 
     private void Update()
@@ -141,6 +145,16 @@ public class PlayerControler : MonoBehaviour
         // Draw in editor for debugging
         Debug.DrawRay(transform.position, transform.forward * GrabDist, Color.green);
     }
+
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if (collision != null)
+    //    {
+    //        if (collision.collider.bounds.Intersects())
+    //    }
+    //}
+
+
     #endregion --------------- Builtin ---------------
 
     void PlayClip(AudioClip clip)
