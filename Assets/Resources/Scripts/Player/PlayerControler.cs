@@ -210,7 +210,7 @@ public class PlayerControler : MonoBehaviour
         // If the player has a gun, do ranged damage
         if (DMGMode == 1) { DoRangedDMG(); return; }
         // Else if the last/current object in sight is not null, then tell the other object to kill itself
-        if (!LastObjectInSight.IsUnityNull()) LastObjectInSight.SendMessage("TakeDMG", this, options: SendMessageOptions.RequireReceiver); }
+        if (!LastObjectInSight.IsUnityNull()) LastObjectInSight.SendMessage("TakeDMG", this, options: SendMessageOptions.DontRequireReceiver); }
     
     /// <summary>
     /// Button: E

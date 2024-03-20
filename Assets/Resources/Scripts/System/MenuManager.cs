@@ -28,13 +28,19 @@ public class MenuManager : MonoBehaviour
 
     public GameObject PauseMenu;
 
+    public GameObject Menu;
+
     private void Awake()
     {
         // Singleton
         if (_instance != null && _instance != this) { Destroy(gameObject); return; }
         else { _instance = this; }
 
-        //DontDestroyOnLoad(gameObject);
+
+        Menu = GameObject.Find("Menu");
+        
+        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(Menu);
     }
 
 
@@ -59,8 +65,6 @@ public class MenuManager : MonoBehaviour
         
             // Open pause menu
             OpenMenu(PauseMenu);
-            print(isPaused);
-            print(PauseMenu.name);
         }
         else if (isPaused && isPauseMenu)
         {
@@ -71,9 +75,6 @@ public class MenuManager : MonoBehaviour
     public void Resume()
     {
         isPaused = !isPaused;
-
-        print(isPaused);
-        print(PauseMenu.name);
 
         // Close pause menu
         CloseMenu(PauseMenu);

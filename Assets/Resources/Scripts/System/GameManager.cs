@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     GameObject ObjectivePrefab;
     public GameObject ObjectivesObj;
 
+    public GameObject EventSystemObject;
+
     List<GameObject> Objectives = new();
 
     // Names of Areas to be used in ´Load´ objects
@@ -60,19 +62,20 @@ public class GameManager : MonoBehaviour
 
         EnteredFrom = new Vector3(0f, 5f, 0f);
 
-        Menu = GameObject.Find("Menu");
+        Menu = MenuManager.Instance.Menu;
         ObjectivesObj = Menu.transform.Find("ObjectiveMenu").gameObject;
         ObjectivePrefab = Resources.Load<GameObject>(@"Prefabs/FolderObjectives/Objective");
     }
 
     private void Start()
     {
-        NewObjective("test0");
+        NewObjective("tghis is a long test to see what happens when the text is too long and it has to wrapo it :)");
         NewObjective("test1");
         NewObjective("test2");
         NewObjective("test3");
         NewObjective("test4");
     }
+
     // Called whenever a scene is loaded
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
