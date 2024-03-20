@@ -28,7 +28,7 @@ public class PlayerControler : MonoBehaviour
     // --------------- Player Movement ---------------
     public float BasePlayerSpeed = 10f;                                         // Base player speed
     //float jumpForce = 100;                                                    // Ther force with which the player jumps
-    float RotationSens = 50f;                                                   // Mouse sensetivity
+    public float RotationSens = 50f;                                                   // Mouse sensetivity
 
     // Prioritises crouching speed. If player is crouched, then speed will remain halfed,
     // even thought they are technically running in the eyes of the code.
@@ -167,7 +167,6 @@ public class PlayerControler : MonoBehaviour
         }
     }
 
-    public void SetRotationSens(float sens) { RotationSens = sens; }
 
     // TODO: Jump(?), crouch renderer/model
     #region --------------- Inputs ---------------
@@ -211,7 +210,7 @@ public class PlayerControler : MonoBehaviour
         // If the player has a gun, do ranged damage
         if (DMGMode == 1) { DoRangedDMG(); return; }
         // Else if the last/current object in sight is not null, then tell the other object to kill itself
-        if (!LastObjectInSight.IsUnityNull()) LastObjectInSight.SendMessage("TakeDMG", this, options: SendMessageOptions.RequireReceiver); }
+        if (!LastObjectInSight.IsUnityNull()) LastObjectInSight.SendMessage("TakeDMG", this, options: SendMessageOptions.DontRequireReceiver); }
     
     /// <summary>
     /// Button: E
