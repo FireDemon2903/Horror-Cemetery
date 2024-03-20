@@ -1,9 +1,14 @@
+using Unity.VisualScripting;
+using UnityEngine;
+
 public class BaseEnemy : Interactor, IEnemy
 {
-    public float Health { get; set; } = 1;
-    public float DMG { get; set; } = 10;
+    public float Health { get; set; }
+    public float DMG { get; set; }
 
-    public void TakeDMG(PlayerControler DMGSource)
+    public float detectDisctance = 10f;
+
+    public virtual void TakeDMG(PlayerControler DMGSource)
     {
         if (DMGSource == null) return;
 
@@ -14,8 +19,9 @@ public class BaseEnemy : Interactor, IEnemy
         }
     }
 
-    public void DealDMG(PlayerControler DMGTarget)
+    public virtual void DealDMG(PlayerControler DMGTarget)
     {
         DMGTarget.Health -= DMG;
     }
+
 }
