@@ -44,6 +44,7 @@ public class GermanSoldier : MonoBehaviour, IDamage, IAlive
             DealDMG(PlayerController.Instance);
 
             // start refresh cool-down
+            // TODO ask copilot for advice on ref vars in iterators (want to make a more general method to reset cooldown)
             StartCoroutine(RefreshAttack.DelayedExecution(delay: 1f));
         }
     }
