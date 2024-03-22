@@ -1,37 +1,38 @@
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Scripting;
 
+/// <summary>
+/// Intermediate class for interacting with various objects
+/// </summary>
 public class Interactor : MonoBehaviour, IInteractable
 {
     public void Interact(GameObject sender)
     {
-        if (!sender.TryGetComponent<PlayerControler>(out var controler)) return;
+        if (!sender.TryGetComponent<PlayerController>(out var controler)) return;
 
         // Collectible part
         if (TryGetComponent<IPart>(out var part))
         {
-            // Colect the part
+            // Collect the part
             part.Collect(controler);
             print($"{sender.name} picked up a '{part.GetType()}'");
             
             // Destroy the GO
             Destroy(gameObject);
         }
-        // Enemy
-        else if (TryGetComponent<IEnemy>(out var enemy))
+        // Readable object
+        else if (TryGetComponent<Readable>(out var read))
         {
-            // Interact with the enemy
-            //enemy.TakeDMG(controler);  damage shoulld be done elsewhere
-
+            // Read the thing
+            read.Read(sender);
         }
+        else if (TryGetComponent<ToggleLightTest>(out var lightTest))
+        {
+            lightTest.Toggle(sender: sender);
+        }
+
         else if (TryGetComponent<EnterArea>(out var area))
         {
-            area.Interact(sender);
+            area.Enter();
         }
-        // TODO: Sub-Area
-
-
-
     }
 }

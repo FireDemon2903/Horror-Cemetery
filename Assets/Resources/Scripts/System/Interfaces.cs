@@ -20,32 +20,39 @@ public interface IPart
     /// <summary>
     /// Method to collect a part
     /// </summary>
-    /// <param name="playerControler">PlayerControler script</param>
-    void Collect(PlayerControler playerControler);
+    /// <param name="playerControler">PlayerController script</param>
+    void Collect(PlayerController playerControler);
 }
 
 /// <summary>
-/// Interface for enemy scripts
+/// Interface for sources of damage
 /// </summary>
-public interface IEnemy : IAlive
+public interface IDamage
 {
-    /// <summary>
-    /// Method called to damage an enemy instance
-    /// </summary>
-    /// <param name="playerControler">Player that attacked the enemy (source of damage)</param>
-    void TakeDMG(PlayerControler playerControler);
+    float DMG { get; set; }
+
     /// <summary>
     /// Method callled to damage another target
     /// </summary>
     /// <param name="DMGTarget"></param>
-    void DealDMG(PlayerControler DMGTarget);
+    void DealDMG(IAlive DMGTarget);
 }
 
 /// <summary>
-/// Interface for things that are "alive" (has hp and dmg)
+/// Interface for things that are "alive" (has hp and can die)
 /// </summary>
 public interface IAlive
 {
+    /// <summary>
+    /// This instances current health
+    /// </summary>
     float Health { get; set; }
-    float DMG { get; set; }
+
+    /// <summary>
+    /// Method called to damage another instance of alive
+    /// </summary>
+    /// <param name="from">Other instance that attacked this (the source of the damage)</param>
+    void TakeDMG(IDamage from);
+
+    // TODO: add death
 }

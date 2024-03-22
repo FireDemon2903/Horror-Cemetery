@@ -1,13 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-using UnityEngine.SceneManagement;
-using UnityEditor;
-using System.Linq.Expressions;
-using UnityEngine.InputSystem;
 using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
@@ -46,7 +40,7 @@ public class MenuManager : MonoBehaviour
 
     public void SetRotationSens(float sens)
     {
-        PlayerControler.Instance.RotationSens = sens;
+        PlayerController.Instance.RotationSens = sens;
     }
 
     public void ChangeGraphicsQuality(int quality) { QualitySettings.SetQualityLevel(quality); }
