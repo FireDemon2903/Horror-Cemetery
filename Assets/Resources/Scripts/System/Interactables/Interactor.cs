@@ -34,11 +34,5 @@ public class Interactor : MonoBehaviour, IInteractable
         {
             area.Enter();
         }
-        // Enemy
-        //else if (TryGetComponent<IEnemy>(out var enemy))
-        //{
-        //    // Interact with the enemy
-        //    //enemy.TakeDMG(controller);  damage should be done elsewhere
-        //}
     }
 }

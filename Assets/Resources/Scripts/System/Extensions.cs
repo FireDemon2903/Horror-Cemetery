@@ -16,13 +16,13 @@ public static class Extensions
     }
 
     /// <summary>
-    /// Deal damage to the target, it it is alive (implements IAlive)
+    /// Deal damage to the target, it is alive (implements IAlive)
     /// </summary>
     /// <param name="target"></param>
     /// <param name="source"></param>
     public static void TryDealDamage(this GameObject target, IDamage source)
     {
-        if (target.TryGetComponent(out IAlive enemy)) enemy.TakeDMG(from: source);
+        if (target != null && target.TryGetComponent(out IAlive enemy)) enemy.TakeDMG(from: source);
     }
 
 }

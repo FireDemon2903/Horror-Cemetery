@@ -15,28 +15,6 @@ public class GermanSoldier : MonoBehaviour, IDamage, IAlive
 
     MoveMode Move => playerInSight ? MoveToPlayer : RandomMovement;
 
-    public virtual void TakeDMG(IDamage DMGSource)
-    {
-        print("Damage received" + DMGSource.DMG);
-
-        if (DMGSource == null) return;
-
-        if (Health - DMGSource.DMG <= 0)
-        {
-            Destroy(gameObject);
-        }
-    }
-
-    // TODO: Add collision/close-range damage
-
-
-
-    public virtual void DealDMG(IAlive DMGTarget)
-    {
-        // Deal direct damage, as target is known
-        DMGTarget.TakeDMG(from: this);
-    }
-
     Rigidbody mRigidbody;
 
     float Speed = 2f;
@@ -51,6 +29,25 @@ public class GermanSoldier : MonoBehaviour, IDamage, IAlive
         Move?.Invoke();
 
         mRigidbody.DebugVelocity(Color.cyan);
+    }
+
+    public virtual void TakeDMG(IDamage DMGSource)
+    {
+        if (DMGSource == null) return;
+
+        if (Health - DMGSource.DMG <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    // TODO: Add collision/close-range damage
+
+
+    public virtual void DealDMG(IAlive DMGTarget)
+    {
+        // Deal direct damage, as target is known
+        DMGTarget.TakeDMG(from: this);
     }
 
     void MoveToPlayer()

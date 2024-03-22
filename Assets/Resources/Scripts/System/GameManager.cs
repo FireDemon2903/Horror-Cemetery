@@ -5,6 +5,7 @@ using TMPro.EditorUtilities;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -36,7 +37,6 @@ public class GameManager : MonoBehaviour
         TestingPlayer,
         TestingVision
     }
-
     // List of SubAreas
     public List<Transform> ActiveZoneTransitions;
     // The position of the last zone transition player used

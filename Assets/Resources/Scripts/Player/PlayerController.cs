@@ -2,7 +2,6 @@
 
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
@@ -207,7 +206,6 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
 
         // Else if the last/current object in sight is not null, then tell the other object to kill itself
         // Try to deal damage to the object. this is a try, because it is not known whether the object can take damage
-        print("Damage dealt");
         LastObjectInSight.TryDealDamage(source: this);
     }
 
@@ -274,19 +272,19 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     /// <summary>
     /// Button: Left shift. Press And Release
     /// </summary>
-    /// <param name="value">Button (checkinit)</param>
+    /// <param name="value">Button (check-init)</param>
     void OnRun(InputValue value) { IsRunning = !IsRunning; }
     
     /// <summary>
     /// Button: Left Control. Press And Release
     /// </summary>
-    /// <param name="value">Button (checkinit)</param>
+    /// <param name="value">Button (check-init)</param>
     void OnCrouch(InputValue value)
     {
         // Change state
         IsCrouched = !IsCrouched;
 
-        // Chouch
+        // Crouch
         if (IsCrouched)
         {
             // Change collider
@@ -314,12 +312,12 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     /// <summary>
     /// Button: Spacebar
     /// </summary>
-    /// <param name="value">Button (checkinit)</param>
+    /// <param name="value">Button (check-init)</param>
     void OnJump(InputValue value) { /*IsJumping = !IsJumping;*/ print($"Bullet: {canCraftBullet}, Gun: {canCraftGun}"); }
     
     /// <summary>
     /// Button: F
-    /// Toggles lighttype
+    /// Toggles light-type
     /// </summary>
     /// <param name="value">Button</param>
     void OnLightToggle(InputValue value) { mLight.enabled = !mLight.enabled; }
