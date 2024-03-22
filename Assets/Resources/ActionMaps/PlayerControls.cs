@@ -296,6 +296,54 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""MenuActions"",
+            ""id"": ""9e845210-4d58-417c-8acf-9414595cd191"",
+            ""actions"": [
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""fe16d43e-b502-40bb-8c29-3bdc86cc74d1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleObjectives"",
+                    ""type"": ""Button"",
+                    ""id"": ""08d08df1-118a-4dea-83f7-0223215298da"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""d05f9c71-9175-4d87-8a89-9031e3dfd1c9"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""35336f65-ed46-4a3e-a99a-7564d5c4147e"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleObjectives"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -312,6 +360,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerActions_Scroll = m_PlayerActions.FindAction("Scroll", throwIfNotFound: true);
         m_PlayerActions_StopSound = m_PlayerActions.FindAction("StopSound", throwIfNotFound: true);
         m_PlayerActions_LightToggle = m_PlayerActions.FindAction("LightToggle", throwIfNotFound: true);
+        // MenuActions
+        m_MenuActions = asset.FindActionMap("MenuActions", throwIfNotFound: true);
+        m_MenuActions_Pause = m_MenuActions.FindAction("Pause", throwIfNotFound: true);
+        m_MenuActions_ToggleObjectives = m_MenuActions.FindAction("ToggleObjectives", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -487,6 +539,60 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         }
     }
     public PlayerActionsActions @PlayerActions => new PlayerActionsActions(this);
+
+    // MenuActions
+    private readonly InputActionMap m_MenuActions;
+    private List<IMenuActionsActions> m_MenuActionsActionsCallbackInterfaces = new List<IMenuActionsActions>();
+    private readonly InputAction m_MenuActions_Pause;
+    private readonly InputAction m_MenuActions_ToggleObjectives;
+    public struct MenuActionsActions
+    {
+        private @PlayerControls m_Wrapper;
+        public MenuActionsActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Pause => m_Wrapper.m_MenuActions_Pause;
+        public InputAction @ToggleObjectives => m_Wrapper.m_MenuActions_ToggleObjectives;
+        public InputActionMap Get() { return m_Wrapper.m_MenuActions; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MenuActionsActions set) { return set.Get(); }
+        public void AddCallbacks(IMenuActionsActions instance)
+        {
+            if (instance == null || m_Wrapper.m_MenuActionsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_MenuActionsActionsCallbackInterfaces.Add(instance);
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
+            @ToggleObjectives.started += instance.OnToggleObjectives;
+            @ToggleObjectives.performed += instance.OnToggleObjectives;
+            @ToggleObjectives.canceled += instance.OnToggleObjectives;
+        }
+
+        private void UnregisterCallbacks(IMenuActionsActions instance)
+        {
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
+            @ToggleObjectives.started -= instance.OnToggleObjectives;
+            @ToggleObjectives.performed -= instance.OnToggleObjectives;
+            @ToggleObjectives.canceled -= instance.OnToggleObjectives;
+        }
+
+        public void RemoveCallbacks(IMenuActionsActions instance)
+        {
+            if (m_Wrapper.m_MenuActionsActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IMenuActionsActions instance)
+        {
+            foreach (var item in m_Wrapper.m_MenuActionsActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_MenuActionsActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public MenuActionsActions @MenuActions => new MenuActionsActions(this);
     public interface IPlayerActionsActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -499,5 +605,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnScroll(InputAction.CallbackContext context);
         void OnStopSound(InputAction.CallbackContext context);
         void OnLightToggle(InputAction.CallbackContext context);
+    }
+    public interface IMenuActionsActions
+    {
+        void OnPause(InputAction.CallbackContext context);
+        void OnToggleObjectives(InputAction.CallbackContext context);
     }
 }

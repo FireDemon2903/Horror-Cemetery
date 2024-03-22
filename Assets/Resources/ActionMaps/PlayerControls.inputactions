@@ -274,6 +274,54 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "MenuActions",
+            "id": "9e845210-4d58-417c-8acf-9414595cd191",
+            "actions": [
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "fe16d43e-b502-40bb-8c29-3bdc86cc74d1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ToggleObjectives",
+                    "type": "Button",
+                    "id": "08d08df1-118a-4dea-83f7-0223215298da",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "d05f9c71-9175-4d87-8a89-9031e3dfd1c9",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "35336f65-ed46-4a3e-a99a-7564d5c4147e",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleObjectives",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
