@@ -1,3 +1,5 @@
+// Ignore Spelling: DMG
+
 using UnityEngine;
 
 public class GermanSoldier : MonoBehaviour, IDamage, IAlive
@@ -7,7 +9,7 @@ public class GermanSoldier : MonoBehaviour, IDamage, IAlive
 
     internal float detectDisctance = 50f;
 
-    internal bool playerInSight => gameObject.SightTest(PlayerControler.Instance.gameObject, detectDisctance);
+    internal bool playerInSight => gameObject.SightTest(PlayerController.Instance.gameObject, detectDisctance);
 
     internal delegate void MoveMode();
 
@@ -15,15 +17,17 @@ public class GermanSoldier : MonoBehaviour, IDamage, IAlive
 
     public virtual void TakeDMG(IDamage DMGSource)
     {
+        print("Damage received" + DMGSource.DMG);
+
         if (DMGSource == null) return;
 
-        if (Health - DMGSource.DMG < 0)
+        if (Health - DMGSource.DMG <= 0)
         {
             Destroy(gameObject);
         }
     }
 
-    // TODO: Add colllision/close-range damage
+    // TODO: Add collision/close-range damage
 
 
 
@@ -51,7 +55,7 @@ public class GermanSoldier : MonoBehaviour, IDamage, IAlive
 
     void MoveToPlayer()
     {
-        var dir = PlayerControler.Instance.transform.position - transform.position;
+        var dir = PlayerController.Instance.transform.position - transform.position;
 
         mRigidbody.AddForce(dir.normalized * Speed, ForceMode.VelocityChange);
     }

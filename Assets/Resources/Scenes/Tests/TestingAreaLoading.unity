@@ -137,13 +137,13 @@ GameObject:
   - component: {fileID: 492923571}
   - component: {fileID: 492923575}
   - component: {fileID: 492923576}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GermanEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!135 &492923571
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -239,7 +239,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 492923570}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4c4ac5f6cc78184a94fe16d01cdcc2b, type: 3}
+  m_Script: {fileID: 11500000, guid: 804e2ad1b5c515f449674c3c95296ac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!54 &492923576
@@ -811,7 +811,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6123119914193613789, guid: 90051e8d50c621248a81df1073e8b2b4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 11.8
+      value: 2.9
       objectReference: {fileID: 0}
     - target: {fileID: 6123119914193613789, guid: 90051e8d50c621248a81df1073e8b2b4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -856,6 +856,10 @@ PrefabInstance:
     - target: {fileID: 6916891664091663190, guid: 90051e8d50c621248a81df1073e8b2b4, type: 3}
       propertyPath: m_Name
       value: InteractTests
+      objectReference: {fileID: 0}
+    - target: {fileID: 6916891664091663190, guid: 90051e8d50c621248a81df1073e8b2b4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6955797063486311852, guid: 90051e8d50c621248a81df1073e8b2b4, type: 3}
       propertyPath: m_LocalPosition.y

@@ -1,18 +1,18 @@
 using UnityEngine;
 
 /// <summary>
-/// Intermediate class for interacting with vcarious objects
+/// Intermediate class for interacting with various objects
 /// </summary>
 public class Interactor : MonoBehaviour, IInteractable
 {
     public void Interact(GameObject sender)
     {
-        if (!sender.TryGetComponent<PlayerControler>(out var controler)) return;
+        if (!sender.TryGetComponent<PlayerController>(out var controler)) return;
 
         // Collectible part
         if (TryGetComponent<IPart>(out var part))
         {
-            // Colect the part
+            // Collect the part
             part.Collect(controler);
             print($"{sender.name} picked up a '{part.GetType()}'");
             
@@ -38,7 +38,7 @@ public class Interactor : MonoBehaviour, IInteractable
         //else if (TryGetComponent<IEnemy>(out var enemy))
         //{
         //    // Interact with the enemy
-        //    //enemy.TakeDMG(controler);  damage shoulld be done elsewhere
+        //    //enemy.TakeDMG(controller);  damage should be done elsewhere
         //}
     }
 }

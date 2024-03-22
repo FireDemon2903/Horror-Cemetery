@@ -9,7 +9,7 @@ public class EnterArea : Interactor
 
     public void Enter()
     {
-        // TODO: Save mainArea gamestate
+        // TODO: Save mainArea game-state
 
         // Save the position the player came from
         if (SceneManager.GetActiveScene().name == "TestingAreaLoading")

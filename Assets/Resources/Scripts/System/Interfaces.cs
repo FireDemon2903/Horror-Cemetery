@@ -20,8 +20,8 @@ public interface IPart
     /// <summary>
     /// Method to collect a part
     /// </summary>
-    /// <param name="playerControler">PlayerControler script</param>
-    void Collect(PlayerControler playerControler);
+    /// <param name="playerControler">PlayerController script</param>
+    void Collect(PlayerController playerControler);
 }
 
 /// <summary>

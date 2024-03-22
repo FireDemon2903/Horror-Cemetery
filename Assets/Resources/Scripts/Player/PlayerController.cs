@@ -1,6 +1,8 @@
+// Ignore Spelling: DMG
+
 using System.Collections.Generic;
-using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
@@ -8,12 +10,12 @@ using Outline = cakeslice.Outline;
 
 [RequireComponent(typeof(PlayerInput))]                                 // Player input
 [RequireComponent (typeof(CapsuleCollider), typeof(Rigidbody))]         // Collision (and more)
-[RequireComponent(typeof(AudioSource))]                                 // Sound Reqs
+[RequireComponent(typeof(AudioSource))]                                 // Sound requirements
 
-public class PlayerControler : MonoBehaviour, IAlive, IDamage
+public class PlayerController : MonoBehaviour, IAlive, IDamage
 {
-    private static PlayerControler _instance;
-    public static PlayerControler Instance
+    private static PlayerController _instance;
+    public static PlayerController Instance
     {
         get
         {
@@ -28,12 +30,12 @@ public class PlayerControler : MonoBehaviour, IAlive, IDamage
     // --------------- Player Movement ---------------
     float BasePlayerSpeed = 15f;                                                       // Base player speed
     //float jumpForce = 100;                                                           // The force with which the player jumps
-    public float RotationSens = 50f;                                                   // Mouse sensetivity
+    public float RotationSens = 50f;                                                   // Mouse sensitivity
 
-    // Prioritises crouching speed. If player is crouched, then speed will remain halfed,
+    // Priorities crouching speed. If player is crouched, then speed will remain halved,
     // even thought they are technically running in the eyes of the code.
-    float SpeedMultiplyer => IsCrouched ? .25f : IsRunning ? 1.5f : 1f;        // Player speed multiplyer. Dependant on state
-    float Speed => BasePlayerSpeed * SpeedMultiplyer;                       // Total player speed after state checks
+    float SpeedMultiplyer => IsCrouched ? .25f : IsRunning ? 1.5f : 1f;        // Player speed multiplier. Dependant on state
+    float Speed => BasePlayerSpeed * SpeedMultiplyer;                          // Total player speed after state checks
 
     Vector2 newRotation;                                                    // Rotation input
     Vector2 movement;                                                       // Movement input
@@ -46,7 +48,7 @@ public class PlayerControler : MonoBehaviour, IAlive, IDamage
     //public float DMG  => 10 * DMGMult;
     //public float Health = 10;
     
-    // From IAlive. Cannot be delegates, so no easy multiplyers -_-
+    // From IAlive. Cannot be delegates, so no easy multipliers -_-
     public float Health { get; set; } = 10f;
     public float DMG { get; set; } = 10f;
 
@@ -56,7 +58,9 @@ public class PlayerControler : MonoBehaviour, IAlive, IDamage
     bool IsRunning = false;
     bool IsCrouched = false;
 
-    public GameObject LastObjectInSight;
+#nullable enable
+    public GameObject? LastObjectInSight;
+#nullable disable
     LayerMask interactiblesLayer;
 
     // --------------- Components on this object ---------------
@@ -64,7 +68,7 @@ public class PlayerControler : MonoBehaviour, IAlive, IDamage
     CapsuleCollider mCollider;
 
     // Audio
-    AudioSource[] mAudioSources;                                                    // 0: reading, 1: sound, 2: radio & bgm
+    AudioSource[] mAudioSources;                                                    // 0: reading, 1: sound, 2: radio & BGM
     AudioMixer mAudioMixer;                                                         // Move to GM later
 
     // Light
@@ -94,13 +98,13 @@ public class PlayerControler : MonoBehaviour, IAlive, IDamage
 
         mAudioSources = GetComponents<AudioSource>();
 
-        // Assign interactibles layer
+        // Assign interactables layer
         interactiblesLayer = LayerMask.GetMask("Interactable");
 
         // Move to GM later
         mAudioMixer = Resources.Load<AudioMixer>("Audio/PlayerAudioMixer");
 
-        // Assign audio players to mixergroups
+        // Assign audio players to mixer-groups
         mAudioSources[0].outputAudioMixerGroup = mAudioMixer.FindMatchingGroups("Readable")[0];
         mAudioSources[1].outputAudioMixerGroup = mAudioMixer.FindMatchingGroups("SFX")[0];
         mAudioSources[2].outputAudioMixerGroup = mAudioMixer.FindMatchingGroups("Music")[0];
@@ -115,19 +119,13 @@ public class PlayerControler : MonoBehaviour, IAlive, IDamage
         // fucks with colliders
         //mRigidbody.MovePosition(newPosition);
 
-        // Too floaty
+        // TODO add floor/step sounds
         mRigidbody.AddForce(NewVelocity + Physics.gravity, ForceMode.VelocityChange);
-
-        // 
-        //mRigidbody.velocity = newVelocity;
-
-        //mRigidbody.AddForce(Physics.gravity * 4, ForceMode.Force);
-
     }
 
     private void Update()
     {
-        // If the player looks at anything in the 'Interactable' layer within grabdistance
+        // If the player looks at anything in the 'Intractable' layer within grab-distance
         if (Physics.Raycast(transform.position, transform.forward, out var hitInfo, GrabDist, interactiblesLayer)
             && !hitInfo.collider.gameObject.isStatic)
         {
@@ -195,7 +193,7 @@ public class PlayerControler : MonoBehaviour, IAlive, IDamage
     {
         if (DMGSource.IsUnityNull()) return;
 
-        if (Health - DMGSource.DMG < 0)
+        if (Health - DMGSource.DMG <= 0)
         {
             Destroy(gameObject);
         }
@@ -208,7 +206,8 @@ public class PlayerControler : MonoBehaviour, IAlive, IDamage
         if (DMGMode == 1) { DoRangedDMG(); return; }
 
         // Else if the last/current object in sight is not null, then tell the other object to kill itself
-        // Try to deal damage to the object. this is a try, because it is not known wether the object can take damage
+        // Try to deal damage to the object. this is a try, because it is not known whether the object can take damage
+        print("Damage dealt");
         LastObjectInSight.TryDealDamage(source: this);
     }
 
@@ -221,7 +220,7 @@ public class PlayerControler : MonoBehaviour, IAlive, IDamage
     /// <param name="value">Vector2</param>
     void OnMove(InputValue value) { movement = value.Get<Vector2>(); }
 
-    // TODO: Stop changing the players hitbox when moving the fov
+    // TODO: Stop changing the players hit-box when moving the FOV
     /// <summary>
     /// Delta mouse
     /// </summary>

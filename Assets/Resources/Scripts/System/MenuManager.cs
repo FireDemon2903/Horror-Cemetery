@@ -46,7 +46,7 @@ public class MenuManager : MonoBehaviour
 
     public void SetRotationSens(float sens)
     {
-        PlayerControler.Instance.RotationSens = sens;
+        PlayerController.Instance.RotationSens = sens;
     }
 
     public void ChangeGraphicsQuality(int quality) { QualitySettings.SetQualityLevel(quality); }

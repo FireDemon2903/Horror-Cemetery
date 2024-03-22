@@ -9,10 +9,10 @@ public static class Extensions
         return Physics.Raycast(me.transform.position, other.transform.position - me.transform.position, out var hitInfo, viewDist) && hitInfo.transform == other.transform;
     }
 
-    public static void DebugVelocity(this Rigidbody rb, Color color)
+    public static void DebugVelocity(this Rigidbody rb, Color color, bool write=false)
     {
         Debug.DrawRay(rb.position, rb.velocity, color);
-        Debug.Log($"{rb.gameObject.name}'s velocity: {rb.velocity}");
+        if (write) { Debug.Log($"{rb.gameObject.name}'s velocity: {rb.velocity}"); }
     }
 
     /// <summary>
