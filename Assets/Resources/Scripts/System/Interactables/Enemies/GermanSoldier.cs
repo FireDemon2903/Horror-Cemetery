@@ -1,49 +1,65 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
-public class GermanSoldier : BaseEnemy
+public class GermanSoldier : MonoBehaviour, IDamage, IAlive
 {
-    MoveDelegate Move => playerInSight ? MoveToPlayer : RandomMovement;
-    //MoveDelegate Move => RandomMovement;
+    public float Health { get; set; } = 10f;
+    public float DMG { get; set; } = 10f;
+
+    internal float detectDisctance = 50f;
+
+    internal bool playerInSight => gameObject.SightTest(PlayerControler.Instance.gameObject, detectDisctance);
+
+    internal delegate void MoveMode();
+
+    MoveMode Move => playerInSight ? MoveToPlayer : RandomMovement;
+
+    public virtual void TakeDMG(IDamage DMGSource)
+    {
+        if (DMGSource == null) return;
+
+        if (Health - DMGSource.DMG < 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    // TODO: Add colllision/close-range damage
+
+
+
+    public virtual void DealDMG(IAlive DMGTarget)
+    {
+        // Deal direct damage, as target is known
+        DMGTarget.TakeDMG(from: this);
+    }
 
     Rigidbody mRigidbody;
+
+    float Speed = 2f;
 
     private void Start()
     {
         mRigidbody = GetComponent<Rigidbody>();
     }
 
-    public override void TakeDMG(PlayerControler DMGSource)
-    {
-        base.TakeDMG(DMGSource);
-    }
-
-    public override void DealDMG(PlayerControler DMGTarget)
-    {
-        base.DealDMG(DMGTarget);
-    }
-
     private void FixedUpdate()
     {
-        print(playerInSight);
-        //print(gameObject.SightTest(PlayerControler.Instance.gameObject, detectDisctance));
         Move?.Invoke();
+
+        mRigidbody.DebugVelocity(Color.cyan);
     }
 
     void MoveToPlayer()
     {
         var dir = PlayerControler.Instance.transform.position - transform.position;
 
-        mRigidbody.AddForce(dir);
+        mRigidbody.AddForce(dir.normalized * Speed, ForceMode.VelocityChange);
     }
 
-    
 
 
-    float minSpeed = 1;  // minimum range of speed to move
-    float maxSpeed = 10;  // maximum range of speed to move
+    float minSpeed = 5;  // minimum range of speed to move
+    float maxSpeed = 20;  // maximum range of speed to move
     float speed;     // speed is a constantly changing value from the random range of minSpeed and maxSpeed 
 
     float step = Mathf.PI / 60;
@@ -61,6 +77,7 @@ public class GermanSoldier : BaseEnemy
         timeVar += step;
         speed = Random.Range(minSpeed, maxSpeed);              //      Change this range of numbers to change speed
         mRigidbody.AddForce(transform.forward * speed);
-        transform.Rotate(randomDirection * Time.deltaTime * 10.0f);
+        transform.Rotate(10.0f * Time.deltaTime * randomDirection);
     }
+
 }

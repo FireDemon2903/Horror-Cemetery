@@ -1,7 +1,8 @@
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Scripting;
 
+/// <summary>
+/// Intermediate class for interacting with vcarious objects
+/// </summary>
 public class Interactor : MonoBehaviour, IInteractable
 {
     public void Interact(GameObject sender)
@@ -18,11 +19,26 @@ public class Interactor : MonoBehaviour, IInteractable
             // Destroy the GO
             Destroy(gameObject);
         }
-        // Enemy
-        else if (TryGetComponent<IEnemy>(out var enemy))
+        // Readable object
+        else if (TryGetComponent<Readable>(out var read))
         {
-            // Interact with the enemy
-            //enemy.TakeDMG(controler);  damage shoulld be done elsewhere
+            // Read the thing
+            read.Read(sender);
         }
+        else if (TryGetComponent<ToggleLightTest>(out var lightTest))
+        {
+            lightTest.Toggle(sender: sender);
+        }
+
+        else if (TryGetComponent<EnterArea>(out var area))
+        {
+            area.Enter();
+        }
+        // Enemy
+        //else if (TryGetComponent<IEnemy>(out var enemy))
+        //{
+        //    // Interact with the enemy
+        //    //enemy.TakeDMG(controler);  damage shoulld be done elsewhere
+        //}
     }
 }

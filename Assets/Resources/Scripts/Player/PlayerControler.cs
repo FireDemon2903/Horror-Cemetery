@@ -10,7 +10,7 @@ using Outline = cakeslice.Outline;
 [RequireComponent (typeof(CapsuleCollider), typeof(Rigidbody))]         // Collision (and more)
 [RequireComponent(typeof(AudioSource))]                                 // Sound Reqs
 
-public class PlayerControler : MonoBehaviour
+public class PlayerControler : MonoBehaviour, IAlive, IDamage
 {
     private static PlayerControler _instance;
     public static PlayerControler Instance
@@ -23,32 +23,33 @@ public class PlayerControler : MonoBehaviour
     }
 
     #region--------------- Player Attributes ---------------
-    readonly float GrabDist = 10;                                               // Grab/Interact/Attack distance
+    readonly float GrabDist = 10;                                                      // Grab/Interact/Attack distance
 
     // --------------- Player Movement ---------------
-    public float BasePlayerSpeed = 10f;                                         // Base player speed
-    //float jumpForce = 100;                                                    // Ther force with which the player jumps
+    float BasePlayerSpeed = 15f;                                                       // Base player speed
+    //float jumpForce = 100;                                                           // The force with which the player jumps
     public float RotationSens = 50f;                                                   // Mouse sensetivity
 
     // Prioritises crouching speed. If player is crouched, then speed will remain halfed,
     // even thought they are technically running in the eyes of the code.
-    float SpeedMultiplyer => IsCrouched ? .25f : IsRunning ? 3f : 1f;        // Player speed multiplyer. Dependant on state
+    float SpeedMultiplyer => IsCrouched ? .25f : IsRunning ? 1.5f : 1f;        // Player speed multiplyer. Dependant on state
     float Speed => BasePlayerSpeed * SpeedMultiplyer;                       // Total player speed after state checks
 
     Vector2 newRotation;                                                    // Rotation input
     Vector2 movement;                                                       // Movement input
-    // TODO: stop clipping
 
-    //Vector3 movementDirection => new(transform.forward.x * movement.y + transform.right.x * movement.x, 0, transform.forward.z * movement.y + transform.right.z * movement.x);
-    //Vector3 newPosition => transform.position + (Speed * Time.deltaTime * movementDirection);
-
-    Vector3 movementDirection => new(transform.forward.x * movement.y + transform.right.x * movement.x, Physics.gravity.y, transform.forward.z * movement.y + transform.right.z * movement.x);
-    Vector3 newVelocity => movementDirection * Speed;    
+    Vector3 MovementDirection => new(transform.forward.x * movement.y + transform.right.x * movement.x, 0, transform.forward.z * movement.y + transform.right.z * movement.x);
+    Vector3 NewVelocity => MovementDirection.normalized * Speed;
 
     // --------------- Player Alive ---------------
-    float DMGMult = 1.0f;
-    public float DMG  => 10 * DMGMult;
-    public float Health = 10;
+    //float DMGMult = 1.0f;
+    //public float DMG  => 10 * DMGMult;
+    //public float Health = 10;
+    
+    // From IAlive. Cannot be delegates, so no easy multiplyers -_-
+    public float Health { get; set; } = 10f;
+    public float DMG { get; set; } = 10f;
+
     [Range(0, 1)] public int DMGMode = 0;             // 0: CQC, 1: Gun
 
     // --------------- Player States ---------------
@@ -111,9 +112,17 @@ public class PlayerControler : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // fucks with colliders
         //mRigidbody.MovePosition(newPosition);
 
-        mRigidbody.velocity = newVelocity;
+        // Too floaty
+        mRigidbody.AddForce(NewVelocity + Physics.gravity, ForceMode.VelocityChange);
+
+        // 
+        //mRigidbody.velocity = newVelocity;
+
+        //mRigidbody.AddForce(Physics.gravity * 4, ForceMode.Force);
+
     }
 
     private void Update()
@@ -144,6 +153,7 @@ public class PlayerControler : MonoBehaviour
         }
         // Draw in editor for debugging
         Debug.DrawRay(transform.position, transform.forward * GrabDist, Color.green);
+        Debug.DrawRay(transform.position, mRigidbody.velocity, Color.red);
     }
 
     //private void OnCollisionEnter(Collision collision)
@@ -177,8 +187,29 @@ public class PlayerControler : MonoBehaviour
         {
             // make smoke at impact point
             //hitInfo.point
-            hitInfo.collider.gameObject.SendMessage("TakeDMG", this, options: SendMessageOptions.DontRequireReceiver);
+            hitInfo.collider.gameObject.TryDealDamage(source: this);
         }
+    }
+
+    public void TakeDMG(IDamage DMGSource)
+    {
+        if (DMGSource.IsUnityNull()) return;
+
+        if (Health - DMGSource.DMG < 0)
+        {
+            Destroy(gameObject);
+        }
+        Health -= DMGSource.DMG;
+    }
+
+    public void DealDMG(IAlive? target)
+    {
+        // If the player has a gun, do ranged damage
+        if (DMGMode == 1) { DoRangedDMG(); return; }
+
+        // Else if the last/current object in sight is not null, then tell the other object to kill itself
+        // Try to deal damage to the object. this is a try, because it is not known wether the object can take damage
+        LastObjectInSight.TryDealDamage(source: this);
     }
 
 
@@ -190,6 +221,7 @@ public class PlayerControler : MonoBehaviour
     /// <param name="value">Vector2</param>
     void OnMove(InputValue value) { movement = value.Get<Vector2>(); }
 
+    // TODO: Stop changing the players hitbox when moving the fov
     /// <summary>
     /// Delta mouse
     /// </summary>
@@ -221,10 +253,8 @@ public class PlayerControler : MonoBehaviour
     /// <param name="value">Left mouse button. Interaction: press</param>
     void OnFire(InputValue value)
     {
-        // If the player has a gun, do ranged damage
-        if (DMGMode == 1) { DoRangedDMG(); return; }
-        // Else if the last/current object in sight is not null, then tell the other object to kill itself
-        if (!LastObjectInSight.IsUnityNull()) LastObjectInSight.SendMessage("TakeDMG", this, options: SendMessageOptions.DontRequireReceiver); }
+        DealDMG(null);
+    }
     
     /// <summary>
     /// Button: E
@@ -232,21 +262,8 @@ public class PlayerControler : MonoBehaviour
     /// <param name="value">Button</param>
     void OnInteract()
     {
-        if (!LastObjectInSight.IsUnityNull())
-        {
-            switch (LastObjectInSight.tag)
-            {
-                // If interacting with enemy, maybe do something
-                case "Enemy":
-                    // TODO: Interacting with enemy
-                    break;
-
-                // Basic interactable
-                default:
-                    LastObjectInSight.SendMessage("Interact", gameObject, options: SendMessageOptions.RequireReceiver);
-                    break;
-            }
-        }
+        // Try to get the interactor, and call interact
+        if (LastObjectInSight.TryGetComponent(out Interactor interactor)) interactor.Interact(gameObject);
     }
     
     /// <summary>

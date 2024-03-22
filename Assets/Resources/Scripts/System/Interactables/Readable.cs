@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class Readable : MonoBehaviour, IInteractable
+public class Readable : Interactor
 {
     public AudioClip clip;
 
-    public void Interact(GameObject sender)
+    public void Read(GameObject sender)
     {
         print($"{gameObject.name} was read by {sender.name}");
         sender.SendMessage("PlayClip", clip);
