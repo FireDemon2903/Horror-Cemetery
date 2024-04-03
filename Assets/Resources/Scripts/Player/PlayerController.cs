@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
 
     // Priorities crouching speed. If player is crouched, then speed will remain halved,
     // even thought they are technically running in the eyes of the code.
-    float SpeedMultiplyer => IsCrouched ? .25f : IsRunning ? 1.5f : 1f;        // Player speed multiplier. Dependant on state
+    float SpeedMultiplyer => IsCrouched ? .5f : IsRunning ? 1.5f : 1f;        // Player speed multiplier. Dependant on state
     float Speed => BasePlayerSpeed * SpeedMultiplyer;                          // Total player speed after state checks
 
     Vector2 newRotation;                                                    // Rotation input
