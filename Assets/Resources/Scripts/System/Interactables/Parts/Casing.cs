@@ -1,7 +1,7 @@
 public class Casing : Interactor, IPart
 {
-    public void Collect(PlayerController playerControler)
+    public void Collect(PlayerController playerController)
     {
-        playerControler.OwnedParts.Add(GameManager.Parts.Casing);
+        playerController.OwnedParts.Add(GameManager.Parts.Casing);
     }
 }
