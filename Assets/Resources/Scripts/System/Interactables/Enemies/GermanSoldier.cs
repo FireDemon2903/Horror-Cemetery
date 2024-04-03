@@ -3,11 +3,12 @@
 using System;
 using UnityEngine;
 using System.Collections;
+using static GameManager;
 
 public class GermanSoldier : MonoBehaviour, IDamage, IAlive
 {
     public float Health { get; set; } = 10f;
-    public float DMG { get; set; } = 0f;
+    public float DMG { get; set; } = 1f;
 
     float detectDisctance = 50f;
     float attackRange = 15f;
@@ -16,15 +17,12 @@ public class GermanSoldier : MonoBehaviour, IDamage, IAlive
     bool playerInSight => gameObject.SightTest(PlayerController.Instance.gameObject, detectDisctance);
     bool playerInRange => Vector3.Distance(PlayerController.Instance.transform.position, gameObject.transform.position) < attackRange;
 
-    delegate void MoveMode();
-    delegate void RefreshCooldown();
-
     MoveMode Move => playerInSight ? MoveToPlayer : RandomMovement;
-    RefreshCooldown RefreshAttack => ResetCoolDown;
+    RefreshCooldown RefreshAttack => () => attackCooldown = false;
 
     Rigidbody mRigidbody;
 
-    float Speed = 0f;
+    float Speed = 1f;
 
     private void Start()
     {
@@ -44,12 +42,9 @@ public class GermanSoldier : MonoBehaviour, IDamage, IAlive
             DealDMG(PlayerController.Instance);
 
             // start refresh cool-down
-            // TODO ask copilot for advice on ref vars in iterators (want to make a more general method to reset cooldown)
             StartCoroutine(RefreshAttack.DelayedExecution(delay: 1f));
         }
     }
-
-    void ResetCoolDown() { attackCooldown = false; }
 
     public virtual void TakeDMG(IDamage DMGSource)
     {
@@ -59,14 +54,6 @@ public class GermanSoldier : MonoBehaviour, IDamage, IAlive
         {
             Destroy(gameObject);
         }
-    }
-
-    // TODO: Add collision/close-range damage
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision == null) return;
-
-        
     }
 
     public virtual void DealDMG(IAlive DMGTarget)

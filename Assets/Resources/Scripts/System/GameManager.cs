@@ -32,6 +32,11 @@ public class GameManager : MonoBehaviour
 
     List<GameObject> Objectives = new();
 
+    public delegate void MoveMode();
+    public delegate void RefreshCooldown();
+    // does not work...
+    //public static RefreshCooldown Refresh => (ref bool b) => b = false;
+
     // Names of Areas to be used in ´Load´ objects
     public enum Scenenames
     {
