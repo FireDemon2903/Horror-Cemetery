@@ -1,6 +1,7 @@
 // Ignore Spelling: DMG
 
 using UnityEngine;
+using UnityEngine.AI;
 using static GameManager;
 
 public class GermanSoldier : MonoBehaviour, IDamage, IAlive
@@ -13,10 +14,12 @@ public class GermanSoldier : MonoBehaviour, IDamage, IAlive
     bool attackCooldown = false;
 
     bool playerInSight => gameObject.SightTest(PlayerController.Instance.gameObject, detectDisctance);
-    bool playerInRange => Vector3.Distance(PlayerController.Instance.transform.position, gameObject.transform.position) < attackRange;
+    bool playerInRange => Vector3.Distance(PlayerController.Instance.Position, gameObject.transform.position) < attackRange;
 
     MoveMode Move => playerInSight ? MoveToPlayer : RandomMovement;
     RefreshCooldown RefreshAttack => () => attackCooldown = false;
+
+    NavMeshAgent NavMeshAgent { get; set; }
 
     Rigidbody mRigidbody;
 
@@ -25,6 +28,7 @@ public class GermanSoldier : MonoBehaviour, IDamage, IAlive
     private void Start()
     {
         mRigidbody = GetComponent<Rigidbody>();
+        NavMeshAgent = GetComponent<NavMeshAgent>();
     }
 
     private void FixedUpdate()
@@ -62,14 +66,7 @@ public class GermanSoldier : MonoBehaviour, IDamage, IAlive
         DMGTarget.TakeDMG(from: this);
     }
 
-    void MoveToPlayer()
-    {
-        var dir = PlayerController.Instance.transform.position - transform.position;
-
-        mRigidbody.AddForce(dir.normalized * Speed, ForceMode.VelocityChange);
-    }
-
-
+    void MoveToPlayer() { NavMeshAgent.SetDestination(PlayerController.Instance.Position); }
 
     float minSpeed = 5;  // minimum range of speed to move
     float maxSpeed = 20;  // maximum range of speed to move
@@ -91,6 +88,9 @@ public class GermanSoldier : MonoBehaviour, IDamage, IAlive
         speed = UnityEngine.Random.Range(minSpeed, maxSpeed);              //      Change this range of numbers to change speed
         mRigidbody.AddForce(transform.forward * speed);
         transform.Rotate(10.0f * Time.deltaTime * randomDirection);
+
+        //MoveToPlayer();
+
     }
 
 }

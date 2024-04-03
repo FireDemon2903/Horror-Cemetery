@@ -1,15 +1,10 @@
-using System.Collections;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using TMPro.EditorUtilities;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -42,8 +37,10 @@ public class GameManager : MonoBehaviour
     {
         TestingAreaLoading, // Main
         TestingPlayer,
-        TestingVision
+        TestingVision,
+        MainBuild
     }
+
     // List of SubAreas
     public List<Transform> ActiveZoneTransitions;
     // The position of the last zone transition player used

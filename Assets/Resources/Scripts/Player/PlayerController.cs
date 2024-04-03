@@ -22,6 +22,13 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
             return _instance;
         }
     }
+    public Vector3 Position
+    {
+        get
+        {
+            return Instance.transform.position;
+        }
+    }
 
     #region--------------- Player Attributes ---------------
     readonly float GrabDist = 10;                                                      // Grab/Interact/Attack distance
