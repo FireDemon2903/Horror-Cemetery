@@ -1,8 +1,6 @@
 // Ignore Spelling: DMG
 
-using System;
 using UnityEngine;
-using System.Collections;
 using static GameManager;
 
 public class GermanSoldier : MonoBehaviour, IDamage, IAlive
@@ -46,7 +44,7 @@ public class GermanSoldier : MonoBehaviour, IDamage, IAlive
         }
     }
 
-    public virtual void TakeDMG(IDamage DMGSource)
+    public void TakeDMG(IDamage DMGSource)
     {
         if (DMGSource == null) return;
 
@@ -56,7 +54,7 @@ public class GermanSoldier : MonoBehaviour, IDamage, IAlive
         }
     }
 
-    public virtual void DealDMG(IAlive DMGTarget)
+    public void DealDMG(IAlive DMGTarget)
     {
         attackCooldown = true;
 

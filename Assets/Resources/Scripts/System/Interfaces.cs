@@ -32,7 +32,7 @@ public interface IDamage
     float DMG { get; set; }
 
     /// <summary>
-    /// Method callled to damage another target
+    /// Method called to damage another target
     /// </summary>
     /// <param name="DMGTarget"></param>
     void DealDMG(IAlive DMGTarget);
