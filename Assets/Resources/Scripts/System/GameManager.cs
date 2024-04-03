@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour
         MainBuild
     }
 
+    public Vector3 PlayerSpawn => GameObject.FindWithTag("Respawn").transform.position;
+
     // List of SubAreas
     public List<Transform> ActiveZoneTransitions;
     // The position of the last zone transition player used
@@ -73,7 +75,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        NewObjective("tghis is a long test to see what happens when the text is too long and it has to wrapo it :)");
+        NewObjective("this is a long test to see what happens when the text is too long and it has to wrap it :)");
         NewObjective("test1");
         NewObjective("test2");
         NewObjective("test3");
@@ -83,9 +85,6 @@ public class GameManager : MonoBehaviour
     // Called whenever a scene is loaded
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // If the player starts the game, dont
-        //if (scene.name == "MenuTest") return;
-
         // Unload the old scene
         if (OldScene.name != null) SceneManager.UnloadSceneAsync(OldScene);
 
@@ -110,11 +109,8 @@ public class GameManager : MonoBehaviour
 
         if (SceneManager.GetActiveScene().name != "TestingAreaLoading")
         {
-            // find entrancepoint
-            Transform en = GameObject.FindWithTag("Respawn").transform;
-
-            // move playter to entrancepoint
-            playerObject.transform.position = en.position;
+            // move player to spawn
+            playerObject.transform.position = PlayerSpawn;
         }
         else
         {
