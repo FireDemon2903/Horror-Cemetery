@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
 
     public delegate void MoveMode();
     public delegate void RefreshCooldown();
+    public delegate void DoNew();
     // does not work...
     //public static RefreshCooldown Refresh => (ref bool b) => b = false;
 
@@ -143,4 +144,10 @@ public class GameManager : MonoBehaviour
     }
 
     // TODO: get random enemy target pos for random movement
+    public Vector3 GetRandomPos()
+    {
+        Vector3[] positions = GameObject.FindGameObjectsWithTag("Station").Select(x => x.transform.position).ToArray();
+
+        return positions[Random.Range(0, positions.Length - 1)];
+    }
 }
