@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
 #nullable enable
     public GameObject? LastObjectInSight;
 #nullable disable
-    LayerMask interactiblesLayer;
+    public LayerMask interactiblesLayer;
 
     // --------------- Components on this object ---------------
     Rigidbody mRigidbody;
