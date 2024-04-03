@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
         // Spawn the player
         playerObject = Instantiate(Resources.Load<GameObject>(@"Prefabs/PlayerPlaceholder"));
 
-        EnteredFrom = new Vector3(0f, 5f, 0f);
+        EnteredFrom = PlayerSpawn;
 
         Menu = MenuManager.Instance.Menu;
         ObjectivesObj = Menu.transform.Find("ObjectiveMenu").gameObject;
@@ -75,11 +75,11 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        NewObjective("this is a long test to see what happens when the text is too long and it has to wrap it :)");
         NewObjective("test1");
         NewObjective("test2");
         NewObjective("test3");
         NewObjective("test4");
+        NewObjective("this is a long test to see what happens when the text is too long and it has to wrap it :)");
     }
 
     // Called whenever a scene is loaded
@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
         SceneManager.MoveGameObjectToScene(gameObject, scene);
         SceneManager.MoveGameObjectToScene(playerObject, scene);
 
-        if (SceneManager.GetActiveScene().name != "TestingAreaLoading")
+        if (SceneManager.GetActiveScene().name != "MainBuild")
         {
             // move player to spawn
             playerObject.transform.position = PlayerSpawn;
@@ -142,4 +142,5 @@ public class GameManager : MonoBehaviour
         ObjectivesObj.GetComponent<RectTransform>().sizeDelta = new Vector2(500, 100 + 50 * Objectives.Count);
     }
 
+    // TODO: get random enemy target pos for random movement
 }
