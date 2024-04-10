@@ -49,16 +49,12 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     Vector3 MovementDirection => new(transform.forward.x * movement.y + transform.right.x * movement.x, 0, transform.forward.z * movement.y + transform.right.z * movement.x);
     Vector3 NewVelocity => MovementDirection.normalized * Speed;
 
-    // --------------- Player Alive ---------------
-    //float DMGMult = 1.0f;
-    //public float DMG  => 10 * DMGMult;
-    //public float Health = 10;
-    
+    // --------------- Player Alive ---------------    
     // From IAlive. Cannot be delegates, so no easy multipliers -_-
     public float Health { get; set; } = 10f;
     public float DMG { get; set; } = 10f;
 
-    [Range(0, 1)] int DMGMode = 0;             // 0: CQC, 1: Gun
+    [Range(0, 1)] int DMGMode = 1;             // 0: CQC, 1: Gun
 
     // --------------- Player States ---------------
     bool IsRunning = false;
@@ -125,13 +121,8 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
 
     private void FixedUpdate()
     {
-        // fucks with colliders
-        //mRigidbody.MovePosition(newPosition);
-
-        // TODO add floor/step sounds
         mRigidbody.AddForce(NewVelocity + Physics.gravity, ForceMode.VelocityChange);
     }
-
 
     [SerializeField] LineRenderer mLineRenderer;
     private void Update()
@@ -199,16 +190,13 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     private void DoRangedDMG()
     {
         Ray ray = new(transform.position, transform.forward);
-        if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, interactiblesLayer)
+        if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, interactiblesLayer, QueryTriggerInteraction.Ignore)
             && !hitInfo.collider.gameObject.isStatic)
         {
             // make smoke at impact point
             //hitInfo.point
             hitInfo.collider.gameObject.TryDealDamage(source: this);
-
         }
-
-        //Debug.DrawRay(ray.origin, transform.forward * 100, Color.blue, 1);
     }
 
     public void TakeDMG(IDamage DMGSource)

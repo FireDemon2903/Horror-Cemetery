@@ -5,10 +5,13 @@ using UnityEngine;
 using UnityEngine.AI;
 using static GameManager;
 
-public class GermanSoldier : MonoBehaviour, IDamage, IAlive
+public class GermanSoldier : BaseEnemy
 {
-    public float Health { get; set; } = 10f;
-    public float DMG { get; set; } = 1f;
+    private float health;
+    public override float Health { get => health; set => health = value; }
+
+    private float dmg;
+    public override float DMG { get => dmg; set => dmg = value; }
 
     float detectDisctance = 50f;
     float attackRange = 15f;
@@ -16,8 +19,11 @@ public class GermanSoldier : MonoBehaviour, IDamage, IAlive
 
     bool playerInSight => gameObject.SightTest(PlayerController.Instance.gameObject, detectDisctance);
     bool playerInRange => Vector3.Distance(PlayerController.Instance.Position, gameObject.transform.position) < attackRange;
+    public bool isHarveyMinion = false;
+    bool isDead = false;
 
-    MoveMode Move => MoveToPlayer;//playerInSight ? MoveToPlayer : RandomMovement;
+    // if the player is in sight, move to player. if this is a minion, move to Harvey. else idle movement
+    MoveMode Move => playerInSight ? MoveToPlayer : isHarveyMinion ? MoveToHarvey : MoveToPlayer;//IdleMovement;
     RefreshCooldown RefreshAttack => () => attackCooldown = false;
 
     NavMeshAgent NavMeshAgent { get; set; }
@@ -36,9 +42,9 @@ public class GermanSoldier : MonoBehaviour, IDamage, IAlive
     private void FixedUpdate()
     {
         Move?.Invoke();
-
+        //print(playerInSight);
         mRigidbody.DebugVelocity(Color.cyan);
-        print(playerInRange);
+        //print(playerInRange);
         if (playerInRange && !attackCooldown)
         {
             print("Enemy Attacked!");
@@ -48,29 +54,28 @@ public class GermanSoldier : MonoBehaviour, IDamage, IAlive
             // start refresh cool-down
             StartCoroutine(RefreshAttack.DelayedExecution(delay: 1f));
         }
-    }
 
-    public void TakeDMG(IDamage DMGSource)
-    {
-        if (DMGSource == null) return;
-
-        if (Health - DMGSource.DMG <= 0)
+        if (isDead)
         {
-            Destroy(gameObject);
+            enabled = false;
         }
     }
 
-    public void DealDMG(IAlive DMGTarget)
+    void MoveToPlayer() { NavMeshAgent.SetDestination(PlayerController.Instance.Position); }
+    void MoveToHarvey()
     {
-        attackCooldown = true;
-
-        // Deal direct damage, as target is known
-        DMGTarget.TakeDMG(from: this);
+        try
+        {
+            NavMeshAgent.SetDestination(Harvey.Instance.transform.position);
+        }
+        catch (MissingReferenceException e)
+        {
+            Debug.Log("Harvey died or does not exist: " + e.Message);
+            isHarveyMinion = false;
+        }
     }
 
-    void MoveToPlayer() { NavMeshAgent.SetDestination(PlayerController.Instance.Position); }
-
-    void RandomMovement()
+    void IdleMovement()
     {
         //if (targetStation == null)
         //{
@@ -80,6 +85,43 @@ public class GermanSoldier : MonoBehaviour, IDamage, IAlive
         //{
         //    NavMeshAgent.SetDestination(targetStation);
         //}
+    }
+
+
+
+    public override void TakeDMG(IDamage DMGSource)
+    {
+        if (DMGSource == null) return;
+
+        if (Health - DMGSource.DMG <= 0)
+        {
+            //Destroy(gameObject);
+            Die();
+        }
+    }
+
+    public override void DealDMG(IAlive DMGTarget)
+    {
+        attackCooldown = true;
+
+        // Deal direct damage, as target is known
+        DMGTarget.TakeDMG(from: this);
+    }
+
+    void Die()
+    {
+        enabled = false;
+        Renderer r = gameObject.GetComponent<Renderer>();
+        r.material.color = Color.red;
+
+        NavMeshAgent.isStopped = true;
+    }
+
+    public void Revive()
+    {
+        //enabled = true;
+        gameObject.GetComponent<Renderer>().material.color = Color.white;
+        NavMeshAgent.isStopped = false;
     }
 
 }

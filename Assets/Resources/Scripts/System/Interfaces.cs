@@ -53,6 +53,4 @@ public interface IAlive
     /// </summary>
     /// <param name="from">Other instance that attacked this (the source of the damage)</param>
     void TakeDMG(IDamage from);
-
-    // TODO: add death
 }

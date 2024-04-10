@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 150239685846483330}
   m_Layer: 8
   m_Name: GermanEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -120,6 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 804e2ad1b5c515f449674c3c95296ac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isHarveyMinion: 0
 --- !u!54 &7962193471113477467
 Rigidbody:
   m_ObjectHideFlags: 0
