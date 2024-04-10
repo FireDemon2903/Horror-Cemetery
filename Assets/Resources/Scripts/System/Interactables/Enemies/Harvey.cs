@@ -7,11 +7,11 @@ using UnityEngine.Video;
 using static GameManager;
 
 /// <summary>
-/// Unique mini-boss enemy. has the ability to raise fallen zombies into stronger, faster versions of themselves.
+/// Unique mini-boss enemy. Has the ability to raise fallen zombies into stronger, faster versions of themselves.
 /// This enemy does not deal damage at the moment.
-/// If a GermanSoldier wanders into the range of Harvey, then it becomes his minion.
-/// It will continue to be resurrected by Harvey every x seconds, until Harvey is killed.
-/// s
+/// If a `GermanSoldier` wanders into the range of Harvey, then it becomes Harvey's minion.
+/// It will continue to be resurrected by Harvey every `ressurectTimer` seconds, until Harvey is killed.
+/// If the minion cannot see the player, then the minion will follow Harvey.
 /// </summary>
 
 // trigger collider
@@ -28,13 +28,14 @@ public class Harvey : BaseEnemy
         }
     }
 
+    
     public override float DMG { get; set; }
     public override float Health { get; set; }
 
     /// <summary>
     /// List of minions. dead and alive
     /// </summary>
-    private HashSet<GermanSoldier> _minions = new();
+    //private HashSet<GermanSoldier> _minions = new();
     private HashSet<GermanSoldier> _minionsInRange = new();
 
     bool attackCooldown = false;
@@ -77,7 +78,7 @@ public class Harvey : BaseEnemy
         else
         {
             g.isHarveyMinion = true;
-            if (!_minions.Contains(g)) _minions.Add(g);
+            //if (!_minions.Contains(g)) _minions.Add(g);
             _minionsInRange.Add(g);
         }
     }

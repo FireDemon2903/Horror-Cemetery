@@ -42,9 +42,9 @@ public class GermanSoldier : BaseEnemy
     private void FixedUpdate()
     {
         Move?.Invoke();
-        //print(playerInSight);
+        
         mRigidbody.DebugVelocity(Color.cyan);
-        //print(playerInRange);
+        
         if (playerInRange && !attackCooldown)
         {
             print("Enemy Attacked!");
@@ -68,9 +68,8 @@ public class GermanSoldier : BaseEnemy
         {
             NavMeshAgent.SetDestination(Harvey.Instance.transform.position);
         }
-        catch (MissingReferenceException e)
+        catch (MissingReferenceException)
         {
-            Debug.Log("Harvey died or does not exist: " + e.Message);
             isHarveyMinion = false;
         }
     }
@@ -86,8 +85,6 @@ public class GermanSoldier : BaseEnemy
         //    NavMeshAgent.SetDestination(targetStation);
         //}
     }
-
-
 
     public override void TakeDMG(IDamage DMGSource)
     {
@@ -119,7 +116,6 @@ public class GermanSoldier : BaseEnemy
 
     public void Revive()
     {
-        //enabled = true;
         gameObject.GetComponent<Renderer>().material.color = Color.white;
         NavMeshAgent.isStopped = false;
     }
