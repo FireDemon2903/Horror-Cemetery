@@ -17,7 +17,7 @@ public class GermanSoldier : MonoBehaviour, IDamage, IAlive
     bool playerInSight => gameObject.SightTest(PlayerController.Instance.gameObject, detectDisctance);
     bool playerInRange => Vector3.Distance(PlayerController.Instance.Position, gameObject.transform.position) < attackRange;
 
-    MoveMode Move => playerInSight ? MoveToPlayer : RandomMovement;
+    MoveMode Move => MoveToPlayer;//playerInSight ? MoveToPlayer : RandomMovement;
     RefreshCooldown RefreshAttack => () => attackCooldown = false;
 
     NavMeshAgent NavMeshAgent { get; set; }

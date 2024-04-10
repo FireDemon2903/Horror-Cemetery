@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     }
 
     #region--------------- Player Attributes ---------------
-    readonly float GrabDist = 10;                                                      // Grab/Interact/Attack distance
+    readonly float GrabDist = 25f;                                                      // Grab/Interact/Attack distance
 
     // --------------- Player Movement ---------------
     float BasePlayerSpeed = 15f;                                                       // Base player speed
@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     public float Health { get; set; } = 10f;
     public float DMG { get; set; } = 10f;
 
-    [Range(0, 1)] int DMGMode = 1;             // 0: CQC, 1: Gun
+    [Range(0, 1)] int DMGMode = 0;             // 0: CQC, 1: Gun
 
     // --------------- Player States ---------------
     bool IsRunning = false;
