@@ -1,13 +1,17 @@
 // Ignore Spelling: DMG
 
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using static GameManager;
 
-public class GermanSoldier : MonoBehaviour, IDamage, IAlive
+public class GermanSoldier : BaseEnemy
 {
-    public float Health { get; set; } = 10f;
-    public float DMG { get; set; } = 1f;
+    private float health;
+    public override float Health { get => health; set => health = value; }
+
+    private float dmg;
+    public override float DMG { get => dmg; set => dmg = value; }
 
     float detectDisctance = 50f;
     float attackRange = 15f;
@@ -15,15 +19,19 @@ public class GermanSoldier : MonoBehaviour, IDamage, IAlive
 
     bool playerInSight => gameObject.SightTest(PlayerController.Instance.gameObject, detectDisctance);
     bool playerInRange => Vector3.Distance(PlayerController.Instance.Position, gameObject.transform.position) < attackRange;
+    public bool isHarveyMinion = false;
+    bool isDead = false;
 
-    MoveMode Move => MoveToPlayer;// playerInSight ? MoveToPlayer : RandomMovement;
+    // if the player is in sight, move to player. if this is a minion, move to Harvey. else idle movement
+    MoveMode Move => playerInSight ? MoveToPlayer : isHarveyMinion ? MoveToHarvey : IdleMovement;
     RefreshCooldown RefreshAttack => () => attackCooldown = false;
 
     NavMeshAgent NavMeshAgent { get; set; }
 
     Rigidbody mRigidbody;
 
-    //float Speed = 1f;
+    Vector3 newStation => Instance.GetRandomPos();
+    Vector3 targetStation;
 
     private void Start()
     {
@@ -34,9 +42,9 @@ public class GermanSoldier : MonoBehaviour, IDamage, IAlive
     private void FixedUpdate()
     {
         Move?.Invoke();
-
+        
         mRigidbody.DebugVelocity(Color.cyan);
-        print(playerInRange);
+        
         if (playerInRange && !attackCooldown)
         {
             print("Enemy Attacked!");
@@ -46,19 +54,48 @@ public class GermanSoldier : MonoBehaviour, IDamage, IAlive
             // start refresh cool-down
             StartCoroutine(RefreshAttack.DelayedExecution(delay: 1f));
         }
+
+        if (isDead)
+        {
+            enabled = false;
+        }
     }
 
-    public void TakeDMG(IDamage DMGSource)
+    void MoveToPlayer() { NavMeshAgent.SetDestination(PlayerController.Instance.Position); }
+    void MoveToHarvey()
+    {
+        try
+        {
+            NavMeshAgent.SetDestination(Harvey.Instance.transform.position);
+        }
+        catch (MissingReferenceException)
+        {
+            isHarveyMinion = false;
+        }
+    }
+
+    void IdleMovement()
+    {
+        //if (Vector3.Distance(NavMeshAgent.pathEndPosition, transform.position) < 2f)
+        //{
+        //    NavMeshAgent.SetDestination(Instance.GetRandomPos());
+        //}
+        //else if (!NavMeshAgent.hasPath) { NavMeshAgent.SetDestination(Instance.GetRandomPos());
+        //}
+    }
+
+    public override void TakeDMG(IDamage DMGSource)
     {
         if (DMGSource == null) return;
 
         if (Health - DMGSource.DMG <= 0)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            Die();
         }
     }
 
-    public void DealDMG(IAlive DMGTarget)
+    public override void DealDMG(IAlive DMGTarget)
     {
         attackCooldown = true;
 
@@ -66,31 +103,18 @@ public class GermanSoldier : MonoBehaviour, IDamage, IAlive
         DMGTarget.TakeDMG(from: this);
     }
 
-    void MoveToPlayer() { NavMeshAgent.SetDestination(PlayerController.Instance.Position); }
-
-    float minSpeed = 5;  // minimum range of speed to move
-    float maxSpeed = 20;  // maximum range of speed to move
-    float speed;     // speed is a constantly changing value from the random range of minSpeed and maxSpeed 
-
-    float step = Mathf.PI / 60;
-    float timeVar = 0;
-    float rotationRange = 120;                  //  How far should the object rotate to find a new direction?
-    float baseDirection = 0;
-
-    Vector3 randomDirection;
-
-
-    void RandomMovement()
+    void Die()
     {
-        // TODO
-        randomDirection = new Vector3(0, Mathf.Sin(timeVar) * (rotationRange / 2) + baseDirection, 0); //   Moving at random angles 
-        timeVar += step;
-        speed = UnityEngine.Random.Range(minSpeed, maxSpeed);              //      Change this range of numbers to change speed
-        mRigidbody.AddForce(transform.forward * speed);
-        transform.Rotate(10.0f * Time.deltaTime * randomDirection);
+        enabled = false;
+        Renderer r = gameObject.GetComponent<Renderer>();
+        r.material.color = Color.red;
 
-        //MoveToPlayer();
+        NavMeshAgent.ResetPath();
+    }
 
+    public void Revive()
+    {
+        gameObject.GetComponent<Renderer>().material.color = Color.white;
     }
 
 }

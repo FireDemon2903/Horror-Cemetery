@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour
     public delegate void MoveMode();
     public delegate void RefreshCooldown();
 
+    Vector3[] positions;
+
     // Names of Areas to be used in ´Load´ objects
     public enum Scenenames
     {
@@ -73,11 +75,16 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        NewObjective("test1");
-        NewObjective("test2");
-        NewObjective("test3");
-        NewObjective("test4");
-        NewObjective("this is a long test to see what happens when the text is too long and it has to wrap it :)");
+        NewObjective("Find gun barrel");
+        NewObjective("Find gun cylinder");
+        NewObjective("Find gun handle");
+        NewObjective("Find bullet parts");
+        NewObjective("Find bullet parts");
+        NewObjective("Find bullet parts");
+        NewObjective("Find bullet parts");
+        NewObjective("Find bullet parts");
+        NewObjective("Find bullet parts");
+        NewObjective("Find bullet parts");
     }
 
     // Called whenever a scene is loaded
@@ -88,6 +95,8 @@ public class GameManager : MonoBehaviour
 
         // Find ZoneTransitions
         SetZones();
+
+        positions = GameObject.FindGameObjectsWithTag("Station").Select(x => x.transform.position).ToArray();
 
         // Move important object to new scene
         move(scene);
@@ -140,5 +149,5 @@ public class GameManager : MonoBehaviour
         ObjectivesObj.GetComponent<RectTransform>().sizeDelta = new Vector2(500, 100 + 50 * Objectives.Count);
     }
 
-    // TODO: get random enemy target pos for random movement
+    public Vector3 GetRandomPos() { return positions[Random.Range(0, positions.Length - 1)]; }
 }
