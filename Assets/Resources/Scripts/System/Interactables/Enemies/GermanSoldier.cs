@@ -50,6 +50,7 @@ public class GermanSoldier : BaseEnemy
             print("Enemy Attacked!");
             // Attack
             DealDMG(PlayerController.Instance);
+            attackCooldown = true;
 
             // start refresh cool-down
             StartCoroutine(RefreshAttack.DelayedExecution(delay: 1f));
@@ -66,7 +67,7 @@ public class GermanSoldier : BaseEnemy
     {
         try
         {
-            NavMeshAgent.SetDestination(Harvey.Instance.transform.position);
+            NavMeshAgent.SetDestination(Hansi.Instance.transform.position);
         }
         catch (MissingReferenceException)
         {
@@ -93,14 +94,15 @@ public class GermanSoldier : BaseEnemy
             //Destroy(gameObject);
             Die();
         }
+        Health -= DMGSource.DMG;
     }
+
 
     public override void DealDMG(IAlive DMGTarget)
     {
-        attackCooldown = true;
+        base.DealDMG(DMGTarget);
 
-        // Deal direct damage, as target is known
-        DMGTarget.TakeDMG(from: this);
+        attackCooldown = true;
     }
 
     void Die()
@@ -114,6 +116,7 @@ public class GermanSoldier : BaseEnemy
 
     public void Revive()
     {
+        Health = 10f;
         gameObject.GetComponent<Renderer>().material.color = Color.white;
     }
 

@@ -9,10 +9,12 @@ public abstract class BaseEnemy : MonoBehaviour, IDamage, IAlive
     {
         if (DMGSource == null) return;
 
-        if (Health - DMGSource.DMG <= 0)
+        if (Health <= DMGSource.DMG)
         {
             Destroy(gameObject);
         }
+
+        Health -= DMGSource.DMG;
     }
 
     public virtual void DealDMG(IAlive DMGTarget)

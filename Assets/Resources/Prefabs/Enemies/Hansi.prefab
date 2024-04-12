@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1252598597226676498}
   - component: {fileID: 3266938750518841349}
   m_Layer: 8
-  m_Name: Harvey
+  m_Name: Hansi
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

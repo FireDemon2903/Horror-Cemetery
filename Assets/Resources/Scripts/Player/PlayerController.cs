@@ -1,4 +1,4 @@
-// Ignore Spelling: DMG
+// Ignore Spelling: DMG Mult
 
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -51,8 +51,10 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
 
     // --------------- Player Alive ---------------    
     // From IAlive. Cannot be delegates, so no easy multipliers -_-
+    public float DMGMult = 1;
+    private float _baseDMG = 10;
     public float Health { get; set; } = 10f;
-    public float DMG { get; set; } = 10f;
+    public float DMG { get { return _baseDMG * DMGMult; } set { } }
 
     [Range(0, 1)] int DMGMode = 1;             // 0: CQC, 1: Gun
 
@@ -210,7 +212,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
         Health -= DMGSource.DMG;
     }
 
-    public void DealDMG(IAlive? target)
+    public void DealDMG(IAlive target)
     {
         // If the player has a gun, do ranged damage
         if (DMGMode == 1) { DoRangedDMG(); return; }
@@ -219,7 +221,6 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
         // Try to deal damage to the object. this is a try, because it is not known whether the object can take damage
         LastObjectInSight.TryDealDamage(source: this);
     }
-
 
     // TODO: Jump(?), crouch renderer/model
     #region --------------- Inputs ---------------

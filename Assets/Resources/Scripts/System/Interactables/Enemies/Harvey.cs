@@ -1,20 +1,15 @@
-// Ignore Spelling: DMG
-
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.Video;
 using static GameManager;
+using UnityEngine;
+
 
 /// <summary>
-/// Unique mini-boss enemy. Has the ability to raise fallen zombies into stronger, faster versions of themselves.
-/// This enemy does not deal damage at the moment.
-/// If a `GermanSoldier` wanders into the range of Harvey, then it becomes Harvey's minion.
-/// It will continue to be resurrected by Harvey every `ressurectTimer` seconds, until Harvey is killed.
-/// If the minion cannot see the player, then the minion will follow Harvey.
+/// Dead squad-mate, killed by shadow monster
+/// when in certain range, lower player's attack-speed, and does very minor damage to player.
+/// When too far away, quickly dash/teleport to position x-distance from player.
 /// </summary>
-
-// trigger collider
 [RequireComponent(typeof(SphereCollider))]
 public class Harvey : BaseEnemy
 {
@@ -28,27 +23,15 @@ public class Harvey : BaseEnemy
         }
     }
 
-    
-    public override float DMG { get; set; }
-    public override float Health { get; set; }
+    private float health = 10f;
+    public override float Health { get => health; set => health = value; }
 
-    /// <summary>
-    /// List of minions. dead and alive
-    /// </summary>
-    private HashSet<GermanSoldier> _minionsInRange = new();
+    private float dmg = 1f;
+    public override float DMG { get => dmg; set => dmg = value; }
 
-    //bool attackCooldown = false;
-    //RefreshCooldown RefreshAttack => () => attackCooldown = false;
+    MoveMode Move => Move1;
 
-    bool ressurectCooldown = false;
-    float ressurectTimer = 5f;
-    RefreshCooldown RefreshRessurect => () => ressurectCooldown = false;
-
-    /// <summary>
-    /// The detection dist for viewing both player and finding dead zombies.
-    /// </summary>
     float detectDisctance = 25f;
-    //float attackRange = 15f;
 
     private void Awake()
     {
@@ -69,41 +52,45 @@ public class Harvey : BaseEnemy
 
     private void Update()
     {
-        if (!ressurectCooldown)
-        {
-            RessurectMinions();
-            StartCoroutine(RefreshRessurect.DelayedExecution(delay: ressurectTimer));
-        }
-        //if (!attackCooldown)
-        //{
-        //    StartCoroutine(RefreshAttack.DelayedExecution(delay: 5f));
-        //}
+        Move.Invoke();
     }
 
-    // if a soldier enters the trigger collider, make it a minion
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.TryGetComponent<GermanSoldier>(out var g)) return;
-        else
+        if (other.gameObject == PlayerController.Instance.gameObject)
         {
-            g.isHarveyMinion = true;
-            //if (!_minions.Contains(g)) _minions.Add(g);
-            _minionsInRange.Add(g);
+            PlayerController.Instance.DMGMult = .5f;
+            print("Reduced player damage");
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject == PlayerController.Instance.gameObject)
+        {
+            //DealDMG(DMGTarget: PlayerController.Instance, 1f * Time.fixedDeltaTime);
+            print("player took damage: " + 10f * Time.fixedDeltaTime);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.TryGetComponent<GermanSoldier>(out var soldier))
-            _minionsInRange.Remove(soldier);
+        if (other.gameObject == PlayerController.Instance.gameObject)
+        {
+            // dist to player
+            Vector3 directionToPlayer = PlayerController.Instance.transform.position - transform.position;
+
+            // target pos
+            Vector3 targetPosition = PlayerController.Instance.Position - directionToPlayer.normalized * 75f;
+
+            // Move
+            transform.position = targetPosition;
+        }
     }
 
-    void RessurectMinions()
+    void Move1()
     {
-        print("Resurrect!");
 
-        ressurectCooldown = true;
-
-        foreach (var g in _minionsInRange) { g.enabled = true; g.Revive(); }
     }
+
 }
