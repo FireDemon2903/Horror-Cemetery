@@ -35,11 +35,10 @@ public class Harvey : BaseEnemy
     /// <summary>
     /// List of minions. dead and alive
     /// </summary>
-    //private HashSet<GermanSoldier> _minions = new();
     private HashSet<GermanSoldier> _minionsInRange = new();
 
-    bool attackCooldown = false;
-    RefreshCooldown RefreshAttack => () => attackCooldown = false;
+    //bool attackCooldown = false;
+    //RefreshCooldown RefreshAttack => () => attackCooldown = false;
 
     bool ressurectCooldown = false;
     float ressurectTimer = 5f;
@@ -48,7 +47,7 @@ public class Harvey : BaseEnemy
     /// <summary>
     /// The detection dist for viewing both player and finding dead zombies.
     /// </summary>
-    float detectDisctance = 100f;
+    float detectDisctance = 25f;
     //float attackRange = 15f;
 
     private void Awake()
@@ -56,6 +55,16 @@ public class Harvey : BaseEnemy
         // Singleton
         if (_instance != null && _instance != this) { Destroy(gameObject); return; }
         else { _instance = this; }
+
+
+        foreach (var a in GetComponents<SphereCollider>())
+        {
+            if (a.isTrigger)
+            {
+                a.radius = detectDisctance;
+                break;
+            }
+        }
     }
 
     private void Update()
@@ -89,7 +98,6 @@ public class Harvey : BaseEnemy
             _minionsInRange.Remove(soldier);
     }
 
-    // try res zombies.
     void RessurectMinions()
     {
         print("Resurrect!");

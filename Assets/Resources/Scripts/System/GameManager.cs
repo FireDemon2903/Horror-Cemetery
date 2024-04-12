@@ -73,11 +73,16 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        NewObjective("test1");
-        NewObjective("test2");
-        NewObjective("test3");
-        NewObjective("test4");
-        NewObjective("this is a long test to see what happens when the text is too long and it has to wrap it :)");
+        NewObjective("Find gun barrel");
+        NewObjective("Find gun cylinder");
+        NewObjective("Find gun handle");
+        NewObjective("Find bullet parts");
+        NewObjective("Find bullet parts");
+        NewObjective("Find bullet parts");
+        NewObjective("Find bullet parts");
+        NewObjective("Find bullet parts");
+        NewObjective("Find bullet parts");
+        NewObjective("Find bullet parts");
     }
 
     // Called whenever a scene is loaded

@@ -111,13 +111,12 @@ public class GermanSoldier : BaseEnemy
         Renderer r = gameObject.GetComponent<Renderer>();
         r.material.color = Color.red;
 
-        NavMeshAgent.isStopped = true;
+        NavMeshAgent.ResetPath();
     }
 
     public void Revive()
     {
         gameObject.GetComponent<Renderer>().material.color = Color.white;
-        NavMeshAgent.isStopped = false;
     }
 
 }
