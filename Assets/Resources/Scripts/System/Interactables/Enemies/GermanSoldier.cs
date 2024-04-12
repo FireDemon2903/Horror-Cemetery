@@ -23,7 +23,7 @@ public class GermanSoldier : BaseEnemy
     bool isDead = false;
 
     // if the player is in sight, move to player. if this is a minion, move to Harvey. else idle movement
-    MoveMode Move => playerInSight ? MoveToPlayer : isHarveyMinion ? MoveToHarvey : MoveToPlayer;//IdleMovement;
+    MoveMode Move => playerInSight ? MoveToPlayer : isHarveyMinion ? MoveToHarvey : IdleMovement;
     RefreshCooldown RefreshAttack => () => attackCooldown = false;
 
     NavMeshAgent NavMeshAgent { get; set; }
@@ -76,13 +76,11 @@ public class GermanSoldier : BaseEnemy
 
     void IdleMovement()
     {
-        //if (targetStation == null)
+        //if (Vector3.Distance(NavMeshAgent.pathEndPosition, transform.position) < 2f)
         //{
-        //    targetStation = newStation;
+        //    NavMeshAgent.SetDestination(Instance.GetRandomPos());
         //}
-        //else if (NavMeshAgent.destination != targetStation)
-        //{
-        //    NavMeshAgent.SetDestination(targetStation);
+        //else if (!NavMeshAgent.hasPath) { NavMeshAgent.SetDestination(Instance.GetRandomPos());
         //}
     }
 

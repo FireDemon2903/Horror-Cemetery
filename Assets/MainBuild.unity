@@ -209,7 +209,7 @@ Transform:
   m_GameObject: {fileID: 3864356}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -723.5364, y: 420.33664, z: -297.2606}
+  m_LocalPosition: {x: -723.5364, y: 420.33664, z: -296}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -857,6 +857,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GermanEnemy (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1136,6 +1140,10 @@ PrefabInstance:
     - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
       propertyPath: m_Name
       value: GermanEnemy (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2435,6 +2443,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GermanEnemy (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2737,6 +2749,10 @@ PrefabInstance:
     - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
       propertyPath: m_Name
       value: GermanEnemy (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3920,6 +3936,10 @@ PrefabInstance:
     - target: {fileID: 2271226767724381773, guid: 23279eb142332654e88704455b835277, type: 3}
       propertyPath: m_Name
       value: Harvey
+      objectReference: {fileID: 0}
+    - target: {fileID: 2271226767724381773, guid: 23279eb142332654e88704455b835277, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6281227326131617227, guid: 23279eb142332654e88704455b835277, type: 3}
       propertyPath: m_LocalPosition.x

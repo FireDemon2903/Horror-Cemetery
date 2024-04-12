@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour
     public delegate void MoveMode();
     public delegate void RefreshCooldown();
 
+    Vector3[] positions;
+
     // Names of Areas to be used in ´Load´ objects
     public enum Scenenames
     {
@@ -94,6 +96,8 @@ public class GameManager : MonoBehaviour
         // Find ZoneTransitions
         SetZones();
 
+        positions = GameObject.FindGameObjectsWithTag("Station").Select(x => x.transform.position).ToArray();
+
         // Move important object to new scene
         move(scene);
 
@@ -145,11 +149,5 @@ public class GameManager : MonoBehaviour
         ObjectivesObj.GetComponent<RectTransform>().sizeDelta = new Vector2(500, 100 + 50 * Objectives.Count);
     }
 
-    // TODO: get random enemy target pos for random movement
-    public Vector3 GetRandomPos()
-    {
-        Vector3[] positions = GameObject.FindGameObjectsWithTag("Station").Select(x => x.transform.position).ToArray();
-
-        return positions[Random.Range(0, positions.Length - 1)];
-    }
+    public Vector3 GetRandomPos() { return positions[Random.Range(0, positions.Length - 1)]; }
 }
