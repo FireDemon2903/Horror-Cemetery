@@ -1,27 +1,34 @@
 // Ignore Spelling: DMG
 
 using UnityEngine;
+using UnityEngine.AI;
+using static GameManager;
 
 public class GermanSoldier : MonoBehaviour, IDamage, IAlive
 {
     public float Health { get; set; } = 10f;
-    public float DMG { get; set; } = 10f;
+    public float DMG { get; set; } = 1f;
 
-    internal float detectDisctance = 50f;
+    float detectDisctance = 50f;
+    float attackRange = 15f;
+    bool attackCooldown = false;
 
-    internal bool playerInSight => gameObject.SightTest(PlayerController.Instance.gameObject, detectDisctance);
+    bool playerInSight => gameObject.SightTest(PlayerController.Instance.gameObject, detectDisctance);
+    bool playerInRange => Vector3.Distance(PlayerController.Instance.Position, gameObject.transform.position) < attackRange;
 
-    internal delegate void MoveMode();
+    MoveMode Move => MoveToPlayer;// playerInSight ? MoveToPlayer : RandomMovement;
+    RefreshCooldown RefreshAttack => () => attackCooldown = false;
 
-    MoveMode Move => playerInSight ? MoveToPlayer : RandomMovement;
+    NavMeshAgent NavMeshAgent { get; set; }
 
     Rigidbody mRigidbody;
 
-    float Speed = 2f;
+    //float Speed = 1f;
 
     private void Start()
     {
         mRigidbody = GetComponent<Rigidbody>();
+        NavMeshAgent = GetComponent<NavMeshAgent>();
     }
 
     private void FixedUpdate()
@@ -29,9 +36,19 @@ public class GermanSoldier : MonoBehaviour, IDamage, IAlive
         Move?.Invoke();
 
         mRigidbody.DebugVelocity(Color.cyan);
+        print(playerInRange);
+        if (playerInRange && !attackCooldown)
+        {
+            print("Enemy Attacked!");
+            // Attack
+            DealDMG(PlayerController.Instance);
+
+            // start refresh cool-down
+            StartCoroutine(RefreshAttack.DelayedExecution(delay: 1f));
+        }
     }
 
-    public virtual void TakeDMG(IDamage DMGSource)
+    public void TakeDMG(IDamage DMGSource)
     {
         if (DMGSource == null) return;
 
@@ -41,23 +58,15 @@ public class GermanSoldier : MonoBehaviour, IDamage, IAlive
         }
     }
 
-    // TODO: Add collision/close-range damage
-
-
-    public virtual void DealDMG(IAlive DMGTarget)
+    public void DealDMG(IAlive DMGTarget)
     {
+        attackCooldown = true;
+
         // Deal direct damage, as target is known
         DMGTarget.TakeDMG(from: this);
     }
 
-    void MoveToPlayer()
-    {
-        var dir = PlayerController.Instance.transform.position - transform.position;
-
-        mRigidbody.AddForce(dir.normalized * Speed, ForceMode.VelocityChange);
-    }
-
-
+    void MoveToPlayer() { NavMeshAgent.SetDestination(PlayerController.Instance.Position); }
 
     float minSpeed = 5;  // minimum range of speed to move
     float maxSpeed = 20;  // maximum range of speed to move
@@ -76,9 +85,12 @@ public class GermanSoldier : MonoBehaviour, IDamage, IAlive
         // TODO
         randomDirection = new Vector3(0, Mathf.Sin(timeVar) * (rotationRange / 2) + baseDirection, 0); //   Moving at random angles 
         timeVar += step;
-        speed = Random.Range(minSpeed, maxSpeed);              //      Change this range of numbers to change speed
+        speed = UnityEngine.Random.Range(minSpeed, maxSpeed);              //      Change this range of numbers to change speed
         mRigidbody.AddForce(transform.forward * speed);
         transform.Rotate(10.0f * Time.deltaTime * randomDirection);
+
+        //MoveToPlayer();
+
     }
 
 }

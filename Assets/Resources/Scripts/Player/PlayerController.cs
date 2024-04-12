@@ -22,6 +22,13 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
             return _instance;
         }
     }
+    public Vector3 Position
+    {
+        get
+        {
+            return Instance.transform.position;
+        }
+    }
 
     #region--------------- Player Attributes ---------------
     readonly float GrabDist = 10;                                                      // Grab/Interact/Attack distance
@@ -33,7 +40,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
 
     // Priorities crouching speed. If player is crouched, then speed will remain halved,
     // even thought they are technically running in the eyes of the code.
-    float SpeedMultiplyer => IsCrouched ? .25f : IsRunning ? 1.5f : 1f;        // Player speed multiplier. Dependant on state
+    float SpeedMultiplyer => IsCrouched ? .5f : IsRunning ? 1.5f : 1f;        // Player speed multiplier. Dependant on state
     float Speed => BasePlayerSpeed * SpeedMultiplyer;                          // Total player speed after state checks
 
     Vector2 newRotation;                                                    // Rotation input
@@ -51,7 +58,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     public float Health { get; set; } = 10f;
     public float DMG { get; set; } = 10f;
 
-    [Range(0, 1)] public int DMGMode = 0;             // 0: CQC, 1: Gun
+    [Range(0, 1)] int DMGMode = 1;             // 0: CQC, 1: Gun
 
     // --------------- Player States ---------------
     bool IsRunning = false;
@@ -60,7 +67,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
 #nullable enable
     public GameObject? LastObjectInSight;
 #nullable disable
-    LayerMask interactiblesLayer;
+    public LayerMask interactiblesLayer;
 
     // --------------- Components on this object ---------------
     Rigidbody mRigidbody;
@@ -111,6 +118,9 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
         // Assign light
         mLight = GetComponentInChildren<Light>();
         mLight.enabled = false;
+
+
+        mLineRenderer.enabled = true;
     }
 
     private void FixedUpdate()
@@ -122,8 +132,15 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
         mRigidbody.AddForce(NewVelocity + Physics.gravity, ForceMode.VelocityChange);
     }
 
+
+    [SerializeField] LineRenderer mLineRenderer;
     private void Update()
     {
+        // debug player aim
+        Physics.Raycast(transform.position, transform.forward, out var hit);
+        mLineRenderer.SetPosition(0, transform.position);
+        mLineRenderer.SetPosition(1, hit.point);
+
         // If the player looks at anything in the 'Intractable' layer within grab-distance
         if (Physics.Raycast(transform.position, transform.forward, out var hitInfo, GrabDist, interactiblesLayer)
             && !hitInfo.collider.gameObject.isStatic)
@@ -177,15 +194,21 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     /// </summary>
     public void ToggleLightType() { mLight.type = lightTypes[CurrLight + 1 < lightTypes.Count ? CurrLight + 1 : 0]; }
 
+
+    
     private void DoRangedDMG()
     {
-        if (Physics.Raycast(transform.position, transform.forward, out var hitInfo, Mathf.Infinity, interactiblesLayer)
+        Ray ray = new(transform.position, transform.forward);
+        if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, interactiblesLayer)
             && !hitInfo.collider.gameObject.isStatic)
         {
             // make smoke at impact point
             //hitInfo.point
             hitInfo.collider.gameObject.TryDealDamage(source: this);
+
         }
+
+        //Debug.DrawRay(ray.origin, transform.forward * 100, Color.blue, 1);
     }
 
     public void TakeDMG(IDamage DMGSource)

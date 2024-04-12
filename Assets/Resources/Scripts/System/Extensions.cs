@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 public static class Extensions
@@ -25,4 +27,9 @@ public static class Extensions
         if (target != null && target.TryGetComponent(out IAlive enemy)) enemy.TakeDMG(from: source);
     }
 
+    public static IEnumerator DelayedExecution(this Delegate action, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        action.DynamicInvoke();
+    }
 }

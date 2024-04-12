@@ -1,13 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using TMPro.EditorUtilities;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -30,13 +27,20 @@ public class GameManager : MonoBehaviour
 
     List<GameObject> Objectives = new();
 
+    public delegate void MoveMode();
+    public delegate void RefreshCooldown();
+
     // Names of Areas to be used in ´Load´ objects
     public enum Scenenames
     {
         TestingAreaLoading, // Main
         TestingPlayer,
-        TestingVision
+        TestingVision,
+        MainBuild
     }
+
+    public Vector3 PlayerSpawn => GameObject.FindWithTag("Respawn").transform.position;
+
     // List of SubAreas
     public List<Transform> ActiveZoneTransitions;
     // The position of the last zone transition player used
@@ -60,7 +64,7 @@ public class GameManager : MonoBehaviour
         // Spawn the player
         playerObject = Instantiate(Resources.Load<GameObject>(@"Prefabs/PlayerPlaceholder"));
 
-        EnteredFrom = new Vector3(0f, 5f, 0f);
+        EnteredFrom = PlayerSpawn;
 
         Menu = MenuManager.Instance.Menu;
         ObjectivesObj = Menu.transform.Find("ObjectiveMenu").gameObject;
@@ -69,19 +73,16 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        NewObjective("tghis is a long test to see what happens when the text is too long and it has to wrapo it :)");
         NewObjective("test1");
         NewObjective("test2");
         NewObjective("test3");
         NewObjective("test4");
+        NewObjective("this is a long test to see what happens when the text is too long and it has to wrap it :)");
     }
 
     // Called whenever a scene is loaded
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // If the player starts the game, dont
-        //if (scene.name == "MenuTest") return;
-
         // Unload the old scene
         if (OldScene.name != null) SceneManager.UnloadSceneAsync(OldScene);
 
@@ -104,13 +105,10 @@ public class GameManager : MonoBehaviour
         SceneManager.MoveGameObjectToScene(gameObject, scene);
         SceneManager.MoveGameObjectToScene(playerObject, scene);
 
-        if (SceneManager.GetActiveScene().name != "TestingAreaLoading")
+        if (SceneManager.GetActiveScene().name != "MainBuild")
         {
-            // find entrancepoint
-            Transform en = GameObject.FindWithTag("Respawn").transform;
-
-            // move playter to entrancepoint
-            playerObject.transform.position = en.position;
+            // move player to spawn
+            playerObject.transform.position = PlayerSpawn;
         }
         else
         {
@@ -142,4 +140,5 @@ public class GameManager : MonoBehaviour
         ObjectivesObj.GetComponent<RectTransform>().sizeDelta = new Vector2(500, 100 + 50 * Objectives.Count);
     }
 
+    // TODO: get random enemy target pos for random movement
 }
