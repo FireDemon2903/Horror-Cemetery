@@ -207,6 +207,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
 
         Health -= dmg ?? DMGSource.DMG;
 
+        // TODO: implement death
         if (Health <= 0) Destroy(gameObject);
     }
 
