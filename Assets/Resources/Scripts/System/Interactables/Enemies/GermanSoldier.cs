@@ -91,6 +91,14 @@ public class GermanSoldier : BaseEnemy
         //}
     }
 
+    public override void TakeDMG(IDamage DMGSource, float? dmg = null)
+    {
+        if (DMGSource == null) return;
+
+        // if dmg has a value, then use that instead of the normal damage
+        Health -= dmg ?? DMGSource.DMG;
+    }
+
     public override void DealDMG(IAlive DMGTarget, float? dmg = null)
     {
         base.DealDMG(DMGTarget);
