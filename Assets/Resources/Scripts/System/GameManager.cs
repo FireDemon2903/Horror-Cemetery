@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -5,6 +7,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -25,17 +28,19 @@ public class GameManager : MonoBehaviour
 
     public GameObject EventSystemObject;
 
-    List<GameObject> Objectives = new();
-
     public delegate void MoveMode();
     public delegate void RefreshCooldown();
+
+    public delegate bool ObjectiveCondition();
+    public event Action OnObjectiveCompleted;
+    readonly List<GameObject> Objectives = new();
 
     Vector3[] positions;
 
     // Names of Areas to be used in ´Load´ objects
     public enum Scenenames
     {
-        TestingAreaLoading, // Main
+        TestingAreaLoading,
         TestingPlayer,
         TestingVision,
         MainBuild
@@ -49,7 +54,6 @@ public class GameManager : MonoBehaviour
     public Vector3 EnteredFrom;
     //public Quaternion RotationFrom;
 
-    public GameObject playerObject;
     public enum Parts { GunBarrel, GunHandle, GunCyllinder, Gunpowder, Casing }
 
     Scene OldScene;
@@ -60,11 +64,14 @@ public class GameManager : MonoBehaviour
         if (_instance != null && _instance != this)         { Destroy(gameObject);  return; }
         else                                                { _instance = this; }
 
+        DontDestroyOnLoad(gameObject);
+
         // Add the method to the delegate
         SceneManager.sceneLoaded += OnSceneLoaded;
 
         // Spawn the player
-        playerObject = Instantiate(Resources.Load<GameObject>(@"Prefabs/PlayerPlaceholder"));
+        Instantiate(Resources.Load<GameObject>(@"Prefabs/PlayerPlaceholder"));
+        DontDestroyOnLoad(PlayerController.Instance.gameObject);
 
         EnteredFrom = PlayerSpawn;
 
@@ -73,18 +80,18 @@ public class GameManager : MonoBehaviour
         ObjectivePrefab = Resources.Load<GameObject>(@"Prefabs/FolderObjectives/Objective");
     }
 
+    private void Update()
+    {
+        // check through the conditions
+        OnObjectiveCompleted?.Invoke();
+    }
+
     private void Start()
     {
-        NewObjective("Find gun barrel");
-        NewObjective("Find gun cylinder");
-        NewObjective("Find gun handle");
-        NewObjective("Find bullet parts");
-        NewObjective("Find bullet parts");
-        NewObjective("Find bullet parts");
-        NewObjective("Find bullet parts");
-        NewObjective("Find bullet parts");
-        NewObjective("Find bullet parts");
-        NewObjective("Find bullet parts");
+        NewObjective("Find gun barrel", () => { return PlayerController.Instance.OwnedParts.Contains(Parts.GunBarrel); });
+        NewObjective("Find gun cylinder", () => { return PlayerController.Instance.OwnedParts.Contains(Parts.GunCyllinder); });
+        NewObjective("Find gun handle", () => { return PlayerController.Instance.OwnedParts.Contains(Parts.GunHandle); });
+        NewObjective("Find bullet parts", () => { return CanCraftItem(PlayerController.Instance.OwnedParts, Parts.Gunpowder, Parts.Casing); });
     }
 
     // Called whenever a scene is loaded
@@ -99,7 +106,7 @@ public class GameManager : MonoBehaviour
         positions = GameObject.FindGameObjectsWithTag("Station").Select(x => x.transform.position).ToArray();
 
         // Move important object to new scene
-        move(scene);
+        StartCoroutine(MoveToNewScene(scene));
 
         OldScene = scene;
     }
@@ -109,41 +116,78 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(sceneName, mode);
     }
 
-    public void move(Scene scene)
+    public IEnumerator MoveToNewScene(Scene scene)
     {
-        SceneManager.MoveGameObjectToScene(gameObject, scene);
-        SceneManager.MoveGameObjectToScene(playerObject, scene);
+        yield return new WaitForEndOfFrame();
 
         if (SceneManager.GetActiveScene().name != "MainBuild")
         {
+            print(scene.name);
             // move player to spawn
-            playerObject.transform.position = PlayerSpawn;
+            PlayerController.Instance.gameObject.transform.position = GameObject.FindWithTag("Respawn").transform.position;
+            print(GameObject.FindWithTag("Respawn").transform.position);
         }
         else
         {
             // Move player to the place they entered from in main
-            playerObject.transform.position = EnteredFrom;
-            //playerObject.transform.SetPositionAndRotation(EnteredFrom, RotationFrom);
+            PlayerController.Instance.gameObject.transform.position = EnteredFrom;
         }
+
+        yield return null;
     }
 
     public static bool CanCraftItem<Parts>(List<Parts> ownedParts, params Parts[] requiredParts) { return requiredParts.All(part => ownedParts.Contains(part)); }
 
     void SetZones() { ActiveZoneTransitions.Clear(); ActiveZoneTransitions = GameObject.FindGameObjectsWithTag("ZoneTransition").Select(obj => obj.transform).ToList(); }
 
-    public void NewObjective(string objectiveText)
+    public void NewObjective(string objectiveText, ObjectiveCondition condition)
     {
+        //TODO tell user that there is new objective
+        
+
         // Create new objective
         GameObject newObjective = Instantiate(ObjectivePrefab, ObjectivesObj.transform);
 
         // Add to list
         Objectives.Add(newObjective);
 
-        // Set position
-        newObjective.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, -75 - 50 * (Objectives.Count));
-
         // Set text
         newObjective.GetComponent<TextMeshProUGUI>().text = objectiveText;
+
+        // Set position
+        newObjective.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, -75 - 50 * Objectives.Count);
+
+        // Update container size
+        ObjectivesObj.GetComponent<RectTransform>().sizeDelta = new Vector2(500, 100 + 50 * Objectives.Count);
+
+        newObjective.name = objectiveText;
+
+        void action()
+        {
+            // if the condition is true, remove from list and update objectives
+            if (condition())
+            {
+                print("Completed: " + objectiveText);                   // Debug
+                Objectives.Remove(newObjective);                        // Remove from list
+                UpdateObjectives();                                     // Update for player
+                OnObjectiveCompleted -= action;                         // Unsubscribe
+                Destroy(newObjective);                                  // Destroy object
+            }
+        }
+
+        // subscribe to the event
+        OnObjectiveCompleted += action;
+
+        UpdateObjectives();
+    }
+
+    private void UpdateObjectives()
+    {
+        // Update objective positions
+        for (int i = 0; i < Objectives.Count; ++i)
+        {
+            Objectives[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, -120 - 50 * i);
+        }
 
         // Update container size
         ObjectivesObj.GetComponent<RectTransform>().sizeDelta = new Vector2(500, 100 + 50 * Objectives.Count);

@@ -8,6 +8,7 @@ TagManager:
   - ZoneTransition
   - PauseMenu
   - Station
+  - Objective
   layers:
   - Default
   - TransparentFX

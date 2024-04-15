@@ -1,5 +1,6 @@
 // Ignore Spelling: DMG
 
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -7,31 +8,34 @@ using static GameManager;
 
 public class GermanSoldier : BaseEnemy
 {
-    private float health;
+    private float health = 10f;
     public override float Health { get => health; set => health = value; }
 
-    private float dmg;
+    private float dmg = 1f;
     public override float DMG { get => dmg; set => dmg = value; }
 
-    float detectDisctance = 50f;
-    float attackRange = 15f;
+    // Canonically starts at one, because zombie :D
+    private int timesRevived = 1;
+
+    readonly float detectDisctance = 50f;
+    readonly float attackRange = 15f;
     bool attackCooldown = false;
 
-    bool playerInSight => gameObject.SightTest(PlayerController.Instance.gameObject, detectDisctance);
-    bool playerInRange => Vector3.Distance(PlayerController.Instance.Position, gameObject.transform.position) < attackRange;
+    bool PlayerInSight => gameObject.SightTest(PlayerController.Instance.gameObject, detectDisctance);
+    bool PlayerInRange => Vector3.Distance(PlayerController.Instance.Position, gameObject.transform.position) < attackRange;
     public bool isHarveyMinion = false;
-    bool isDead = false;
+    bool IsDead => Health <= 0;
 
     // if the player is in sight, move to player. if this is a minion, move to Harvey. else idle movement
-    MoveMode Move => playerInSight ? MoveToPlayer : isHarveyMinion ? MoveToHarvey : IdleMovement;
+    MoveMode Move => PlayerInSight ? MoveToPlayer : isHarveyMinion ? MoveToHarvey : IdleMovement;
     RefreshCooldown RefreshAttack => () => attackCooldown = false;
 
     NavMeshAgent NavMeshAgent { get; set; }
 
     Rigidbody mRigidbody;
 
-    Vector3 newStation => Instance.GetRandomPos();
-    Vector3 targetStation;
+    //Vector3 newStation => Instance.GetRandomPos();
+    //Vector3 targetStation;
 
     private void Start()
     {
@@ -45,19 +49,21 @@ public class GermanSoldier : BaseEnemy
         
         mRigidbody.DebugVelocity(Color.cyan);
         
-        if (playerInRange && !attackCooldown)
+        if (PlayerInRange && !attackCooldown)
         {
             print("Enemy Attacked!");
             // Attack
             DealDMG(PlayerController.Instance);
+            attackCooldown = true;
 
             // start refresh cool-down
             StartCoroutine(RefreshAttack.DelayedExecution(delay: 1f));
         }
 
-        if (isDead)
+        // inefficient, fix later
+        if (IsDead)
         {
-            enabled = false;
+            Die();
         }
     }
 
@@ -66,7 +72,7 @@ public class GermanSoldier : BaseEnemy
     {
         try
         {
-            NavMeshAgent.SetDestination(Harvey.Instance.transform.position);
+            NavMeshAgent.SetDestination(Hansi.Instance.transform.position);
         }
         catch (MissingReferenceException)
         {
@@ -74,6 +80,7 @@ public class GermanSoldier : BaseEnemy
         }
     }
 
+    //TODO make soldier idle movement
     void IdleMovement()
     {
         //if (Vector3.Distance(NavMeshAgent.pathEndPosition, transform.position) < 2f)
@@ -84,23 +91,11 @@ public class GermanSoldier : BaseEnemy
         //}
     }
 
-    public override void TakeDMG(IDamage DMGSource)
+    public override void DealDMG(IAlive DMGTarget, float? dmg = null)
     {
-        if (DMGSource == null) return;
+        base.DealDMG(DMGTarget);
 
-        if (Health - DMGSource.DMG <= 0)
-        {
-            //Destroy(gameObject);
-            Die();
-        }
-    }
-
-    public override void DealDMG(IAlive DMGTarget)
-    {
         attackCooldown = true;
-
-        // Deal direct damage, as target is known
-        DMGTarget.TakeDMG(from: this);
     }
 
     void Die()
@@ -114,7 +109,17 @@ public class GermanSoldier : BaseEnemy
 
     public void Revive()
     {
-        gameObject.GetComponent<Renderer>().material.color = Color.white;
-    }
+        if (IsDead)
+        {
+            timesRevived += 1;
+            health = 10f;       // Reset base health
 
+            // increase attributes
+            health *= timesRevived;
+            dmg *= Math.Max(0, timesRevived / 3);
+
+            // change colour
+            gameObject.GetComponent<Renderer>().material.color = Color.white;
+        }
+    }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class Extensions
 {
-    public static bool SightTest(this GameObject me, GameObject other, float viewDist, int layer=0)
+    public static bool SightTest(this GameObject me, GameObject other, float viewDist)
     {
         Debug.DrawRay(me.transform.position, (other.transform.position - me.transform.position).normalized * viewDist);
 

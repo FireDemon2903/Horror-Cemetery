@@ -35,7 +35,7 @@ public interface IDamage
     /// Method called to damage another target
     /// </summary>
     /// <param name="DMGTarget"></param>
-    void DealDMG(IAlive DMGTarget);
+    void DealDMG(IAlive DMGTarget, float? dmg=null);
 }
 
 /// <summary>
@@ -52,5 +52,5 @@ public interface IAlive
     /// Method called to damage another instance of alive
     /// </summary>
     /// <param name="from">Other instance that attacked this (the source of the damage)</param>
-    void TakeDMG(IDamage from);
+    void TakeDMG(IDamage from, float? dmg=null);
 }
