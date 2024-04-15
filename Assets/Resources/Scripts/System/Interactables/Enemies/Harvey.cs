@@ -26,8 +26,10 @@ public class Harvey : BaseEnemy
     private float health = 10f;
     public override float Health { get => health; set => health = value; }
 
-    private float dmg = 1f;
+    private float dmg = 1000f;
     public override float DMG { get => dmg; set => dmg = value; }
+
+    private float DOTDamage = 10f;
 
     MoveMode Move => Move1;
 
@@ -50,7 +52,7 @@ public class Harvey : BaseEnemy
         }
     }
 
-    public override void TakeDMG(IDamage DMGSource)
+    public override void TakeDMG(IDamage DMGSource, float? dmg=null)
     {
         base.TakeDMG(DMGSource);
 
@@ -75,12 +77,20 @@ public class Harvey : BaseEnemy
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject == PlayerController.Instance.gameObject)
+        {
+            DealDMG(PlayerController.Instance);
+        }
+    }
+
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject == PlayerController.Instance.gameObject)
         {
-            //DealDMG(DMGTarget: PlayerController.Instance, 1f * Time.fixedDeltaTime);
-            print("player took damage: " + 10f * Time.fixedDeltaTime);
+            DealDMG(DMGTarget: PlayerController.Instance, DOTDamage * Time.fixedDeltaTime);
+            //print("player took damage: " + DOTDamage * Time.fixedDeltaTime);
         }
     }
 

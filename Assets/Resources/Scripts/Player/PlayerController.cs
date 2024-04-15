@@ -201,18 +201,16 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
         }
     }
 
-    public void TakeDMG(IDamage DMGSource)
+    public void TakeDMG(IDamage DMGSource, float? dmg = null)
     {
         if (DMGSource.IsUnityNull()) return;
 
-        if (Health - DMGSource.DMG <= 0)
-        {
-            Destroy(gameObject);
-        }
-        Health -= DMGSource.DMG;
+        Health -= dmg ?? DMGSource.DMG;
+
+        if (Health <= 0) Destroy(gameObject);
     }
 
-    public void DealDMG(IAlive target)
+    public void DealDMG(IAlive target, float? dmg = null)
     {
         // If the player has a gun, do ranged damage
         if (DMGMode == 1) { DoRangedDMG(); return; }

@@ -1,5 +1,6 @@
 // Ignore Spelling: DMG
 
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -89,15 +90,7 @@ public class GermanSoldier : BaseEnemy
         //}
     }
 
-    public override void TakeDMG(IDamage DMGSource)
-    {
-        if (DMGSource == null) return;
-
-        Health -= DMGSource.DMG;
-    }
-    
-
-    public override void DealDMG(IAlive DMGTarget)
+    public override void DealDMG(IAlive DMGTarget, float? dmg = null)
     {
         base.DealDMG(DMGTarget);
 
@@ -122,8 +115,9 @@ public class GermanSoldier : BaseEnemy
 
             // increase attributes
             health *= timesRevived;
-            dmg *= timesRevived;
+            dmg *= Math.Max(0, timesRevived / 3);
 
+            // change colour
             gameObject.GetComponent<Renderer>().material.color = Color.white;
         }
     }

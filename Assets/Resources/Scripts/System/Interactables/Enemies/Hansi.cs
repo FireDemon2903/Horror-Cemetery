@@ -33,21 +33,10 @@ public class Hansi : BaseEnemy
     //private float dmg = 1;
     public override float DMG { get; set; } = 1f;
 
-    //public override void TakeDMG(IDamage source)
-    //{
-    //    base.TakeDMG(source);
-
-    //    print("override");
-    //    //Destroy(gameObject);
-    //}
-
     /// <summary>
     /// List of minions. dead and alive
     /// </summary>
     private HashSet<GermanSoldier> _minionsInRange = new();
-
-    //bool attackCooldown = false;
-    //RefreshCooldown RefreshAttack => () => attackCooldown = false;
 
     bool ressurectCooldown = false;
     float ressurectTimer = 5f;
@@ -57,7 +46,6 @@ public class Hansi : BaseEnemy
     /// The detection dist for viewing both player and finding dead zombies.
     /// </summary>
     float detectDisctance = 25f;
-    //float attackRange = 15f;
 
     private void Awake()
     {
@@ -83,10 +71,6 @@ public class Hansi : BaseEnemy
             RessurectMinions();
             StartCoroutine(RefreshRessurect.DelayedExecution(delay: ressurectTimer));
         }
-        //if (!attackCooldown)
-        //{
-        //    StartCoroutine(RefreshAttack.DelayedExecution(delay: 5f));
-        //}
     }
 
     // if a soldier enters the trigger collider, make it a minion
@@ -109,10 +93,7 @@ public class Hansi : BaseEnemy
 
     void RessurectMinions()
     {
-        print("Resurrect!");
-
-        ressurectCooldown = true;
-
         foreach (var g in _minionsInRange) { g.enabled = true; g.Revive(); }
+        ressurectCooldown = true;
     }
 }
