@@ -2,11 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
@@ -35,15 +33,14 @@ public class GameManager : MonoBehaviour
 
     public delegate bool ObjectiveCondition();
     public event Action OnObjectiveCompleted;
-    List<GameObject> Objectives = new();
-
+    readonly List<GameObject> Objectives = new();
 
     Vector3[] positions;
 
     // Names of Areas to be used in ´Load´ objects
     public enum Scenenames
     {
-        TestingAreaLoading, // Main
+        TestingAreaLoading,
         TestingPlayer,
         TestingVision,
         MainBuild
@@ -81,8 +78,6 @@ public class GameManager : MonoBehaviour
         Menu = MenuManager.Instance.Menu;
         ObjectivesObj = Menu.transform.Find("ObjectiveMenu").gameObject;
         ObjectivePrefab = Resources.Load<GameObject>(@"Prefabs/FolderObjectives/Objective");
-
-        //OnObjectiveCompleted += test;
     }
 
     private void Update()
@@ -111,7 +106,7 @@ public class GameManager : MonoBehaviour
         positions = GameObject.FindGameObjectsWithTag("Station").Select(x => x.transform.position).ToArray();
 
         // Move important object to new scene
-        StartCoroutine(move(scene));
+        StartCoroutine(MoveToNewScene(scene));
 
         OldScene = scene;
     }
@@ -121,7 +116,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(sceneName, mode);
     }
 
-    public IEnumerator move(Scene scene)
+    public IEnumerator MoveToNewScene(Scene scene)
     {
         yield return new WaitForEndOfFrame();
 
@@ -167,48 +162,24 @@ public class GameManager : MonoBehaviour
 
         newObjective.name = objectiveText;
 
-        // Make a null action
-        Action action = null;
-
-        // Store the delegate instance in a variable when subscribing
-        action = () =>
+        void action()
         {
             // if the condition is true, remove from list and update objectives
             if (condition())
             {
-                print("Completed: " + objectiveText);
-                Objectives.Remove(newObjective);
-                UpdateObjectives();
-                OnObjectiveCompleted -= action; // Now you can unsubscribe using the variable
-                Destroy(newObjective);
+                print("Completed: " + objectiveText);                   // Debug
+                Objectives.Remove(newObjective);                        // Remove from list
+                UpdateObjectives();                                     // Update for player
+                OnObjectiveCompleted -= action;                         // Unsubscribe
+                Destroy(newObjective);                                  // Destroy object
             }
-        };
+        }
 
-        // Subscribe to the event
+        // subscribe to the event
         OnObjectiveCompleted += action;
 
         UpdateObjectives();
     }
-
-    // Named method to check objective completion
-    //private void CheckObjectiveCompletion()
-    //{
-    //    foreach (var objective in Objectives)
-    //    {
-    //        // Assuming you have a way to get the condition for each objective
-    //        if (objective  /* condition for this objective */)
-    //        {
-    //            // Objective is completed, handle accordingly
-    //            Objectives.Remove(objective);
-
-    //            // Unsubscribe from the event
-    //            OnObjectiveCompleted -= CheckObjectiveCompletion;
-
-    //            // Destroy the objective object
-    //            Destroy(objective);
-    //        }
-    //    }
-    //}
 
     private void UpdateObjectives()
     {

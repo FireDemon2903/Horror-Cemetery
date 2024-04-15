@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     readonly float GrabDist = 25f;                                                      // Grab/Interact/Attack distance
 
     // --------------- Player Movement ---------------
-    float BasePlayerSpeed = 15f;                                                       // Base player speed
+    readonly float BasePlayerSpeed = 15f;                                                       // Base player speed
     //float jumpForce = 100;                                                           // The force with which the player jumps
     public float RotationSens = 50f;                                                   // Mouse sensitivity
 
@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     // --------------- Player Alive ---------------    
     // From IAlive. Cannot be delegates, so no easy multipliers -_-
     public float DMGMult = 1;
-    private float _baseDMG = 10;
+    private readonly float _baseDMG = 10;
     public float Health { get; set; } = 10f;
     public float DMG { get { return _baseDMG * DMGMult; } set { } }
 
@@ -84,8 +84,8 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     // Move to dedicated crafting script later:
     public List<GameManager.Parts> OwnedParts = new();
 
-    bool canCraftGun => GameManager.CanCraftItem(OwnedParts, GameManager.Parts.GunBarrel, GameManager.Parts.GunHandle, GameManager.Parts.GunCyllinder);
-    bool canCraftBullet => GameManager.CanCraftItem(OwnedParts, GameManager.Parts.Casing, GameManager.Parts.Gunpowder);
+    bool CanCraftGun => GameManager.CanCraftItem(OwnedParts, GameManager.Parts.GunBarrel, GameManager.Parts.GunHandle, GameManager.Parts.GunCyllinder);
+    bool CanCraftBullet => GameManager.CanCraftItem(OwnedParts, GameManager.Parts.Casing, GameManager.Parts.Gunpowder);
     #endregion--------------- Player Attributes ---------------
 
     #region --------------- Methods ---------------
@@ -222,6 +222,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
 
     // TODO: Jump(?), crouch renderer/model
     #region --------------- Inputs ---------------
+#pragma warning disable IDE0051, IDE0060
     /// <summary>
     /// Buttons are WASD.
     /// </summary>
@@ -323,7 +324,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     /// Button: Spacebar
     /// </summary>
     /// <param name="value">Button (check-init)</param>
-    void OnJump(InputValue value) { /*IsJumping = !IsJumping;*/ print($"Bullet: {canCraftBullet}, Gun: {canCraftGun}"); }
+    void OnJump(InputValue value) { /*IsJumping = !IsJumping;*/ print($"Bullet: {CanCraftBullet}, Gun: {CanCraftGun}"); }
     
     /// <summary>
     /// Button: F
@@ -331,6 +332,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     /// </summary>
     /// <param name="value">Button</param>
     void OnLightToggle(InputValue value) { mLight.enabled = !mLight.enabled; }
+#pragma warning restore IDE0051, IDE0060
     #endregion --------------- Inputs ---------------
     #endregion --------------- Methods ---------------
 

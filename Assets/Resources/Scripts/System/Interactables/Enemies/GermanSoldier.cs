@@ -17,25 +17,25 @@ public class GermanSoldier : BaseEnemy
     // Canonically starts at one, because zombie :D
     private int timesRevived = 1;
 
-    float detectDisctance = 50f;
-    float attackRange = 15f;
+    readonly float detectDisctance = 50f;
+    readonly float attackRange = 15f;
     bool attackCooldown = false;
 
-    bool playerInSight => gameObject.SightTest(PlayerController.Instance.gameObject, detectDisctance);
-    bool playerInRange => Vector3.Distance(PlayerController.Instance.Position, gameObject.transform.position) < attackRange;
+    bool PlayerInSight => gameObject.SightTest(PlayerController.Instance.gameObject, detectDisctance);
+    bool PlayerInRange => Vector3.Distance(PlayerController.Instance.Position, gameObject.transform.position) < attackRange;
     public bool isHarveyMinion = false;
-    bool isDead => Health <= 0;
+    bool IsDead => Health <= 0;
 
     // if the player is in sight, move to player. if this is a minion, move to Harvey. else idle movement
-    MoveMode Move => playerInSight ? MoveToPlayer : isHarveyMinion ? MoveToHarvey : IdleMovement;
+    MoveMode Move => PlayerInSight ? MoveToPlayer : isHarveyMinion ? MoveToHarvey : IdleMovement;
     RefreshCooldown RefreshAttack => () => attackCooldown = false;
 
     NavMeshAgent NavMeshAgent { get; set; }
 
     Rigidbody mRigidbody;
 
-    Vector3 newStation => Instance.GetRandomPos();
-    Vector3 targetStation;
+    //Vector3 newStation => Instance.GetRandomPos();
+    //Vector3 targetStation;
 
     private void Start()
     {
@@ -49,7 +49,7 @@ public class GermanSoldier : BaseEnemy
         
         mRigidbody.DebugVelocity(Color.cyan);
         
-        if (playerInRange && !attackCooldown)
+        if (PlayerInRange && !attackCooldown)
         {
             print("Enemy Attacked!");
             // Attack
@@ -61,7 +61,7 @@ public class GermanSoldier : BaseEnemy
         }
 
         // inefficient, fix later
-        if (isDead)
+        if (IsDead)
         {
             Die();
         }
@@ -80,6 +80,7 @@ public class GermanSoldier : BaseEnemy
         }
     }
 
+    //TODO make soldier idle movement
     void IdleMovement()
     {
         //if (Vector3.Distance(NavMeshAgent.pathEndPosition, transform.position) < 2f)
@@ -108,7 +109,7 @@ public class GermanSoldier : BaseEnemy
 
     public void Revive()
     {
-        if (isDead)
+        if (IsDead)
         {
             timesRevived += 1;
             health = 10f;       // Reset base health

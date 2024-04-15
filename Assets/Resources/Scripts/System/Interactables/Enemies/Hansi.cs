@@ -36,16 +36,16 @@ public class Hansi : BaseEnemy
     /// <summary>
     /// List of minions. dead and alive
     /// </summary>
-    private HashSet<GermanSoldier> _minionsInRange = new();
+    private readonly HashSet<GermanSoldier> _minionsInRange = new();
 
     bool ressurectCooldown = false;
-    float ressurectTimer = 5f;
+    readonly float ressurectTimer = 5f;
     RefreshCooldown RefreshRessurect => () => ressurectCooldown = false;
 
     /// <summary>
     /// The detection dist for viewing both player and finding dead zombies.
     /// </summary>
-    float detectDisctance = 25f;
+    readonly float detectDisctance = 25f;
 
     private void Awake()
     {

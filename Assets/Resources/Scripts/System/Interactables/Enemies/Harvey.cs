@@ -29,11 +29,11 @@ public class Harvey : BaseEnemy
     private float dmg = 1000f;
     public override float DMG { get => dmg; set => dmg = value; }
 
-    private float DOTDamage = 10f;
+    private readonly float DOTDamage = 10f;
 
     MoveMode Move => Move1;
 
-    float detectDisctance = 25f;
+    readonly float detectDisctance = 25f;
 
     private void Awake()
     {
