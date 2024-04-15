@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
         NewObjective("Find gun barrel", () => { return PlayerController.Instance.OwnedParts.Contains(Parts.GunBarrel); });
         NewObjective("Find gun cylinder", () => { return PlayerController.Instance.OwnedParts.Contains(Parts.GunCyllinder); });
         NewObjective("Find gun handle", () => { return PlayerController.Instance.OwnedParts.Contains(Parts.GunHandle); });
-        //NewObjective("Find bullet parts");
+        NewObjective("Find bullet parts", () => { return CanCraftItem(PlayerController.Instance.OwnedParts, Parts.Gunpowder, Parts.Casing); });
     }
 
     // Called whenever a scene is loaded
@@ -212,13 +212,14 @@ public class GameManager : MonoBehaviour
 
     private void UpdateObjectives()
     {
-        // Update container size
-        ObjectivesObj.GetComponent<RectTransform>().sizeDelta = new Vector2(500, 100 + 50 * Objectives.Count);
-
+        // Update objective positions
         for (int i = 0; i < Objectives.Count; ++i)
         {
             Objectives[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, -120 - 50 * i);
         }
+
+        // Update container size
+        ObjectivesObj.GetComponent<RectTransform>().sizeDelta = new Vector2(500, 100 + 50 * Objectives.Count);
     }
 
     public Vector3 GetRandomPos() { return positions[Random.Range(0, positions.Length - 1)]; }
