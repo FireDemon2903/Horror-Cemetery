@@ -50,6 +50,17 @@ public class Harvey : BaseEnemy
         }
     }
 
+    public override void TakeDMG(IDamage DMGSource)
+    {
+        base.TakeDMG(DMGSource);
+
+        if (Health <= 0)
+        {
+            //Reset player DMG when this dies
+            PlayerController.Instance.DMGMult = 1f;
+        }
+    }
+
     private void Update()
     {
         Move.Invoke();

@@ -7,6 +7,7 @@ public abstract class BaseEnemy : MonoBehaviour, IDamage, IAlive
 
     public virtual void TakeDMG(IDamage DMGSource)
     {
+        print(DMGSource.DMG);
         if (DMGSource == null) return;
 
         if (Health <= DMGSource.DMG)

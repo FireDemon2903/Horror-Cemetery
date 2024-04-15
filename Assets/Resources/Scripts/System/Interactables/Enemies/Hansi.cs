@@ -33,13 +33,13 @@ public class Hansi : BaseEnemy
     //private float dmg = 1;
     public override float DMG { get; set; } = 1f;
 
-    public override void TakeDMG(IDamage source)
-    {
-        base.TakeDMG(source);
+    //public override void TakeDMG(IDamage source)
+    //{
+    //    base.TakeDMG(source);
 
-        print("override");
-        //Destroy(gameObject);
-    }
+    //    print("override");
+    //    //Destroy(gameObject);
+    //}
 
     /// <summary>
     /// List of minions. dead and alive

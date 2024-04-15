@@ -7,11 +7,14 @@ using static GameManager;
 
 public class GermanSoldier : BaseEnemy
 {
-    private float health;
+    private float health = 10f;
     public override float Health { get => health; set => health = value; }
 
-    private float dmg;
+    private float dmg = 1f;
     public override float DMG { get => dmg; set => dmg = value; }
+
+    // Canonically starts at one, because zombie :D
+    private int timesRevived = 1;
 
     float detectDisctance = 50f;
     float attackRange = 15f;
@@ -20,7 +23,7 @@ public class GermanSoldier : BaseEnemy
     bool playerInSight => gameObject.SightTest(PlayerController.Instance.gameObject, detectDisctance);
     bool playerInRange => Vector3.Distance(PlayerController.Instance.Position, gameObject.transform.position) < attackRange;
     public bool isHarveyMinion = false;
-    bool isDead = false;
+    bool isDead => Health <= 0;
 
     // if the player is in sight, move to player. if this is a minion, move to Harvey. else idle movement
     MoveMode Move => playerInSight ? MoveToPlayer : isHarveyMinion ? MoveToHarvey : IdleMovement;
@@ -56,9 +59,10 @@ public class GermanSoldier : BaseEnemy
             StartCoroutine(RefreshAttack.DelayedExecution(delay: 1f));
         }
 
+        // inefficient, fix later
         if (isDead)
         {
-            enabled = false;
+            Die();
         }
     }
 
@@ -89,14 +93,9 @@ public class GermanSoldier : BaseEnemy
     {
         if (DMGSource == null) return;
 
-        if (Health - DMGSource.DMG <= 0)
-        {
-            //Destroy(gameObject);
-            Die();
-        }
         Health -= DMGSource.DMG;
     }
-
+    
 
     public override void DealDMG(IAlive DMGTarget)
     {
@@ -116,8 +115,16 @@ public class GermanSoldier : BaseEnemy
 
     public void Revive()
     {
-        Health = 10f;
-        gameObject.GetComponent<Renderer>().material.color = Color.white;
-    }
+        if (isDead)
+        {
+            timesRevived += 1;
+            health = 10f;       // Reset base health
 
+            // increase attributes
+            health *= timesRevived;
+            dmg *= timesRevived;
+
+            gameObject.GetComponent<Renderer>().material.color = Color.white;
+        }
+    }
 }
