@@ -1,13 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.VisualScripting;
-using static GameManager;
 using UnityEngine;
-
+using static GameManager;
 
 /// <summary>
 /// Dead squad-mate, killed by shadow monster
-/// when in certain range, lower player's attack-speed, and does very minor damage to player.
+/// when in certain range, halves player's attack-speed, and does very minor damage to player.
 /// When too far away, quickly dash/teleport to position x-distance from player.
 /// </summary>
 [RequireComponent(typeof(SphereCollider))]
@@ -109,6 +106,7 @@ public class Harvey : BaseEnemy
         }
     }
 
+    // todo move harvey
     void Move1()
     {
 
