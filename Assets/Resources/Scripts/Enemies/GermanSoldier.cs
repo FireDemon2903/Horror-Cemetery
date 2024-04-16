@@ -34,6 +34,9 @@ public class GermanSoldier : BaseEnemy
 
     Rigidbody mRigidbody;
 
+    public delegate void Attacked(float damage);
+    public event Attacked WasAttacked;
+
     //Vector3 newStation => Instance.GetRandomPos();
     //Vector3 targetStation;
 
@@ -100,6 +103,8 @@ public class GermanSoldier : BaseEnemy
 
         // if dmg has a value, then use that instead of the normal damage
         Health -= dmg ?? DMGSource.DMG;
+
+        WasAttacked?.Invoke(dmg ?? DMGSource.DMG);
     }
 
     public override void DealDMG(IAlive DMGTarget, float? dmg = null)
