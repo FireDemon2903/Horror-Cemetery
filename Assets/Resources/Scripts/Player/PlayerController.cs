@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     {
         get
         {
-            return Instance.transform.position;
+            return Instance.gameObject.transform.position;
         }
     }
 

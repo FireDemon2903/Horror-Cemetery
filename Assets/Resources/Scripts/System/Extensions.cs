@@ -32,4 +32,11 @@ public static class Extensions
         yield return new WaitForSeconds(delay);
         action.DynamicInvoke();
     }
+
+    public static void KillVelocityAndAngular(this Rigidbody body)
+    {
+        body.velocity = Vector3.zero;
+        body.angularVelocity = Vector3.zero;
+    }
+
 }

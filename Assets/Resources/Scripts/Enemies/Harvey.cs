@@ -1,32 +1,30 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static GameManager;
 
 /// <summary>
-/// Dead squad-mate, killed by shadow monster
-/// when in certain range, halves player's attack-speed, and does very minor damage to player.
-/// When too far away, quickly dash/teleport to position x-distance from player.
+/// Dead squad-mate turned endgame boss, killed by shadow monster
+/// when in certain range, halves player's attack-speed and movement-speed.
+/// Dies minor DOT to player while in range.
+/// When too far away, quickly teleport to position x-distance on other side of player.
 /// </summary>
 [RequireComponent(typeof(SphereCollider))]
 public class Harvey : BaseEnemy
 {
     private static Harvey _instance;
-    public static Harvey Instance
-    {
-        get
-        {
-            if (_instance.IsUnityNull()) Debug.LogError("Harvey was null");
-            return _instance;
-        }
-    }
+    public static Harvey Instance { get { if (_instance.IsUnityNull()) Debug.LogError("Harvey was null"); return _instance; } }
 
     private float health = 10f;
     public override float Health { get => health; set => health = value; }
 
-    private float dmg = 1000f;
+    private float dmg = 0f;
     public override float DMG { get => dmg; set => dmg = value; }
 
-    private readonly float DOTDamage = 10f;
+    private readonly float DOTDamage = 1f;
+    private readonly float AccelerationSpeed = 20f;
+
+    private Rigidbody mRigidbody;
 
     MoveMode Move => Move1;
 
@@ -38,6 +36,7 @@ public class Harvey : BaseEnemy
         if (_instance != null && _instance != this) { Destroy(gameObject); return; }
         else { _instance = this; }
 
+        mRigidbody = GetComponent<Rigidbody>();
 
         foreach (var a in GetComponents<SphereCollider>())
         {
@@ -78,6 +77,7 @@ public class Harvey : BaseEnemy
     {
         if (collision.gameObject == PlayerController.Instance.gameObject)
         {
+            // on impact, kill player
             DealDMG(PlayerController.Instance);
         }
     }
@@ -86,7 +86,7 @@ public class Harvey : BaseEnemy
     {
         if (other.gameObject == PlayerController.Instance.gameObject)
         {
-            DealDMG(DMGTarget: PlayerController.Instance, DOTDamage * Time.fixedDeltaTime);
+            //DealDMG(DMGTarget: PlayerController.Instance, DOTDamage * Time.fixedDeltaTime);
             //print("player took damage: " + DOTDamage * Time.fixedDeltaTime);
         }
     }
@@ -95,21 +95,24 @@ public class Harvey : BaseEnemy
     {
         if (other.gameObject == PlayerController.Instance.gameObject)
         {
-            // dist to player
-            Vector3 directionToPlayer = PlayerController.Instance.transform.position - transform.position;
+            // get pos behind player
+            Vector3 targetPosition = PlayerController.Instance.gameObject.transform.position - PlayerController.Instance.gameObject.transform.forward * 150f;
 
-            // target pos
-            Vector3 targetPosition = PlayerController.Instance.Position - directionToPlayer.normalized * 75f;
+            // Kill momentum
+            mRigidbody.KillVelocityAndAngular();
 
-            // Move
+            // Move to the target position
             transform.position = targetPosition;
         }
     }
 
-    // todo move harvey
     void Move1()
     {
+        // find direction to player
+        Vector3 dir = (PlayerController.Instance.Position - transform.position).normalized;
 
+        // accelerate
+        mRigidbody.AddForce(dir * AccelerationSpeed, ForceMode.Acceleration);
     }
 
 }

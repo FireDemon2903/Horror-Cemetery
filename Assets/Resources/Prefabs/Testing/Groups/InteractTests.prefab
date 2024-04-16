@@ -640,6 +640,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ReadableTest(Elevenlabs)
       objectReference: {fileID: 0}
+    - target: {fileID: 2763242851238783980, guid: d088f16d3c82ffb43953e9c1d6825d42, type: 3}
+      propertyPath: clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 66abca991a70be0429d8475cf24bda5a, type: 3}
     - target: {fileID: 5988451515994780070, guid: d088f16d3c82ffb43953e9c1d6825d42, type: 3}
       propertyPath: m_LocalPosition.x
       value: -213.93495
