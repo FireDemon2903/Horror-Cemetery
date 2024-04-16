@@ -100,7 +100,7 @@ public class Harvey : BaseEnemy
             Vector3 targetPosition = PlayerController.Instance.gameObject.transform.position - PlayerController.Instance.gameObject.transform.forward * 150f;
 
             // Kill momentum
-            mRigidbody.KillVelocityAndAngular();
+            mRigidbody.Stop();
 
             // Move to the target position
             transform.position = targetPosition;

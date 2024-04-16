@@ -1,16 +1,23 @@
 using System;
 using System.Collections;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 public static class Extensions
 {
-    public static bool SightTest(this GameObject me, GameObject other, float viewDist)
+    public static bool SightTest(this GameObject me, GameObject other, float viewDist=Mathf.Infinity)
     {
         Debug.DrawRay(me.transform.position, (other.transform.position - me.transform.position).normalized * viewDist);
 
         return Physics.Raycast(me.transform.position, other.transform.position - me.transform.position, out var hitInfo, viewDist) && hitInfo.transform == other.transform;
     }
+
+    public static bool SightTest(this Vector3 me, Vector3 other, float viewDist = Mathf.Infinity)
+    {
+        Debug.DrawRay(me, (other - me).normalized * viewDist);
+
+        return Physics.Raycast(me, other - me, out var hitInfo, viewDist) && hitInfo.point == other;
+    }
+
 
     public static void DebugVelocity(this Rigidbody rb, Color color, bool write=false)
     {
@@ -54,7 +61,7 @@ public static class Extensions
     /// Stops the momentum of the body
     /// </summary>
     /// <param name="body"></param>
-    public static void KillVelocityAndAngular(this Rigidbody body)
+    public static void Stop(this Rigidbody body)
     {
         body.velocity = Vector3.zero;
         body.angularVelocity = Vector3.zero;

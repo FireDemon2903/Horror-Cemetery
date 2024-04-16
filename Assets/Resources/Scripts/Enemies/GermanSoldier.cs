@@ -41,6 +41,8 @@ public class GermanSoldier : BaseEnemy
     {
         mRigidbody = GetComponent<Rigidbody>();
         NavMeshAgent = GetComponent<NavMeshAgent>();
+
+        NavMeshAgent.autoBraking = false;
     }
 
     private void FixedUpdate()
@@ -59,6 +61,7 @@ public class GermanSoldier : BaseEnemy
             // start refresh cool-down
             RefreshAttack.DelayedExecution(delay: 1f);
         }
+
 
         // inefficient, fix later
         if (IsDead)

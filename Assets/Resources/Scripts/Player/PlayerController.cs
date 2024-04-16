@@ -22,6 +22,9 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
             return _instance;
         }
     }
+    /// <summary>
+    /// The position of the transform on the gameObject of this component
+    /// </summary>
     public Vector3 Position
     {
         get
@@ -66,6 +69,8 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     public GameObject? LastObjectInSight;
 #nullable disable
     public LayerMask interactiblesLayer;
+
+    public GameObject[] inSight;
 
     // --------------- Components on this object ---------------
     Rigidbody mRigidbody;
@@ -119,6 +124,12 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
 
 
         mLineRenderer.enabled = true;
+    }
+
+
+    private void Start()
+    {
+        InvokeRepeating(nameof(CastMultipleRays), 0, .1f);
     }
 
     private void FixedUpdate()
@@ -211,6 +222,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
         if (Health <= 0) Destroy(gameObject);
     }
 
+
     public void DealDMG(IAlive target, float? dmg = null)
     {
         // If the player has a gun, do ranged damage
@@ -220,6 +232,79 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
         // Try to deal damage to the object. this is a try, because it is not known whether the object can take damage
         LastObjectInSight.TryDealDamage(source: this);
     }
+
+    int rays = 50;
+    // This method casts multiple rays from the camera's position.
+    void CastMultipleRays()
+    {
+        GameObject[] objects = new GameObject[rays];
+
+
+
+
+
+        // We calculate how much we need to rotate around the Y-axis for each ray.
+        float angleStep = Camera.main.fieldOfView / (rays - 1);
+
+        // We loop through each ray we want to cast.
+        for (int i = 0; i < rays; i++)
+        {
+            // We calculate the angle for the current ray.
+            float angle = -Camera.main.fieldOfView / 2 + angleStep * i;
+
+            // We create a rotation that rotates around the Y-axis by the angle we calculated.
+            Quaternion rotation = Quaternion.Euler(0, angle, 0);
+
+            // We calculate the direction for the current ray by rotating the camera's forward direction.
+            Vector3 direction = rotation * gameObject.transform.forward;
+
+            // We create a new ray from the camera's position in the calculated direction.
+            Ray ray = new(gameObject.transform.position, direction);
+
+            // We perform the raycast. If it hits something, we draw a red line from the ray's origin to the hit point.
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                Debug.DrawLine(ray.origin, hit.point, Color.red, .1f);
+                // Here you can add code to handle what happens when the ray hits something.
+            }
+
+            objects[i] = hit.collider != null ? hit.collider.gameObject : null;
+        }
+
+        inSight = objects;
+    }
+
+    //void CastMultipleRays()
+    //{
+    //    GameObject[] objects = new GameObject[rays * 5];
+
+    //    float verticalAngleStep = Camera.main.fieldOfView / (rays - 1);
+    //    for (int i = 0; i < rays; i++)
+    //    {
+    //        float verticalAngle = -Camera.main.fieldOfView / 2 + verticalAngleStep * i;
+    //        Quaternion verticalRotation = Quaternion.Euler(0, verticalAngle, 0);
+    //        Vector3 verticalDirection = verticalRotation * gameObject.transform.forward;
+
+    //        // Loop through each horizontal ray
+    //        for (int j = 0; j < 5; j++)
+    //        {
+    //            float horizontalAngle = -90 + 5 * j; // Adjust the starting angle as needed
+    //            Quaternion horizontalRotation = Quaternion.Euler(horizontalAngle, 0, 0);
+    //            Vector3 direction = horizontalRotation * verticalDirection;
+
+    //            Ray ray = new(Position, direction);
+
+    //            // Perform raycasting
+    //            if (Physics.Raycast(ray, out RaycastHit hit))
+    //            {
+    //                Debug.DrawLine(ray.origin, hit.point, Color.red);
+    //                // Process hit information here
+    //            }
+    //            objects[i] = hit.collider != null ? hit.collider.gameObject : null;
+    //        }
+    //    }
+    //    inSight = objects;
+    //}
 
     // TODO: Jump(?), crouch renderer/model
     #region --------------- Inputs ---------------
