@@ -69,7 +69,7 @@ public class Hansi : BaseEnemy
         if (!ressurectCooldown)
         {
             RessurectMinions();
-            StartCoroutine(RefreshRessurect.DelayedExecution(delay: ressurectTimer));
+            RefreshRessurect.DelayedExecution(delay: ressurectTimer);
         }
     }
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 public static class Extensions
@@ -27,9 +28,36 @@ public static class Extensions
         if (target != null && target.TryGetComponent(out IAlive enemy)) enemy.TakeDMG(from: source);
     }
 
-    public static IEnumerator DelayedExecution(this Delegate action, float delay)
+    /// <summary>
+    /// Dynamically invokes the delegate after a set delay by starting coroutine in GameManager Instance. Params are optional.
+    /// </summary>
+    /// <param name="action">Delegate to be invoked</param>
+    /// <param name="delay">Delay in seconds</param>
+    /// <param name="args">Arguments for delegate</param>
+    /// <returns>Void</returns>
+    public static void DelayedExecution(this Delegate action, float delay, params object?[] args)
+    {
+        GameManager.Instance.StartCoroutine(Delay(action, delay, args));
+    }
+
+    /// <summary>
+    /// Helper function for DelayedExecution
+    /// </summary>
+    /// <returns></returns>
+    private static IEnumerator Delay(this Delegate action, float delay, params object?[] args)
     {
         yield return new WaitForSeconds(delay);
-        action.DynamicInvoke();
+        action.DynamicInvoke(args);
     }
+
+    /// <summary>
+    /// Stops the momentum of the body
+    /// </summary>
+    /// <param name="body"></param>
+    public static void KillVelocityAndAngular(this Rigidbody body)
+    {
+        body.velocity = Vector3.zero;
+        body.angularVelocity = Vector3.zero;
+    }
+
 }

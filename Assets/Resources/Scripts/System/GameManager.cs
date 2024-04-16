@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public delegate void RefreshCooldown();
 
     public delegate bool ObjectiveCondition();
+    public delegate bool t(string str);
     public event Action OnObjectiveCompleted;
     readonly List<GameObject> Objectives = new();
 
@@ -61,8 +62,8 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         // Singleton
-        if (_instance != null && _instance != this)         { Destroy(gameObject);  return; }
-        else                                                { _instance = this; }
+        if (_instance != null && _instance != this) { Destroy(gameObject); return; }
+        else { _instance = this; }
 
         DontDestroyOnLoad(gameObject);
 
