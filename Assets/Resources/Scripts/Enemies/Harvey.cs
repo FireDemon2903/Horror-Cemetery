@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 using static GameManager;
 
 /// <summary>
+/// Mini-boss/main boss
 /// Dead squad-mate turned endgame boss, killed by shadow monster
 /// when in certain range, halves player's attack-speed and movement-speed.
 /// Dies minor DOT to player while in range.

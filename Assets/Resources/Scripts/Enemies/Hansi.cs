@@ -7,6 +7,7 @@ using UnityEngine.Video;
 using static GameManager;
 
 /// <summary>
+/// Mini-boss
 /// Unique mini-boss enemy. Has the ability to raise fallen zombies into stronger, faster versions of themselves.
 /// This enemy does not deal damage at the moment.
 /// If a `GermanSoldier` wanders into the range of Hansi, then it becomes Hansi's minion.
