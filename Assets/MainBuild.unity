@@ -971,6 +971,120 @@ Transform:
   - {fileID: 417743810}
   m_Father: {fileID: 1794503836}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &508524673
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1806
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 609.4717
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_Name
+      value: GermanEnemy (3)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+--- !u!1001 &540826543
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1732
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 609.4717
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_Name
+      value: GermanEnemy (2)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
 --- !u!1 &593185703
 GameObject:
   m_ObjectHideFlags: 0
@@ -1345,6 +1459,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90051e8d50c621248a81df1073e8b2b4, type: 3}
+--- !u!1001 &796382406
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1632.773
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 609.4717
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_Name
+      value: GermanEnemy
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
 --- !u!1 &796720500
 GameObject:
   m_ObjectHideFlags: 0
@@ -1748,6 +1919,10 @@ PrefabInstance:
     - target: {fileID: 5262032391643708381, guid: 6c3adb7e4d4d6d24b8c0583dbac27bd5, type: 3}
       propertyPath: m_Name
       value: Harvey
+      objectReference: {fileID: 0}
+    - target: {fileID: 5262032391643708381, guid: 6c3adb7e4d4d6d24b8c0583dbac27bd5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3476,6 +3651,120 @@ Transform:
   - {fileID: 593185704}
   m_Father: {fileID: 1794503836}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &2120613674
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1774
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 609.4717
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_Name
+      value: GermanEnemy (4)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+--- !u!1001 &2126178452
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1688
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 609.4717
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409405304644416143, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_Name
+      value: GermanEnemy (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
 --- !u!33 &384702499028653094
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -4487,3 +4776,8 @@ SceneRoots:
   - {fileID: 8765514944317090679}
   - {fileID: 793372221}
   - {fileID: 941761376}
+  - {fileID: 796382406}
+  - {fileID: 2126178452}
+  - {fileID: 540826543}
+  - {fileID: 508524673}
+  - {fileID: 2120613674}

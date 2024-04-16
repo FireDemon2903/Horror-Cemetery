@@ -18,7 +18,7 @@ public class Harvey : BaseEnemy
     private float health = 10f;
     public override float Health { get => health; set => health = value; }
 
-    private float dmg = 0f;
+    private float dmg = 1000f;
     public override float DMG { get => dmg; set => dmg = value; }
 
     private readonly float DOTDamage = 1f;
@@ -86,7 +86,7 @@ public class Harvey : BaseEnemy
     {
         if (other.gameObject == PlayerController.Instance.gameObject)
         {
-            //DealDMG(DMGTarget: PlayerController.Instance, DOTDamage * Time.fixedDeltaTime);
+            DealDMG(DMGTarget: PlayerController.Instance, DOTDamage * Time.fixedDeltaTime);
             //print("player took damage: " + DOTDamage * Time.fixedDeltaTime);
         }
     }

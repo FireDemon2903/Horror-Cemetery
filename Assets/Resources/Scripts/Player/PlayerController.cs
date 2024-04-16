@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     public float Health { get; set; } = 10f;
     public float DMG { get { return _baseDMG * DMGMult; } set { } }
 
-    [Range(0, 1)] int DMGMode = 1;             // 0: CQC, 1: Gun
+    [Range(0, 1)] readonly int DMGMode = 1;             // 0: CQC, 1: Gun
 
     // --------------- Player States ---------------
     bool IsRunning = false;

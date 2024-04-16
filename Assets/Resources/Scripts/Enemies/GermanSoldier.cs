@@ -57,7 +57,7 @@ public class GermanSoldier : BaseEnemy
             attackCooldown = true;
 
             // start refresh cool-down
-            StartCoroutine(RefreshAttack.DelayedExecution(delay: 1f));
+            RefreshAttack.DelayedExecution(delay: 1f);
         }
 
         // inefficient, fix later
