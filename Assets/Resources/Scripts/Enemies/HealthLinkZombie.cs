@@ -1,3 +1,6 @@
+// Ignore Spelling: DMG
+
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,15 +13,17 @@ using UnityEngine;
 /// </summary>
 public class HealthLinkZombie : GermanSoldier
 {
-    public override float DMG { get; set; } = 1f;
-    public override float Health { get; set; } = 10f;
+    //public override float DMG { get; set; } = 1f;
+    //public override float Health { get; set; } = 10f;
 
-    private HashSet<GermanSoldier> soldiers;
+    private readonly HashSet<GermanSoldier> _soldiers = new();
 
-    float detectDisctance = 25f;
+    const float detectDisctance = 25f;
 
-    private void Awake()
+    public override void Awake()
     {
+        base.Awake();
+
         foreach (var a in GetComponents<SphereCollider>())
         {
             if (a.isTrigger)
@@ -27,6 +32,8 @@ public class HealthLinkZombie : GermanSoldier
                 break;
             }
         }
+
+        _soldiers.Add(this);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -34,24 +41,24 @@ public class HealthLinkZombie : GermanSoldier
         if (other.TryGetComponent<GermanSoldier>(out var soldier))
         {
             soldier.WasAttacked += OnSoldierTookDamage;
-            soldiers.Add(soldier);
+            _soldiers.Add(soldier);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
         GermanSoldier a = other.GetComponent<GermanSoldier>();
-        if (soldiers.Contains(a))
+        if (_soldiers.Contains(a))
         {
             a.WasAttacked -= OnSoldierTookDamage;
-            soldiers.Remove(a);
+            _soldiers.Remove(a);
         }
     }
 
     private void OnSoldierTookDamage(float damage)
     {
-        float fractionedDamage = damage / soldiers.Count;
-        foreach (GermanSoldier soldier in soldiers)
+        float fractionedDamage = damage / _soldiers.Count;
+        foreach (GermanSoldier soldier in _soldiers)
         {
             soldier.Health -= fractionedDamage;
         }

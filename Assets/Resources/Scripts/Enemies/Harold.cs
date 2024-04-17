@@ -1,3 +1,5 @@
+// Ignore Spelling: DMG
+
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
@@ -21,18 +23,15 @@ public class Harold : BaseEnemy
 
     MoveMode Move;
 
-    NavMeshAgent Agent;
-
     float VisibleTimer = 0f;
 
     bool thisVisibleToPlayer => PlayerController.Instance.inSight.Contains(gameObject);
 
     //float chaseTimer = 0f;
 
-    private void Awake()
+    public override void Awake()
     {
-        Agent = GetComponent<NavMeshAgent>();
-        Agent.autoBraking = false;
+        base.Awake();
 
         Move = StalkPlayer;
         ResetStats();
@@ -69,18 +68,19 @@ public class Harold : BaseEnemy
     {
         VisibleTimer = 0f;
 
-        Agent.speed = 80f * 3;
-        Agent.angularSpeed = 120f * 3;
-        Agent.acceleration = 300f * 3;
+        mAgent.speed = 80f * 3;
+        mAgent.angularSpeed = 120f * 3;
+        mAgent.acceleration = 300f * 3;
 
         hasRunStation = false;
+        mAgent.isStopped = false;
     }
 
     private void IncreaseStats()
     {
-        Agent.speed = 80f * 3;
-        Agent.angularSpeed = 120f * 3;
-        Agent.acceleration = 300f * 3;
+        mAgent.speed = 80f * 3;
+        mAgent.angularSpeed = 120f * 3;
+        mAgent.acceleration = 300f * 3;
     }
 
     /// <summary>
@@ -89,7 +89,7 @@ public class Harold : BaseEnemy
     void Freeze()
     {
         print("freeze");
-        Agent.isStopped = true;
+        mAgent.isStopped = true;
 
         IncreaseStats();
     }
@@ -100,7 +100,7 @@ public class Harold : BaseEnemy
     void StalkPlayer()
     {
         print("stalk");
-        Agent.SetDestination(PlayerController.Instance.Position);
+        mAgent.SetDestination(PlayerController.Instance.Position);
         ResetStats();
     }
 
@@ -110,7 +110,7 @@ public class Harold : BaseEnemy
     void ChasePlayer()
     {
         print("chase");
-        Agent.SetDestination(PlayerController.Instance.Position);
+        mAgent.SetDestination(PlayerController.Instance.Position);
     }
 
     /// <summary>
@@ -120,7 +120,7 @@ public class Harold : BaseEnemy
     {
         print("run");
 
-        Agent.isStopped = false;
+        mAgent.isStopped = false;
 
         // find station
         if (!hasRunStation)
@@ -128,7 +128,7 @@ public class Harold : BaseEnemy
             // cycle through the stations randomly, until one whom cannot be seen by the player is found
             while (!Instance.GetRandomPos(out var t).gameObject.SightTest(PlayerController.Instance.gameObject))
             {
-                Agent.SetDestination(t.position);
+                mAgent.SetDestination(t.position);
                 hasRunStation = true;
             }
         }

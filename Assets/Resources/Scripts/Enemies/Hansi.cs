@@ -41,19 +41,20 @@ public class Hansi : BaseEnemy
 
     bool ressurectCooldown = false;
     readonly float ressurectTimer = 5f;
-    RefreshCooldown RefreshRessurect => () => ressurectCooldown = false;
+    RefreshCooldown RefreshRessurect;
 
     /// <summary>
     /// The detection dist for viewing both player and finding dead zombies.
     /// </summary>
     readonly float detectDisctance = 25f;
 
-    private void Awake()
+    public override void Awake()
     {
         // Singleton
         if (_instance != null && _instance != this) { Destroy(gameObject); return; }
         else { _instance = this; }
 
+        base.Awake();
 
         foreach (var a in GetComponents<SphereCollider>())
         {
@@ -63,6 +64,8 @@ public class Hansi : BaseEnemy
                 break;
             }
         }
+
+        RefreshRessurect = () => ressurectCooldown = false;
     }
 
     private void Update()
@@ -80,7 +83,7 @@ public class Hansi : BaseEnemy
         if (!other.TryGetComponent<GermanSoldier>(out var g)) return;
         else
         {
-            g.isHarveyMinion = true;
+            g.isHansiMinion = true;
             //if (!_minions.Contains(g)) _minions.Add(g);
             _minionsInRange.Add(g);
         }

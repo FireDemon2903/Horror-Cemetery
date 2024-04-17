@@ -23,16 +23,12 @@ public class GermanSoldier : BaseEnemy
 
     bool PlayerInSight => gameObject.SightTest(PlayerController.Instance.gameObject, detectDisctance);
     bool PlayerInRange => Vector3.Distance(PlayerController.Instance.Position, gameObject.transform.position) < attackRange;
-    public bool isHarveyMinion = false;
+    public bool isHansiMinion = false;
     bool IsDead => Health <= 0;
 
-    // if the player is in sight, move to player. if this is a minion, move to Harvey. else idle movement
-    MoveMode Move => PlayerInSight ? MoveToPlayer : isHarveyMinion ? MoveToHarvey : IdleMovement;
-    RefreshCooldown RefreshAttack => () => attackCooldown = false;
-
-    NavMeshAgent NavMeshAgent { get; set; }
-
-    Rigidbody mRigidbody;
+    // if the player is in sight, move to player. if this is a minion, move to Hansi. else idle movement
+    MoveMode Move => PlayerInSight ? MoveToPlayer : isHansiMinion ? MoveToHansi : IdleMovement;
+    RefreshCooldown RefreshAttack;
 
     public delegate void Attacked(float damage);
     public event Attacked WasAttacked;
@@ -40,18 +36,19 @@ public class GermanSoldier : BaseEnemy
     //Vector3 newStation => Instance.GetRandomPos();
     //Vector3 targetStation;
 
-    private void Start()
+    public override void Awake()
     {
-        mRigidbody = GetComponent<Rigidbody>();
-        NavMeshAgent = GetComponent<NavMeshAgent>();
+        base.Awake();
 
-        NavMeshAgent.autoBraking = false;
+        mAgent.autoBraking = false;
+
+        RefreshAttack = () => attackCooldown = false;
     }
 
     private void FixedUpdate()
     {
         Move?.Invoke();
-        
+
         mRigidbody.DebugVelocity(Color.cyan);
         
         if (PlayerInRange && !attackCooldown)
@@ -73,16 +70,16 @@ public class GermanSoldier : BaseEnemy
         }
     }
 
-    void MoveToPlayer() { NavMeshAgent.SetDestination(PlayerController.Instance.Position); }
-    void MoveToHarvey()
+    void MoveToPlayer() { mAgent.SetDestination(PlayerController.Instance.Position); }
+    void MoveToHansi()
     {
         try
         {
-            NavMeshAgent.SetDestination(Hansi.Instance.transform.position);
+            mAgent.SetDestination(Hansi.Instance.transform.position);
         }
         catch (MissingReferenceException)
         {
-            isHarveyMinion = false;
+            isHansiMinion = false;
         }
     }
 
@@ -101,10 +98,8 @@ public class GermanSoldier : BaseEnemy
     {
         if (DMGSource == null) return;
 
-        // if dmg has a value, then use that instead of the normal damage
-        Health -= dmg ?? DMGSource.DMG;
-
-        WasAttacked?.Invoke(dmg ?? DMGSource.DMG);
+        if (WasAttacked.GetInvocationList() != null) { WasAttacked?.Invoke(dmg ?? DMGSource.DMG); }                 // if there are listeners, use them instead
+        else { Health -= dmg ?? DMGSource.DMG; }                                                                    // if dmg has a value, then use that instead of the normal damage
     }
 
     public override void DealDMG(IAlive DMGTarget, float? dmg = null)
@@ -114,13 +109,13 @@ public class GermanSoldier : BaseEnemy
         attackCooldown = true;
     }
 
-    void Die()
+    public override void Die()
     {
         enabled = false;
         Renderer r = gameObject.GetComponent<Renderer>();
         r.material.color = Color.red;
 
-        NavMeshAgent.ResetPath();
+        mAgent.ResetPath();
     }
 
     public void Revive()

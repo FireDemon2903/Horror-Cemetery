@@ -53,4 +53,10 @@ public interface IAlive
     /// </summary>
     /// <param name="from">Other instance that attacked this (the source of the damage)</param>
     void TakeDMG(IDamage from, float? dmg=null);
+
+    /// <summary>
+    /// What should happen when entity dies
+    /// </summary>
+    void Die();
+
 }

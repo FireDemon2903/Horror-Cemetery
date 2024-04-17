@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     }
 
     #region--------------- Player Attributes ---------------
-    readonly float GrabDist = 25f;                                                      // Grab/Interact/Attack distance
+    const float GrabDist = 25f;                                                      // Grab/Interact/Attack distance
 
     // --------------- Player Movement ---------------
     readonly float BasePlayerSpeed = 15f;                                                       // Base player speed
@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     // --------------- Player Alive ---------------    
     // From IAlive. Cannot be delegates, so no easy multipliers -_-
     public float DMGMult = 1;
-    private readonly float _baseDMG = 10;
+    private const float _baseDMG = 10;
     public float Health { get; set; } = 10f;
     public float DMG { get { return _baseDMG * DMGMult; } set { } }
 
@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
 #nullable enable
     public GameObject? LastObjectInSight;
 #nullable disable
-    public LayerMask interactiblesLayer;
+    public LayerMask interactablesLayer;
 
     public GameObject[] inSight;
 
@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
         mAudioSources = GetComponents<AudioSource>();
 
         // Assign interactables layer
-        interactiblesLayer = LayerMask.GetMask("Interactable");
+        interactablesLayer = LayerMask.GetMask("Interactable");
 
         // Move to GM later
         mAudioMixer = Resources.Load<AudioMixer>("Audio/PlayerAudioMixer");
@@ -146,7 +146,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
         mLineRenderer.SetPosition(1, hit.point);
 
         // If the player looks at anything in the 'Intractable' layer within grab-distance
-        if (Physics.Raycast(transform.position, transform.forward, out var hitInfo, GrabDist, interactiblesLayer)
+        if (Physics.Raycast(transform.position, transform.forward, out var hitInfo, GrabDist, interactablesLayer)
             && !hitInfo.collider.gameObject.isStatic)
         {
             // Check if the object is different from the last one in sight
@@ -203,8 +203,8 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     private void DoRangedDMG()
     {
         Ray ray = new(transform.position, transform.forward);
-        if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, interactiblesLayer, QueryTriggerInteraction.Ignore)
-            && !hitInfo.collider.gameObject.isStatic)
+        if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, interactablesLayer, QueryTriggerInteraction.Ignore)
+            && !(hitInfo.collider.gameObject == gameObject))
         {
             // make smoke at impact point
             //hitInfo.point
@@ -212,14 +212,13 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
         }
     }
 
-    public void TakeDMG(IDamage DMGSource, float? dmg = null)
+    public void TakeDMG(IDamage? DMGSource, float? dmg = null)
     {
-        if (DMGSource.IsUnityNull()) return;
+        //if (DMGSource.IsUnityNull()) return;
 
         Health -= dmg ?? DMGSource.DMG;
 
-        // TODO: implement death
-        if (Health <= 0) Destroy(gameObject);
+        if (Health <= 0) Die();
     }
 
 
@@ -233,21 +232,24 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
         LastObjectInSight.TryDealDamage(source: this);
     }
 
-    int rays = 50;
+    //todo make death for player
+    public void Die()
+    {
+        Destroy(gameObject);
+    }
+
+    //todo tweak num of rays in player
+    int rays = 10;
     // This method casts multiple rays from the camera's position.
     void CastMultipleRays()
     {
         GameObject[] objects = new GameObject[rays];
 
-
-
-
-
         // We calculate how much we need to rotate around the Y-axis for each ray.
         float angleStep = Camera.main.fieldOfView / (rays - 1);
 
         // We loop through each ray we want to cast.
-        for (int i = 0; i < rays; i++)
+        for (int i = 0; i < rays; ++i)
         {
             // We calculate the angle for the current ray.
             float angle = -Camera.main.fieldOfView / 2 + angleStep * i;
@@ -274,39 +276,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
         inSight = objects;
     }
 
-    //void CastMultipleRays()
-    //{
-    //    GameObject[] objects = new GameObject[rays * 5];
-
-    //    float verticalAngleStep = Camera.main.fieldOfView / (rays - 1);
-    //    for (int i = 0; i < rays; i++)
-    //    {
-    //        float verticalAngle = -Camera.main.fieldOfView / 2 + verticalAngleStep * i;
-    //        Quaternion verticalRotation = Quaternion.Euler(0, verticalAngle, 0);
-    //        Vector3 verticalDirection = verticalRotation * gameObject.transform.forward;
-
-    //        // Loop through each horizontal ray
-    //        for (int j = 0; j < 5; j++)
-    //        {
-    //            float horizontalAngle = -90 + 5 * j; // Adjust the starting angle as needed
-    //            Quaternion horizontalRotation = Quaternion.Euler(horizontalAngle, 0, 0);
-    //            Vector3 direction = horizontalRotation * verticalDirection;
-
-    //            Ray ray = new(Position, direction);
-
-    //            // Perform raycasting
-    //            if (Physics.Raycast(ray, out RaycastHit hit))
-    //            {
-    //                Debug.DrawLine(ray.origin, hit.point, Color.red);
-    //                // Process hit information here
-    //            }
-    //            objects[i] = hit.collider != null ? hit.collider.gameObject : null;
-    //        }
-    //    }
-    //    inSight = objects;
-    //}
-
-    // TODO: Jump(?), crouch renderer/model
+    // TODO crouch renderer/model
     #region --------------- Inputs ---------------
 #pragma warning disable IDE0051, IDE0060
     /// <summary>

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class Extensions
@@ -25,14 +26,16 @@ public static class Extensions
         if (write) { Debug.Log($"{rb.gameObject.name}'s velocity: {rb.velocity}"); }
     }
 
+#nullable enable
     /// <summary>
     /// Deal damage to the target, it is alive (implements IAlive)
     /// </summary>
     /// <param name="target"></param>
     /// <param name="source"></param>
-    public static void TryDealDamage(this GameObject target, IDamage source)
+    public static void TryDealDamage(this GameObject target, IDamage source, float? damage=null)
     {
-        if (target != null && target.TryGetComponent(out IAlive enemy)) enemy.TakeDMG(from: source);
+        Debug.Log(2);
+        if (target != null && target.TryGetComponent(out IAlive living)) living.TakeDMG(from: source, damage);
     }
 
     /// <summary>
@@ -56,6 +59,7 @@ public static class Extensions
         yield return new WaitForSeconds(delay);
         action.DynamicInvoke(args);
     }
+#nullable disable
 
     /// <summary>
     /// Stops the momentum of the body
@@ -66,5 +70,28 @@ public static class Extensions
         body.velocity = Vector3.zero;
         body.angularVelocity = Vector3.zero;
     }
+
+    /// <summary>
+    /// Helper function that gets some points in 3D-space around the given center
+    /// </summary>
+    /// <param name="center">The center from which to make the points</param>
+    /// <param name="radius">The distance from the center</param>
+    /// <param name="numPositions">Number of new vectors to return</param>
+    /// <returns></returns>
+    public static Vector3[] GetCirclePositions(Vector3 center, float radius, int numPositions)
+    {
+        Vector3[] vectors = new Vector3[numPositions];
+
+        for (int i = 0; i < numPositions; i++)
+        {
+            float angle = 2 * Mathf.PI * i / numPositions;
+            float x = center.x + radius * (float)Math.Cos(angle);
+            float y = center.y;
+            float z = center.z + radius * (float)Math.Sin(angle);
+            vectors[i] = new Vector3(x, y, z);
+        }
+        return vectors;
+    }
+
 
 }
