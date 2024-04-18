@@ -12,7 +12,7 @@ public class EnterArea : Interactor
         // TODO: Save mainArea game-state
 
         // Save the position the player came from
-        if (SceneManager.GetActiveScene().name == "TestingAreaLoading")
+        if (SceneManager.GetActiveScene().name == "MainBuildNotBlue")
         {
             GameManager.Instance.EnteredFrom = GameManager.Instance.ActiveZoneTransitions[IndexInGM].position;
             //GameManager.Instance.RotationFrom = GameManager.Instance.ActiveZoneTransitions[IndexInGM].rotation;

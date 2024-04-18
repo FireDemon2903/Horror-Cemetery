@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8733707074209560989}
   - component: {fileID: 4333579034710785224}
   - component: {fileID: 2380664651707439886}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HealthLink
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,6 +121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 865591f9883e2574ca2968fecb9bf50d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mRigidbody: {fileID: 0}
+  mAgent: {fileID: 0}
   isHansiMinion: 0
 --- !u!135 &8733707074209560989
 SphereCollider:
