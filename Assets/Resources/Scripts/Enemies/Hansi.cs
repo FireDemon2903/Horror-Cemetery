@@ -15,6 +15,7 @@ using static GameManager;
 /// If the minion cannot see the player, then the minion will follow Hansi.
 /// </summary>
 
+//TODO fix hansi making everyone immortal
 [RequireComponent(typeof(SphereCollider))]
 public class Hansi : BaseEnemy
 {

@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Grenade : MonoBehaviour, IDamage
@@ -33,6 +31,9 @@ public class Grenade : MonoBehaviour, IDamage
 
             if (collider.TryGetComponent<Rigidbody>(out var rb))
             {
+                // TODO distance grenade
+                //var dist = Vector3.Distance(collider.transform.position, gameObject.transform.position);
+
                 if (collider.TryGetComponent<Harry>(out var _))
                 {
                     rb.AddExplosionForce(FORCE * .2f, gameObject.transform.position, RADIUS, upwardsModifier: 3, ForceMode.Impulse);
@@ -40,6 +41,7 @@ public class Grenade : MonoBehaviour, IDamage
                 rb.AddExplosionForce(FORCE, gameObject.transform.position, RADIUS, upwardsModifier: 3, ForceMode.Impulse);
 
                 // attempt to deal damage
+                //collider.gameObject.TryDealDamage(source: this, DMG * dist * .1f);
                 collider.gameObject.TryDealDamage(source: this);
             }
         }

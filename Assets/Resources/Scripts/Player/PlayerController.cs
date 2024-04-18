@@ -141,12 +141,12 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     private void Update()
     {
         // debug player aim
-        Physics.Raycast(transform.position, transform.forward, out var hit);
+        Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out var hit);
         mLineRenderer.SetPosition(0, transform.position);
         mLineRenderer.SetPosition(1, hit.point);
 
         // If the player looks at anything in the 'Intractable' layer within grab-distance
-        if (Physics.Raycast(transform.position, transform.forward, out var hitInfo, GrabDist, interactablesLayer)
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out var hitInfo, GrabDist, interactablesLayer)
             && !hitInfo.collider.gameObject.isStatic)
         {
             // Check if the object is different from the last one in sight
@@ -202,10 +202,11 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     
     private void DoRangedDMG()
     {
-        Ray ray = new(transform.position, transform.forward);
+        Ray ray = new(Camera.main.transform.position, Camera.main.transform.forward);
         if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, interactablesLayer, QueryTriggerInteraction.Ignore)
             && !(hitInfo.collider.gameObject == gameObject))
         {
+            print(hitInfo.collider.gameObject.name);
             // make smoke at impact point
             //hitInfo.point
             hitInfo.collider.gameObject.TryDealDamage(source: this);
@@ -276,7 +277,6 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
         inSight = objects;
     }
 
-    // TODO crouch renderer/model
     #region --------------- Inputs ---------------
 #pragma warning disable IDE0051, IDE0060
     /// <summary>
@@ -285,7 +285,6 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     /// <param name="value">Vector2</param>
     void OnMove(InputValue value) { movement = value.Get<Vector2>(); }
 
-    // TODO: Stop changing the players hit-box when moving the FOV
     /// <summary>
     /// Delta mouse
     /// </summary>
@@ -301,16 +300,25 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
         // Scale
         float rotateSpeed = RotationSens * Time.deltaTime;
 
-        // Set y
+        // Set cam y
         newRotation.y += rotate.x * rotateSpeed;
 
-        // Set x and stop from looking between legs
-        newRotation.x = Mathf.Clamp(newRotation.x - rotate.y * rotateSpeed, -89, 89);
+        // Set cam x and stop from looking between legs
+        newRotation.x = Mathf.Clamp(newRotation.x - rotate.y * rotateSpeed, -89.5f, 89);
 
-        // Set new rotation
-        transform.eulerAngles = newRotation;
+        // Calculate the new Y rotation
+        float newYRotation = rotate.x * rotateSpeed;
+
+        // Create a rotation that only changes the Y-axis
+        Quaternion rotation = Quaternion.Euler(0, newYRotation, 0);
+
+        // Apply the rotation to the game object using Quaternion multiplication
+        gameObject.transform.rotation *= rotation;
+
+        // Set camera rotation
+        Camera.main.transform.eulerAngles = newRotation;
     }
-    
+
     /// <summary>
     /// Button: LMB
     /// </summary>

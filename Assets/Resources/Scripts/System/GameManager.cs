@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
 
         // Spawn the player
-        Instantiate(Resources.Load<GameObject>(@"Prefabs/PlayerPlaceholder"));
+        Instantiate(Resources.Load<GameObject>(@"Prefabs/PlayerVariant"));
         DontDestroyOnLoad(PlayerController.Instance.gameObject);
 
         EnteredFrom = PlayerSpawn;
