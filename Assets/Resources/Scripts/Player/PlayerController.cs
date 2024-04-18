@@ -335,7 +335,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     void OnInteract()
     {
         // Try to get the interactor, and call interact
-        if (LastObjectInSight.TryGetComponent(out Interactor interactor)) interactor.Interact(gameObject);
+        if (!LastObjectInSight.IsUnityNull() && LastObjectInSight.TryGetComponent(out Interactor interactor)) interactor.Interact(gameObject);
     }
     
     /// <summary>
