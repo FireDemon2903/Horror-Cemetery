@@ -22,6 +22,9 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
             return _instance;
         }
     }
+    /// <summary>
+    /// The position of the transform on the gameObject of this component
+    /// </summary>
     public Vector3 Position
     {
         get
@@ -31,7 +34,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     }
 
     #region--------------- Player Attributes ---------------
-    readonly float GrabDist = 25f;                                                      // Grab/Interact/Attack distance
+    const float GrabDist = 25f;                                                      // Grab/Interact/Attack distance
 
     // --------------- Player Movement ---------------
     readonly float BasePlayerSpeed = 15f;                                                       // Base player speed
@@ -52,7 +55,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     // --------------- Player Alive ---------------    
     // From IAlive. Cannot be delegates, so no easy multipliers -_-
     public float DMGMult = 1;
-    private readonly float _baseDMG = 10;
+    private const float _baseDMG = 10;
     public float Health { get; set; } = 10f;
     public float DMG { get { return _baseDMG * DMGMult; } set { } }
 
@@ -65,7 +68,9 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
 #nullable enable
     public GameObject? LastObjectInSight;
 #nullable disable
-    public LayerMask interactiblesLayer;
+    public LayerMask interactablesLayer;
+
+    public GameObject[] inSight;
 
     // --------------- Components on this object ---------------
     Rigidbody mRigidbody;
@@ -103,7 +108,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
         mAudioSources = GetComponents<AudioSource>();
 
         // Assign interactables layer
-        interactiblesLayer = LayerMask.GetMask("Interactable");
+        interactablesLayer = LayerMask.GetMask("Interactable");
 
         // Move to GM later
         mAudioMixer = Resources.Load<AudioMixer>("Audio/PlayerAudioMixer");
@@ -121,6 +126,12 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
         mLineRenderer.enabled = true;
     }
 
+
+    private void Start()
+    {
+        InvokeRepeating(nameof(CastMultipleRays), 0, .1f);
+    }
+
     private void FixedUpdate()
     {
         mRigidbody.AddForce(NewVelocity + Physics.gravity, ForceMode.VelocityChange);
@@ -130,12 +141,12 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     private void Update()
     {
         // debug player aim
-        Physics.Raycast(transform.position, transform.forward, out var hit);
+        Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out var hit);
         mLineRenderer.SetPosition(0, transform.position);
         mLineRenderer.SetPosition(1, hit.point);
 
         // If the player looks at anything in the 'Intractable' layer within grab-distance
-        if (Physics.Raycast(transform.position, transform.forward, out var hitInfo, GrabDist, interactiblesLayer)
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out var hitInfo, GrabDist, interactablesLayer)
             && !hitInfo.collider.gameObject.isStatic)
         {
             // Check if the object is different from the last one in sight
@@ -191,25 +202,26 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     
     private void DoRangedDMG()
     {
-        Ray ray = new(transform.position, transform.forward);
-        if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, interactiblesLayer, QueryTriggerInteraction.Ignore)
-            && !hitInfo.collider.gameObject.isStatic)
+        Ray ray = new(Camera.main.transform.position, Camera.main.transform.forward);
+        if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, interactablesLayer, QueryTriggerInteraction.Ignore)
+            && !(hitInfo.collider.gameObject == gameObject))
         {
+            print(hitInfo.collider.gameObject.name);
             // make smoke at impact point
             //hitInfo.point
             hitInfo.collider.gameObject.TryDealDamage(source: this);
         }
     }
 
-    public void TakeDMG(IDamage DMGSource, float? dmg = null)
+    public void TakeDMG(IDamage? DMGSource, float? dmg = null)
     {
-        if (DMGSource.IsUnityNull()) return;
+        //if (DMGSource.IsUnityNull()) return;
 
         Health -= dmg ?? DMGSource.DMG;
 
-        // TODO: implement death
-        if (Health <= 0) Destroy(gameObject);
+        if (Health <= 0) Die();
     }
+
 
     public void DealDMG(IAlive target, float? dmg = null)
     {
@@ -221,7 +233,50 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
         LastObjectInSight.TryDealDamage(source: this);
     }
 
-    // TODO: Jump(?), crouch renderer/model
+    //todo make death for player
+    public void Die()
+    {
+        Destroy(gameObject);
+    }
+
+    //todo tweak num of rays in player
+    int rays = 10;
+    // This method casts multiple rays from the camera's position.
+    void CastMultipleRays()
+    {
+        GameObject[] objects = new GameObject[rays];
+
+        // We calculate how much we need to rotate around the Y-axis for each ray.
+        float angleStep = Camera.main.fieldOfView / (rays - 1);
+
+        // We loop through each ray we want to cast.
+        for (int i = 0; i < rays; ++i)
+        {
+            // We calculate the angle for the current ray.
+            float angle = -Camera.main.fieldOfView / 2 + angleStep * i;
+
+            // We create a rotation that rotates around the Y-axis by the angle we calculated.
+            Quaternion rotation = Quaternion.Euler(0, angle, 0);
+
+            // We calculate the direction for the current ray by rotating the camera's forward direction.
+            Vector3 direction = rotation * gameObject.transform.forward;
+
+            // We create a new ray from the camera's position in the calculated direction.
+            Ray ray = new(gameObject.transform.position, direction);
+
+            // We perform the raycast. If it hits something, we draw a red line from the ray's origin to the hit point.
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                Debug.DrawLine(ray.origin, hit.point, Color.red, .1f);
+                // Here you can add code to handle what happens when the ray hits something.
+            }
+
+            objects[i] = hit.collider != null ? hit.collider.gameObject : null;
+        }
+
+        inSight = objects;
+    }
+
     #region --------------- Inputs ---------------
 #pragma warning disable IDE0051, IDE0060
     /// <summary>
@@ -230,7 +285,6 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     /// <param name="value">Vector2</param>
     void OnMove(InputValue value) { movement = value.Get<Vector2>(); }
 
-    // TODO: Stop changing the players hit-box when moving the FOV
     /// <summary>
     /// Delta mouse
     /// </summary>
@@ -246,16 +300,25 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
         // Scale
         float rotateSpeed = RotationSens * Time.deltaTime;
 
-        // Set y
+        // Set cam y
         newRotation.y += rotate.x * rotateSpeed;
 
-        // Set x and stop from looking between legs
-        newRotation.x = Mathf.Clamp(newRotation.x - rotate.y * rotateSpeed, -89, 89);
+        // Set cam x and stop from looking between legs
+        newRotation.x = Mathf.Clamp(newRotation.x - rotate.y * rotateSpeed, -89.5f, 89);
 
-        // Set new rotation
-        transform.eulerAngles = newRotation;
+        // Calculate the new Y rotation
+        float newYRotation = rotate.x * rotateSpeed;
+
+        // Create a rotation that only changes the Y-axis
+        Quaternion rotation = Quaternion.Euler(0, newYRotation, 0);
+
+        // Apply the rotation to the game object using Quaternion multiplication
+        gameObject.transform.rotation *= rotation;
+
+        // Set camera rotation
+        Camera.main.transform.eulerAngles = newRotation;
     }
-    
+
     /// <summary>
     /// Button: LMB
     /// </summary>

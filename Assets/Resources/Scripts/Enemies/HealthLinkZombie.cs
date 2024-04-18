@@ -1,3 +1,6 @@
+// Ignore Spelling: DMG
+
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,10 +11,57 @@ using UnityEngine;
 /// All who are part of the link, shares a health-pool
 /// When health-pool reaches 0, all linked enemies die
 /// </summary>
-public class HealthLinkZombie : BaseEnemy
+public class HealthLinkZombie : GermanSoldier
 {
-    public override float DMG { get; set; } = 1f;
-    public override float Health { get; set; } = 10f;
+    //public override float DMG { get; set; } = 1f;
+    //public override float Health { get; set; } = 10f;
 
+    private readonly HashSet<GermanSoldier> _soldiers = new();
+
+    const float detectDisctance = 25f;
+
+    public override void Awake()
+    {
+        base.Awake();
+
+        foreach (var a in GetComponents<SphereCollider>())
+        {
+            if (a.isTrigger)
+            {
+                a.radius = detectDisctance;
+                break;
+            }
+        }
+
+        _soldiers.Add(this);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.TryGetComponent<GermanSoldier>(out var soldier))
+        {
+            soldier.WasAttacked += OnSoldierTookDamage;
+            _soldiers.Add(soldier);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        GermanSoldier a = other.GetComponent<GermanSoldier>();
+        if (_soldiers.Contains(a))
+        {
+            a.WasAttacked -= OnSoldierTookDamage;
+            _soldiers.Remove(a);
+        }
+    }
+
+    private void OnSoldierTookDamage(float damage)
+    {
+        float fractionedDamage = damage / _soldiers.Count;
+        foreach (GermanSoldier soldier in _soldiers)
+        {
+            soldier.Health -= fractionedDamage;
+        }
+    }
 
 }

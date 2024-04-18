@@ -14,7 +14,6 @@ public class Interactor : MonoBehaviour, IInteractable
         {
             // Collect the part
             part.Collect(controler);
-            print($"{sender.name} picked up a '{part.GetType()}'");
             
             // Destroy the GO
             Destroy(gameObject);

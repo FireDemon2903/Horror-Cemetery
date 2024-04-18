@@ -25,19 +25,17 @@ public class Harvey : BaseEnemy
     private readonly float DOTDamage = 1f;
     private readonly float AccelerationSpeed = 20f;
 
-    private Rigidbody mRigidbody;
-
-    MoveMode Move => Move1;
+    MoveMode Move;
 
     readonly float detectDisctance = 25f;
 
-    private void Awake()
+    public override void Awake()
     {
         // Singleton
         if (_instance != null && _instance != this) { Destroy(gameObject); return; }
         else { _instance = this; }
-
-        mRigidbody = GetComponent<Rigidbody>();
+        
+        base.Awake();
 
         foreach (var a in GetComponents<SphereCollider>())
         {
@@ -47,6 +45,8 @@ public class Harvey : BaseEnemy
                 break;
             }
         }
+
+        Move = Move1;
     }
 
     public override void TakeDMG(IDamage DMGSource, float? dmg=null)
@@ -100,7 +100,7 @@ public class Harvey : BaseEnemy
             Vector3 targetPosition = PlayerController.Instance.gameObject.transform.position - PlayerController.Instance.gameObject.transform.forward * 150f;
 
             // Kill momentum
-            mRigidbody.KillVelocityAndAngular();
+            mRigidbody.Stop();
 
             // Move to the target position
             transform.position = targetPosition;

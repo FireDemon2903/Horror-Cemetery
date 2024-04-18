@@ -1,4 +1,8 @@
+// Ignore Spelling: DMG
+
+using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 using static GameManager;
 
 /// <summary>
@@ -14,21 +18,42 @@ public class Harold : BaseEnemy
     public override float DMG { get; set; } = 1f;
     public override float Health { get; set; } = Mathf.Infinity;
 
-    bool onScreen = false;
+    //bool onScreen = false;
+    bool hasRunStation = false;
 
     MoveMode Move;
 
     float VisibleTimer = 0f;
 
+    bool thisVisibleToPlayer => PlayerController.Instance.inSight.Contains(gameObject);
+
+    //float chaseTimer = 0f;
+
+    public override void Awake()
+    {
+        base.Awake();
+
+        Move = StalkPlayer;
+        ResetStats();
+    }
+
     private void FixedUpdate()
     {
-        if (onScreen)
+        //if (chaseTimer > 0f)
+        //{
+        //    Move = ChasePlayer;
+        //}
+
+        //print(Camera.main.WorldToScreenPoint(transform.position));
+
+
+        if (thisVisibleToPlayer)
         {
             // increment timer
             VisibleTimer += Time.fixedDeltaTime;
 
             // Update move-mode
-            Move = VisibleTimer <= 0f ? Freeze : VisibleTimer >= 2.5f ? RunFromPlayer : VisibleTimer >= 5f ? ChasePlayer : ChasePlayer;
+            Move = VisibleTimer <= 5 ? Freeze : VisibleTimer <= 10 ? RunFromPlayer : ChasePlayer;
         }
         else
         {
@@ -39,17 +64,34 @@ public class Harold : BaseEnemy
         Move?.Invoke();
     }
 
-    private void OnBecameVisible() { onScreen = true; }
-    private void OnBecameInvisible() { onScreen = false; VisibleTimer = 0f; }
+    private void ResetStats()
+    {
+        VisibleTimer = 0f;
 
-    // TODO: implement
+        mAgent.speed = 80f * 3;
+        mAgent.angularSpeed = 120f * 3;
+        mAgent.acceleration = 300f * 3;
+
+        hasRunStation = false;
+        mAgent.isStopped = false;
+    }
+
+    private void IncreaseStats()
+    {
+        mAgent.speed = 80f * 3;
+        mAgent.angularSpeed = 120f * 3;
+        mAgent.acceleration = 300f * 3;
+    }
 
     /// <summary>
     /// Stop moving
     /// </summary>
     void Freeze()
     {
+        print("freeze");
+        mAgent.isStopped = true;
 
+        IncreaseStats();
     }
 
     /// <summary>
@@ -57,7 +99,9 @@ public class Harold : BaseEnemy
     /// </summary>
     void StalkPlayer()
     {
-
+        print("stalk");
+        mAgent.SetDestination(PlayerController.Instance.Position);
+        ResetStats();
     }
 
     /// <summary>
@@ -65,7 +109,8 @@ public class Harold : BaseEnemy
     /// </summary>
     void ChasePlayer()
     {
-
+        print("chase");
+        mAgent.SetDestination(PlayerController.Instance.Position);
     }
 
     /// <summary>
@@ -73,7 +118,20 @@ public class Harold : BaseEnemy
     /// </summary>
     void RunFromPlayer()
     {
+        print("run");
 
+        mAgent.isStopped = false;
+
+        // find station
+        if (!hasRunStation)
+        {
+            // cycle through the stations randomly, until one whom cannot be seen by the player is found
+            while (!Instance.GetRandomPos(out var t).gameObject.SightTest(PlayerController.Instance.gameObject))
+            {
+                mAgent.SetDestination(t.position);
+                hasRunStation = true;
+            }
+        }
+        else return;
     }
-
 }

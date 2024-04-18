@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
     public event Action OnObjectiveCompleted;
     readonly List<GameObject> Objectives = new();
 
-    Vector3[] positions;
+    Transform[] positions;
 
     // Names of Areas to be used in ´Load´ objects
     public enum Scenenames
@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
 
         // Spawn the player
-        Instantiate(Resources.Load<GameObject>(@"Prefabs/PlayerPlaceholder"));
+        Instantiate(Resources.Load<GameObject>(@"Prefabs/PlayerVariant"));
         DontDestroyOnLoad(PlayerController.Instance.gameObject);
 
         EnteredFrom = PlayerSpawn;
@@ -93,6 +93,8 @@ public class GameManager : MonoBehaviour
         NewObjective("Find gun cylinder", () => { return PlayerController.Instance.OwnedParts.Contains(Parts.GunCyllinder); });
         NewObjective("Find gun handle", () => { return PlayerController.Instance.OwnedParts.Contains(Parts.GunHandle); });
         NewObjective("Find bullet parts", () => { return CanCraftItem(PlayerController.Instance.OwnedParts, Parts.Gunpowder, Parts.Casing); });
+        //NewObjective("Find notes")
+        //NewObjective("")
     }
 
     // Called whenever a scene is loaded
@@ -104,7 +106,7 @@ public class GameManager : MonoBehaviour
         // Find ZoneTransitions
         SetZones();
 
-        positions = GameObject.FindGameObjectsWithTag("Station").Select(x => x.transform.position).ToArray();
+        positions = GameObject.FindGameObjectsWithTag("Station").Select(x => x.transform).ToArray();
 
         // Move important object to new scene
         StartCoroutine(MoveToNewScene(scene));
@@ -123,10 +125,9 @@ public class GameManager : MonoBehaviour
 
         if (SceneManager.GetActiveScene().name != "MainBuild")
         {
-            print(scene.name);
             // move player to spawn
             PlayerController.Instance.gameObject.transform.position = GameObject.FindWithTag("Respawn").transform.position;
-            print(GameObject.FindWithTag("Respawn").transform.position);
+            //print(GameObject.FindWithTag("Respawn").transform.position);
         }
         else
         {
@@ -194,5 +195,7 @@ public class GameManager : MonoBehaviour
         ObjectivesObj.GetComponent<RectTransform>().sizeDelta = new Vector2(500, 100 + 50 * Objectives.Count);
     }
 
-    public Vector3 GetRandomPos() { return positions[Random.Range(0, positions.Length - 1)]; }
+#nullable enable
+    public Transform GetRandomPos(out Transform? t) { t = positions[Random.Range(0, positions.Length - 1)]; return t; }
+#nullable disable
 }
