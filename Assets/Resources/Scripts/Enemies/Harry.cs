@@ -1,10 +1,7 @@
 // Ignore Spelling: DMG
 
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 using static GameManager;
 using Random = UnityEngine.Random;
 
@@ -45,13 +42,14 @@ public class Harry : BaseEnemy
         base.Awake();
 
         HarryPrefab = Resources.Load<GameObject>("Prefabs/Enemies/Harry");
-        GrenadePrefab = Resources.Load<GameObject>("Prefabs/Weapon/Grenade");
+        GrenadePrefab = Resources.Load<GameObject>("Prefabs/Items/StickGrenade");
 
         RefreshThrow = () => throwCooldown = false;
         ResetPos = () => positionCooldown = false;
 
         IsReal = true;
     }
+
 
     private void Start()
     {
@@ -136,7 +134,9 @@ public class Harry : BaseEnemy
         vec = vec.normalized;
 
         // add force
-        grenade.GetComponent<Rigidbody>().AddForce(vec * 250f, ForceMode.VelocityChange);
+        var rb = grenade.GetComponent<Rigidbody>();
+        rb.AddForce(vec * 250f, ForceMode.VelocityChange);
+        //rb.AddTorque(new Vector3(0, 500, 0), ForceMode.VelocityChange);
     }
 
     //todo move harry

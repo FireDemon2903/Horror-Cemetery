@@ -8,29 +8,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3455761291168710072, guid: ff20fc3fcb42b4d4fb838c49b1def71e, type: 3}
-      propertyPath: m_Drag
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3455761291168710072, guid: ff20fc3fcb42b4d4fb838c49b1def71e, type: 3}
-      propertyPath: m_Constraints
-      value: 112
-      objectReference: {fileID: 0}
     - target: {fileID: 3468925700632008985, guid: ff20fc3fcb42b4d4fb838c49b1def71e, type: 3}
       propertyPath: m_Name
       value: PlayerVariant
       objectReference: {fileID: 0}
     - target: {fileID: 4282862940812772259, guid: ff20fc3fcb42b4d4fb838c49b1def71e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 94.34083
       objectReference: {fileID: 0}
     - target: {fileID: 4282862940812772259, guid: ff20fc3fcb42b4d4fb838c49b1def71e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 13.35
       objectReference: {fileID: 0}
     - target: {fileID: 4282862940812772259, guid: ff20fc3fcb42b4d4fb838c49b1def71e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 109.97084
       objectReference: {fileID: 0}
     - target: {fileID: 4282862940812772259, guid: ff20fc3fcb42b4d4fb838c49b1def71e, type: 3}
       propertyPath: m_LocalRotation.w

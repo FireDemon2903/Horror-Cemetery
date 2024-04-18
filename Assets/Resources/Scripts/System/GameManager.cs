@@ -85,6 +85,7 @@ public class GameManager : MonoBehaviour
     {
         // check through the conditions
         OnObjectiveCompleted?.Invoke();
+
     }
 
     private void Start()

@@ -175,6 +175,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GermanEnemy (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -416,6 +420,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GermanEnemy (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -595,6 +603,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GermanEnemy (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -683,6 +695,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GermanEnemy (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -739,6 +755,10 @@ PrefabInstance:
     - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
       propertyPath: m_Name
       value: GermanEnemy (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -952,6 +972,10 @@ PrefabInstance:
     - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
       propertyPath: m_Name
       value: GermanEnemy (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1494,6 +1518,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1524295718}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1134637305
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8586682659747255135, guid: 8d9449ed52401304184e471c289a12b9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 94.34083
+      objectReference: {fileID: 0}
+    - target: {fileID: 8586682659747255135, guid: 8d9449ed52401304184e471c289a12b9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 13.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 8586682659747255135, guid: 8d9449ed52401304184e471c289a12b9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 109.97084
+      objectReference: {fileID: 0}
+    - target: {fileID: 8586682659747255135, guid: 8d9449ed52401304184e471c289a12b9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8586682659747255135, guid: 8d9449ed52401304184e471c289a12b9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8586682659747255135, guid: 8d9449ed52401304184e471c289a12b9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8586682659747255135, guid: 8d9449ed52401304184e471c289a12b9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8586682659747255135, guid: 8d9449ed52401304184e471c289a12b9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8586682659747255135, guid: 8d9449ed52401304184e471c289a12b9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8586682659747255135, guid: 8d9449ed52401304184e471c289a12b9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8962680914224974309, guid: 8d9449ed52401304184e471c289a12b9, type: 3}
+      propertyPath: m_Name
+      value: PlayerVariant
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8d9449ed52401304184e471c289a12b9, type: 3}
 --- !u!1001 &1182350211
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1545,6 +1626,10 @@ PrefabInstance:
     - target: {fileID: 8956368426469584912, guid: 44b28f54af0ddd1489744c29c4d5a675, type: 3}
       propertyPath: m_Name
       value: HealthLink
+      objectReference: {fileID: 0}
+    - target: {fileID: 8956368426469584912, guid: 44b28f54af0ddd1489744c29c4d5a675, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1633,6 +1718,10 @@ PrefabInstance:
     - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
       propertyPath: m_Name
       value: GermanEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2081,7 +2170,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2271226767724381773, guid: 23279eb142332654e88704455b835277, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6281227326131617227, guid: 23279eb142332654e88704455b835277, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2601,6 +2690,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GermanEnemy (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2688,6 +2781,10 @@ PrefabInstance:
     - target: {fileID: 6916891664091663190, guid: 90051e8d50c621248a81df1073e8b2b4, type: 3}
       propertyPath: m_Name
       value: InteractTests
+      objectReference: {fileID: 0}
+    - target: {fileID: 6916891664091663190, guid: 90051e8d50c621248a81df1073e8b2b4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2831,7 +2928,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4156859533875022891, guid: 6d7afec2e0fcca94b8181bf3a15d48ff, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6008310649548378922, guid: 6d7afec2e0fcca94b8181bf3a15d48ff, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2909,3 +3006,4 @@ SceneRoots:
   - {fileID: 348000859}
   - {fileID: 241033656}
   - {fileID: 1498007420}
+  - {fileID: 1134637305}
