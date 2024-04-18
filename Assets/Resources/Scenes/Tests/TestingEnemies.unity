@@ -175,6 +175,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GermanEnemy (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -416,6 +420,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GermanEnemy (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -595,6 +603,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GermanEnemy (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -683,6 +695,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GermanEnemy (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -739,6 +755,10 @@ PrefabInstance:
     - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
       propertyPath: m_Name
       value: GermanEnemy (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -952,6 +972,10 @@ PrefabInstance:
     - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
       propertyPath: m_Name
       value: GermanEnemy (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1546,6 +1570,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HealthLink
       objectReference: {fileID: 0}
+    - target: {fileID: 8956368426469584912, guid: 44b28f54af0ddd1489744c29c4d5a675, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1633,6 +1661,10 @@ PrefabInstance:
     - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
       propertyPath: m_Name
       value: GermanEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2081,7 +2113,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2271226767724381773, guid: 23279eb142332654e88704455b835277, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6281227326131617227, guid: 23279eb142332654e88704455b835277, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2601,6 +2633,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GermanEnemy (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 5526159226105123978, guid: d741180d7d2dbca4aad8781b6697f10e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2688,6 +2724,10 @@ PrefabInstance:
     - target: {fileID: 6916891664091663190, guid: 90051e8d50c621248a81df1073e8b2b4, type: 3}
       propertyPath: m_Name
       value: InteractTests
+      objectReference: {fileID: 0}
+    - target: {fileID: 6916891664091663190, guid: 90051e8d50c621248a81df1073e8b2b4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2831,7 +2871,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4156859533875022891, guid: 6d7afec2e0fcca94b8181bf3a15d48ff, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6008310649548378922, guid: 6d7afec2e0fcca94b8181bf3a15d48ff, type: 3}
       propertyPath: m_LocalPosition.x

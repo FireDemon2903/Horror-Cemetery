@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 using Outline = cakeslice.Outline;
 
 [RequireComponent(typeof(PlayerInput))]                                 // Player input
-[RequireComponent (typeof(CapsuleCollider), typeof(Rigidbody))]         // Collision (and more)
+[RequireComponent(typeof(CapsuleCollider), typeof(Rigidbody))]         // Collision (and more)
 [RequireComponent(typeof(AudioSource))]                                 // Sound requirements
 
 public class PlayerController : MonoBehaviour, IAlive, IDamage
@@ -59,8 +59,6 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     public float Health { get; set; } = 10f;
     public float DMG { get { return _baseDMG * DMGMult; } set { } }
 
-    [Range(0, 1)] readonly int DMGMode = 1;             // 0: CQC, 1: Gun
-
     // --------------- Player States ---------------
     bool IsRunning = false;
     bool IsCrouched = false;
@@ -72,7 +70,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
 
     public GameObject[] inSight;
 
-    // --------------- Components on this object ---------------
+    // --------------- Components/children on this object ---------------
     Rigidbody mRigidbody;
     CapsuleCollider mCollider;
 
@@ -84,6 +82,13 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     Light mLight;
     int CurrLight => lightTypes.IndexOf(mLight.type);
     readonly List<LightType> lightTypes = new() { LightType.Spot, LightType.Point };
+
+    // Weaponry
+    GameObject Gun;
+    GameObject Shovel;
+
+    LinkedList<GameObject?> WeaponList = new();
+    LinkedListNode<GameObject> CurrentWeapon;
 
     // --------------- Collectibles ---------------
     // Move to dedicated crafting script later:
@@ -122,8 +127,14 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
         mLight = GetComponentInChildren<Light>();
         mLight.enabled = false;
 
-
         mLineRenderer.enabled = true;
+
+        Gun = GameObject.Find("GunPrefab");
+        Shovel = GameObject.Find("Shovel");
+
+        WeaponList.AddFirst(Gun);
+        WeaponList.AddFirst(Shovel);
+        CurrentWeapon = WeaponList.First;
     }
 
 
@@ -226,7 +237,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     public void DealDMG(IAlive target, float? dmg = null)
     {
         // If the player has a gun, do ranged damage
-        if (DMGMode == 1) { DoRangedDMG(); return; }
+        if (CurrentWeapon.Value == Gun) { DoRangedDMG(); return; }
 
         // Else if the last/current object in sight is not null, then tell the other object to kill itself
         // Try to deal damage to the object. this is a try, because it is not known whether the object can take damage
@@ -396,6 +407,27 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     /// </summary>
     /// <param name="value">Button</param>
     void OnLightToggle(InputValue value) { mLight.enabled = !mLight.enabled; }
+
+    void OnScroll(InputValue value)
+    {
+        //toggle
+        var val = value.Get<Vector2>();
+        if (val.y == 0) return;
+
+        if (val.y < 0)
+        {
+            CurrentWeapon.Value.SetActive(false);
+            CurrentWeapon = CurrentWeapon.Next ?? WeaponList.First;
+            CurrentWeapon.Value.SetActive(true);
+        }
+        else if (val.y > 0)
+        {
+            CurrentWeapon.Value.SetActive(false);
+            CurrentWeapon = CurrentWeapon.Previous ?? WeaponList.Last;
+            CurrentWeapon.Value.SetActive(true);
+        }
+    }
+
 #pragma warning restore IDE0051, IDE0060
     #endregion --------------- Inputs ---------------
     #endregion --------------- Methods ---------------
