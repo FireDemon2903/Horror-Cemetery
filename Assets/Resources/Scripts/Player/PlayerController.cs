@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     GameObject Gun;
     GameObject Shovel;
 
-    LinkedList<GameObject?> WeaponList = new();
+    readonly LinkedList<GameObject?> WeaponList = new();
     LinkedListNode<GameObject> CurrentWeapon;
 
     // --------------- Collectibles ---------------
@@ -141,6 +141,9 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     private void Start()
     {
         InvokeRepeating(nameof(CastMultipleRays), 0, .1f);
+
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
     }
 
     private void FixedUpdate()

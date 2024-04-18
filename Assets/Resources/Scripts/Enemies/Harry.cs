@@ -42,7 +42,7 @@ public class Harry : BaseEnemy
         base.Awake();
 
         HarryPrefab = Resources.Load<GameObject>("Prefabs/Enemies/Harry");
-        GrenadePrefab = Resources.Load<GameObject>("Prefabs/Weapon/StickGrenade");
+        GrenadePrefab = Resources.Load<GameObject>("Prefabs/Items/StickGrenade");
 
         RefreshThrow = () => throwCooldown = false;
         ResetPos = () => positionCooldown = false;

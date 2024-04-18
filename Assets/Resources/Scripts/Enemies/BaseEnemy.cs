@@ -1,4 +1,4 @@
-// Ignore Spelling: Rigidbody
+// Ignore Spelling: Rigidbody dmg
 
 using Unity.VisualScripting;
 using UnityEngine;
