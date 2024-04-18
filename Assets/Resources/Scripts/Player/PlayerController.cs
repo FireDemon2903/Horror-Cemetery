@@ -185,15 +185,6 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
         Debug.DrawRay(transform.position, mRigidbody.velocity, Color.red);
     }
 
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    if (collision != null)
-    //    {
-    //        if (collision.collider.bounds.Intersects())
-    //    }
-    //}
-
-
     #endregion --------------- Builtin ---------------
 
     void PlayClip(AudioClip clip)
@@ -208,8 +199,6 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     /// Toggles the light type (options in ´lightTypes´ list)
     /// </summary>
     public void ToggleLightType() { mLight.type = lightTypes[CurrLight + 1 < lightTypes.Count ? CurrLight + 1 : 0]; }
-
-
     
     private void DoRangedDMG()
     {
