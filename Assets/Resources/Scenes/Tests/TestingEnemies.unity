@@ -133,7 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 191953987}
   m_Layer: 0
-  m_Name: GameObject (6)
+  m_Name: Station
   m_TagString: Station
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,7 +148,7 @@ Transform:
   m_GameObject: {fileID: 191953986}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 56.951187, y: 534.25867, z: -140.51465}
+  m_LocalPosition: {x: 136, y: 0.099975586, z: -120}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -286,7 +286,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224774940}
   m_Layer: 0
-  m_Name: GameObject (7)
+  m_Name: Station
   m_TagString: Station
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -301,7 +301,7 @@ Transform:
   m_GameObject: {fileID: 224774939}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -35.048813, y: 534.25867, z: -151.51465}
+  m_LocalPosition: {x: 44, y: 0.099975586, z: -131}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -439,7 +439,7 @@ GameObject:
   m_Component:
   - component: {fileID: 338395899}
   m_Layer: 0
-  m_Name: GameObject (14)
+  m_Name: Station
   m_TagString: Station
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -454,7 +454,7 @@ Transform:
   m_GameObject: {fileID: 338395898}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 254.95119, y: 534.25867, z: -0.51465607}
+  m_LocalPosition: {x: 334, y: 0.099975586, z: 20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -470,7 +470,7 @@ GameObject:
   m_Component:
   - component: {fileID: 380155330}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Station
   m_TagString: Station
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -485,7 +485,7 @@ Transform:
   m_GameObject: {fileID: 380155329}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -124.04881, y: 534.25867, z: -98.514656}
+  m_LocalPosition: {x: -45, y: 0.099975586, z: -78}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -564,7 +564,7 @@ GameObject:
   m_Component:
   - component: {fileID: 667504530}
   m_Layer: 0
-  m_Name: GameObject (11)
+  m_Name: Station
   m_TagString: Station
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -579,7 +579,7 @@ Transform:
   m_GameObject: {fileID: 667504529}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -46.048813, y: 534.25867, z: 314.48535}
+  m_LocalPosition: {x: 33, y: 0.099975586, z: 335}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -595,7 +595,7 @@ GameObject:
   m_Component:
   - component: {fileID: 721937304}
   m_Layer: 0
-  m_Name: GameObject (12)
+  m_Name: Station
   m_TagString: Station
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -610,7 +610,7 @@ Transform:
   m_GameObject: {fileID: 721937303}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 29.951187, y: 534.25867, z: 304.48535}
+  m_LocalPosition: {x: 109, y: 0.099975586, z: 325}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1127,7 +1127,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1093355505}
   m_Layer: 0
-  m_Name: GameObject (13)
+  m_Name: Station
   m_TagString: Station
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1142,7 +1142,7 @@ Transform:
   m_GameObject: {fileID: 1093355504}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 269.95117, y: 534.25867, z: 298.48535}
+  m_LocalPosition: {x: 349, y: 0.099975586, z: 319}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1158,7 +1158,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1191031252}
   m_Layer: 0
-  m_Name: GameObject (3)
+  m_Name: Station
   m_TagString: Station
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1173,7 +1173,7 @@ Transform:
   m_GameObject: {fileID: 1191031251}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 33.951187, y: 534.25867, z: 25.485344}
+  m_LocalPosition: {x: 113, y: 0.099975586, z: 46}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1189,7 +1189,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1248053155}
   m_Layer: 0
-  m_Name: GameObject (2)
+  m_Name: Station
   m_TagString: Station
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1204,7 +1204,7 @@ Transform:
   m_GameObject: {fileID: 1248053154}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -52.048813, y: 534.25867, z: 36.485344}
+  m_LocalPosition: {x: 27, y: 0.099975586, z: 57}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1586,7 +1586,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1461172793}
   m_Layer: 0
-  m_Name: GameObject (16)
+  m_Name: Station
   m_TagString: Station
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1601,7 +1601,7 @@ Transform:
   m_GameObject: {fileID: 1461172792}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 248.95119, y: 534.25867, z: -319.51465}
+  m_LocalPosition: {x: 328, y: 0.099975586, z: -299}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1617,7 +1617,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1510079134}
   m_Layer: 0
-  m_Name: GameObject (17)
+  m_Name: Station
   m_TagString: Station
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1632,7 +1632,7 @@ Transform:
   m_GameObject: {fileID: 1510079133}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 52.951187, y: 534.25867, z: -319.51465}
+  m_LocalPosition: {x: 132, y: 0.099975586, z: -299}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1663,7 +1663,7 @@ Transform:
   m_GameObject: {fileID: 1524295717}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 79.04881, y: -534.1587, z: 20.514656}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1699,7 +1699,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1565410563}
   m_Layer: 0
-  m_Name: GameObject (19)
+  m_Name: Station
   m_TagString: Station
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1714,7 +1714,7 @@ Transform:
   m_GameObject: {fileID: 1565410562}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -254.04881, y: 534.25867, z: -324.51465}
+  m_LocalPosition: {x: -175, y: 0.099975586, z: -304}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1852,7 +1852,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1614656843}
   m_Layer: 0
-  m_Name: GameObject (8)
+  m_Name: Station
   m_TagString: Station
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1867,7 +1867,7 @@ Transform:
   m_GameObject: {fileID: 1614656842}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -258.04883, y: 534.25867, z: -82.514656}
+  m_LocalPosition: {x: -179.00002, y: 0.099975586, z: -62}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1914,7 +1914,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1701020536}
   m_Layer: 0
-  m_Name: GameObject (4)
+  m_Name: Station
   m_TagString: Station
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1929,7 +1929,7 @@ Transform:
   m_GameObject: {fileID: 1701020535}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 126.95119, y: 534.25867, z: -5.514656}
+  m_LocalPosition: {x: 206, y: 0.099975586, z: 15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1945,7 +1945,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1752825048}
   m_Layer: 0
-  m_Name: GameObject (5)
+  m_Name: Station
   m_TagString: Station
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1960,7 +1960,7 @@ Transform:
   m_GameObject: {fileID: 1752825047}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 130.95119, y: 534.25867, z: -89.514656}
+  m_LocalPosition: {x: 210, y: 0.099975586, z: -69}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1976,7 +1976,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1834685822}
   m_Layer: 0
-  m_Name: GameObject (1)
+  m_Name: Station
   m_TagString: Station
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1991,7 +1991,7 @@ Transform:
   m_GameObject: {fileID: 1834685821}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -132.04881, y: 534.25867, z: -3.514656}
+  m_LocalPosition: {x: -53, y: 0.099975586, z: 17}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2007,7 +2007,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1874671041}
   m_Layer: 0
-  m_Name: GameObject (10)
+  m_Name: Station
   m_TagString: Station
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2022,7 +2022,7 @@ Transform:
   m_GameObject: {fileID: 1874671040}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -260.04883, y: 534.25867, z: 293.48535}
+  m_LocalPosition: {x: -181.00002, y: 0.099975586, z: 314}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2038,7 +2038,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1949498113}
   m_Layer: 0
-  m_Name: GameObject (9)
+  m_Name: Station
   m_TagString: Station
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2053,7 +2053,7 @@ Transform:
   m_GameObject: {fileID: 1949498112}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -264.04883, y: 534.25867, z: -4.514656}
+  m_LocalPosition: {x: -185.00002, y: 0.099975586, z: 16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2069,7 +2069,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2019459982}
   m_Layer: 0
-  m_Name: GameObject (15)
+  m_Name: Station
   m_TagString: Station
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2084,7 +2084,7 @@ Transform:
   m_GameObject: {fileID: 2019459981}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 269.95117, y: 534.25867, z: -92.514656}
+  m_LocalPosition: {x: 349, y: 0.099975586, z: -72}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2100,7 +2100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2120372076}
   m_Layer: 0
-  m_Name: GameObject (18)
+  m_Name: Station
   m_TagString: Station
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2115,7 +2115,7 @@ Transform:
   m_GameObject: {fileID: 2120372075}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -33.048813, y: 534.25867, z: -330.51465}
+  m_LocalPosition: {x: 46, y: 0.099975586, z: -310}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
