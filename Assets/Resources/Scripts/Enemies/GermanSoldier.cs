@@ -98,8 +98,8 @@ public class GermanSoldier : BaseEnemy
     {
         if (DMGSource == null) return;
 
-        if (WasAttacked.GetInvocationList() != null) { WasAttacked?.Invoke(dmg ?? DMGSource.DMG); }                 // if there are listeners, use them instead
-        else { Health -= dmg ?? DMGSource.DMG; }                                                                    // if dmg has a value, then use that instead of the normal damage
+        if (WasAttacked != null) { WasAttacked?.Invoke(dmg ?? DMGSource.DMG); }                 // if there are listeners, use them instead
+        else { Health -= DMGSource.DMG; }                                                                    // if dmg has a value, then use that instead of the normal damage
     }
 
     public override void DealDMG(IAlive DMGTarget, float? dmg = null)

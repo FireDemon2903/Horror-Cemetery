@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
         TestingAreaLoading,
         TestingPlayer,
         TestingVision,
-        MainBuild
+        MainBuildNotBlue
     }
 
     public Vector3 PlayerSpawn => GameObject.FindWithTag("Respawn").transform.position;

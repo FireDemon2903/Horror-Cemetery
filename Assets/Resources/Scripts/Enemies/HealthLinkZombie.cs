@@ -13,8 +13,8 @@ using UnityEngine;
 /// </summary>
 public class HealthLinkZombie : GermanSoldier
 {
-    //public override float DMG { get; set; } = 1f;
-    //public override float Health { get; set; } = 10f;
+    public override float DMG { get; set; } = 1f;
+    public override float Health { get; set; } = 20f;
 
     private readonly HashSet<GermanSoldier> _soldiers = new();
 

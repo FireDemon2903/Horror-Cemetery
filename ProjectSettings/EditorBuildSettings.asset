@@ -14,9 +14,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Resources/Scenes/Tests/TestingVision.unity
     guid: 2b9465abd01235344a58c3b7030793d2
-  - enabled: 0
-    path: Assets/MainBuild.unity
-    guid: 9cc1cc919555f5a45a56b0fb55759e01
   - enabled: 1
     path: Assets/Resources/Scenes/MainBuildNotBlue.unity
     guid: 22fb0e440f6e2274ba7f5c9eb4189f3a

@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using Outline = cakeslice.Outline;
 
 [RequireComponent(typeof(PlayerInput))]                                 // Player input
@@ -209,7 +210,6 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
         if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, interactablesLayer, QueryTriggerInteraction.Ignore)
             && !(hitInfo.collider.gameObject == gameObject))
         {
-            print(hitInfo.collider.gameObject.name);
             // make smoke at impact point
             //hitInfo.point
             hitInfo.collider.gameObject.TryDealDamage(source: this);
@@ -239,7 +239,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     //todo make death for player
     public void Die()
     {
-        Destroy(gameObject);
+        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
 
     //todo tweak num of rays in player
