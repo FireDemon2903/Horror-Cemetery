@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public static class Extensions
@@ -34,8 +35,7 @@ public static class Extensions
     /// <param name="source"></param>
     public static void TryDealDamage(this GameObject target, IDamage source, float? damage=null)
     {
-        Debug.Log(2);
-        if (target != null && target.TryGetComponent(out IAlive living)) living.TakeDMG(from: source, damage);
+        if (!target.IsUnityNull() && target.TryGetComponent(out IAlive living)) living.TakeDMG(from: source, damage);
     }
 
     /// <summary>
@@ -91,6 +91,16 @@ public static class Extensions
             vectors[i] = new Vector3(x, y, z);
         }
         return vectors;
+    }
+
+    /// <summary>
+    /// Scale an object by a factor
+    /// </summary>
+    /// <param name="object"></param>
+    /// <param name="factor"></param>
+    public static void ScaleThis(this GameObject @object, float factor)
+    {
+        @object.GetComponent<Transform>().localScale *= factor;
     }
 
 

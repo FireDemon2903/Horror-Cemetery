@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class Grenade : MonoBehaviour, IDamage
 {
-    float timer = 2f;
-    const float radius = 200f;
-    const float force = 10_000f;
+    [Range(0f, 10f)] float timer = 5f;
+    const float RADIUS = 100f;
+    const float FORCE = 2_000f;
 
-    public float DMG { get; set; } = 100f;
+    //todo tweak grenade damage
+    public float DMG { get; set; } = 0f; //1f;
 
     private void FixedUpdate()
     {
@@ -25,14 +26,18 @@ public class Grenade : MonoBehaviour, IDamage
     void Explode()
     {
         // get colliders
-        Collider[] colliders = Physics.OverlapSphere(gameObject.transform.position, radius);
+        Collider[] colliders = Physics.OverlapSphere(gameObject.transform.position, RADIUS);
 
         foreach (Collider collider in colliders)
         {
+
             if (collider.TryGetComponent<Rigidbody>(out var rb))
             {
-                print("boom");
-                rb.AddExplosionForce(force, gameObject.transform.position, radius);
+                if (collider.TryGetComponent<Harry>(out var _))
+                {
+                    rb.AddExplosionForce(FORCE * .2f, gameObject.transform.position, RADIUS, upwardsModifier: 3, ForceMode.Impulse);
+                }
+                rb.AddExplosionForce(FORCE, gameObject.transform.position, RADIUS, upwardsModifier: 3, ForceMode.Impulse);
 
                 // attempt to deal damage
                 collider.gameObject.TryDealDamage(source: this);

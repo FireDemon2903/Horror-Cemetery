@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using static GameManager;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// Mini-boss
@@ -24,8 +25,8 @@ public class Harry : BaseEnemy
     // maybe use object pooling?
     GameObject GrenadePrefab;
 
-    const int numIllusions = 10;
-    const float spawnDist = 10f;
+    const int ILLUSIONS = 16;
+    const float SPAWNDIST = 100f;
     public bool IsReal = true;
     public Harry owner = null;
 
@@ -37,7 +38,7 @@ public class Harry : BaseEnemy
 
     MoveMode Move;
 
-    internal readonly List<Harry> _harries;
+    internal readonly List<Harry> _harries = new();
 
     public override void Awake()
     {
@@ -48,13 +49,20 @@ public class Harry : BaseEnemy
 
         RefreshThrow = () => throwCooldown = false;
         ResetPos = () => positionCooldown = false;
+
+        IsReal = true;
+    }
+
+    private void Start()
+    {
+        if (IsReal) SpawnIllusions();
     }
 
     private void FixedUpdate()
     {
-        if (positionCooldown)
+        if (!positionCooldown)
         {
-            positionCooldown = false;
+            positionCooldown = true;
             ResetPos.DelayedExecution(5f);
             Move?.Invoke();
         }
@@ -65,7 +73,7 @@ public class Harry : BaseEnemy
         if (!throwCooldown)
         {
             throwCooldown = true;
-            RefreshThrow.DelayedExecution(1f);
+            RefreshThrow.DelayedExecution(Random.Range(.5f, 1.5f));
             Attack();
         }
     }
@@ -80,14 +88,18 @@ public class Harry : BaseEnemy
     void SpawnIllusions()
     {
         // get positions
-        Vector3[] vectors = Extensions.GetCirclePositions(gameObject.transform.position, spawnDist, numIllusions);
+        Vector3[] vectors = Extensions.GetCirclePositions(gameObject.transform.position, SPAWNDIST, ILLUSIONS);
 
         // spawns illusions facing same dir as center
-        for (int i = 0; i < numIllusions; i++)
+        for (int i = 0; i < ILLUSIONS; i++)
         {
             GameObject newIll = Instantiate(HarryPrefab, vectors[i], transform.rotation);
+            newIll.ScaleThis(.75f);
+
             var h = newIll.GetComponent<Harry>();
             h.IsReal = false;
+            //h.Move = h.MoveMeth;
+            h.owner = this;
 
             _harries.Add(h);
         }
@@ -95,8 +107,10 @@ public class Harry : BaseEnemy
 
     public override void Die()
     {
+        print("h: death");
+
         // Destroy all illusions
-        for (int i = 0;i < numIllusions; i++)
+        for (int i = 0; i < ILLUSIONS; i++)
         {
             Destroy(_harries[i].gameObject);
         }
@@ -114,28 +128,33 @@ public class Harry : BaseEnemy
         // get dir to player
         Vector3 vec = (PlayerController.Instance.Position - gameObject.transform.position).normalized;
 
-        vec.y += 2f;
+        //throw up
+        // TODO maybe scale by dist from player?
+        vec.y += .15f;
 
+        // normalize again
         vec = vec.normalized;
 
-        // add force upwards and towards the player
-        grenade.GetComponent<Rigidbody>().AddForce(vec * 20f, ForceMode.VelocityChange);
+        // add force
+        grenade.GetComponent<Rigidbody>().AddForce(vec * 250f, ForceMode.VelocityChange);
     }
 
-    void MoveMeth()
-    {
-        Vector3 pos;
+    //todo move harry
+    //void MoveMeth()
+    //{
+    //    Vector3 pos;
+        
+    //    try
+    //    {
+    //        //print(owner._harries.IndexOf(this));
+    //        pos = owner._harries[_harries.IndexOf(this) + 1].gameObject.transform.position;
+    //    }
+    //    catch (IndexOutOfRangeException)
+    //    {
+    //        pos = owner._harries[0].gameObject.transform.position;
+    //    }
 
-        try
-        {
-            pos = owner._harries[_harries.IndexOf(this) + 1].gameObject.transform.position;
-        }
-        catch (IndexOutOfRangeException)
-        {
-            pos = owner._harries[0].gameObject.transform.position;
-        }
-
-        mAgent.SetDestination(pos);
-    }
+    //    mAgent.SetDestination(pos);
+    //}
 
 }
