@@ -14,6 +14,7 @@ public class EnterArea : Interactor
         // Save the position the player came from
         if (SceneManager.GetActiveScene().name == "MainBuildNotBlue")
         {
+            print(IndexInGM);
             GameManager.Instance.EnteredFrom = GameManager.Instance.ActiveZoneTransitions[IndexInGM].position;
             //GameManager.Instance.RotationFrom = GameManager.Instance.ActiveZoneTransitions[IndexInGM].rotation;
         }

@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Resources/Scenes/MainBuildNotBlue.unity
     guid: 22fb0e440f6e2274ba7f5c9eb4189f3a
+  - enabled: 1
+    path: Assets/Resources/Scenes/Arenas/ArenaGermanSoldier.unity
+    guid: 706ff21af70c9b247aeb4074e868063c
   m_configObjects: {}
