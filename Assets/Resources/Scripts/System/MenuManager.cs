@@ -45,7 +45,7 @@ public class MenuManager : MonoBehaviour
 
     public void ChangeGraphicsQuality(int quality) { QualitySettings.SetQualityLevel(quality); }
 
-    public void StartGame() { SceneManager.LoadScene("MainBuild"); }
+    public void StartGame() { SceneManager.LoadScene("MainBuildNotBlue"); }
 
     public void OpenMenu(GameObject Menu) { Menu.SetActive(true); }
     public void CloseMenu(GameObject Menu) { Menu.SetActive(false); }
