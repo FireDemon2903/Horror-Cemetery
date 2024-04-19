@@ -56,9 +56,9 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     // --------------- Player Alive/stats ---------------    
     // From IAlive. Cannot be delegates, so no easy multipliers -_-
     public float DMGMult = 1;
-    private const float _baseDMG = 10;
+    private float BaseDMG => CurrentWeapon.Value == Gun ? 10f : CurrentWeapon.Value == Shovel ? 5f : 1f;
     public float Health { get; set; } = 10f;
-    public float DMG { get { return _baseDMG * DMGMult; } set { } }
+    public float DMG { get { return BaseDMG * DMGMult; } set { } }
 
     public int killCount = 0;
 
@@ -134,6 +134,9 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
 
         Gun = GameObject.Find("GunPrefab");
         Shovel = GameObject.Find("Shovel");
+
+        Gun.SetActive(false);
+        Shovel.SetActive(false);
 
         WeaponList.AddFirst(Gun);
         WeaponList.AddFirst(Shovel);
