@@ -77,29 +77,61 @@ public class GameManager : MonoBehaviour
         Instantiate(Resources.Load<GameObject>(@"Prefabs/PlayerVariant"));
         DontDestroyOnLoad(PlayerController.Instance.gameObject);
 
-        // start pos
-        EnteredFrom = PlayerSpawn;
+        // start pos in main
+        EnteredFrom = new Vector3(886.299988f, 15.5500002f, 1360.43005f);
 
         Menu = MenuManager.Instance.Menu;
         ObjectivesObj = Menu.transform.Find("ObjectiveMenu").gameObject;
         ObjectivePrefab = Resources.Load<GameObject>(@"Prefabs/FolderObjectives/Objective");
     }
 
+    public readonly Dictionary<string, GameObject> Locked = new();
+
     private void Start()
     {
         // create objectives
-        NewObjective("Find gun barrel", () => { return PlayerController.Instance.OwnedParts.Contains(Parts.GunBarrel); });
-        NewObjective("Find gun cylinder", () => { return PlayerController.Instance.OwnedParts.Contains(Parts.GunCyllinder); });
-        NewObjective("Find gun handle", () => { return PlayerController.Instance.OwnedParts.Contains(Parts.GunHandle); });
-        NewObjective("Find bullet parts", () => { return CanCraftItem(PlayerController.Instance.OwnedParts, Parts.Gunpowder, Parts.Casing); });
-        //NewObjective("Find notes")
-        NewObjective("Kill 10 random enemies", () => { return PlayerController.Instance.killCount >= 10; });
+        NewObjective("Find gun barrel", condition: () => { return PlayerController.Instance.OwnedParts.Contains(Parts.GunBarrel); });
+        NewObjective("Find gun cylinder", condition: () => { return PlayerController.Instance.OwnedParts.Contains(Parts.GunCyllinder); });
+        NewObjective("Find gun handle", condition: () => { return PlayerController.Instance.OwnedParts.Contains(Parts.GunHandle); });
+        NewObjective("Find bullet parts", condition: () => { return CanCraftItem(PlayerController.Instance.OwnedParts, Parts.Gunpowder, Parts.Casing); });
+        NewObjective("Kill 10 random enemies", condition: () => { return PlayerController.Instance.killCount >= 10; });
+
+
+        // testing
+
+        GameObject a = null;
+        Action action = null;
+        ObjectiveCondition c = () => { return PlayerController.Instance.killCount > 0; };
+
+        action = () =>
+        {
+            if (c())
+            {
+                print("Complete");
+                Objectives.Remove(a);                        // Remove from list
+                Locked.Remove("MainBuildNotBlue");
+                UpdateObjectives();                                     // Update for player
+                OnObjectiveCompleted -= action;                         // Unsubscribe
+                Destroy(a);
+            }
+        };
+
+        a = NewObjective(
+            objectiveText: "Kill 1 to progress",
+            action: action,
+            condition: c
+            );
+
+
+        Locked.Add("MainBuildNotBlue", a);
     }
 
     private void FixedUpdate()
     {
         // check through the conditions
         OnObjectiveCompleted?.Invoke();
+        print(FindAnyObjectByType(typeof(BaseEnemy)) == null);
+
     }
 
     // Called whenever a scene is loaded
@@ -119,8 +151,13 @@ public class GameManager : MonoBehaviour
         OldScene = scene;
     }
 
+    //HashSet<string> locked = new HashSet<string>();
+
+
     public void LoadScene(string sceneName, LoadSceneMode mode)
     {
+        //if (!locked.Contains(sceneName))
+
         SceneManager.LoadScene(sceneName, mode);
     }
 
@@ -146,7 +183,7 @@ public class GameManager : MonoBehaviour
 
     void SetZones() { ActiveZoneTransitions.Clear(); ActiveZoneTransitions = GameObject.FindGameObjectsWithTag("ZoneTransition").Select(obj => obj.transform).ToList(); }
 
-    public void NewObjective(string objectiveText, ObjectiveCondition condition)
+    public GameObject NewObjective(string objectiveText, Action? action = null, ObjectiveCondition? condition = null)
     {
         //TODO tell user that there is new objective
         
@@ -168,23 +205,30 @@ public class GameManager : MonoBehaviour
 
         newObjective.name = objectiveText;
 
-        void action()
+        // if there is no action, but a condition, use base action
+        if (action == null && condition != null)
         {
-            // if the condition is true, remove from list and update objectives
-            if (condition())
+            action = () =>
             {
-                print("Completed: " + objectiveText);                   // Debug
-                Objectives.Remove(newObjective);                        // Remove from list
-                UpdateObjectives();                                     // Update for player
-                OnObjectiveCompleted -= action;                         // Unsubscribe
-                Destroy(newObjective);                                  // Destroy object
-            }
+                // if the condition is true, remove from list and update objectives
+                if (condition())
+                {
+                    print("Completed: " + objectiveText);                   // Debug
+                    Objectives.Remove(newObjective);                        // Remove from list
+                    UpdateObjectives();                                     // Update for player
+                    OnObjectiveCompleted -= action;                         // Unsubscribe
+                    Destroy(newObjective);                                  // Destroy object
+                }
+            };
         }
+
 
         // subscribe to the event
         OnObjectiveCompleted += action;
 
         UpdateObjectives();
+
+        return newObjective;
     }
 
     private void UpdateObjectives()

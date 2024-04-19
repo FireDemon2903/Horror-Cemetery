@@ -9,6 +9,12 @@ public class EnterArea : Interactor
 
     public void Enter()
     {
+        if (GameManager.Instance.Locked.ContainsKey(Area.SelectedName(false)))
+        {
+            // tell player they cannot enter
+            return;
+        }
+
         // TODO: Save mainArea game-state
 
         // Save the position the player came from
