@@ -41,11 +41,14 @@ public class GameManager : MonoBehaviour
     // Names of Areas to be used in ´Load´ objects
     public enum Scenenames
     {
-        TestingAreaLoading,
-        TestingPlayer,
-        TestingVision,
         MainBuildNotBlue,
-        ArenaGermanSoldier
+        MainBuildCave,
+        ArenaGermanSoldier,
+        ArenaHansi,
+        ArenaHarold,
+        ArenaHarry,
+        ArenaHarvey,
+        ArenaHealthLink
     }
 
     public Vector3 PlayerSpawn => GameObject.FindWithTag("Respawn").transform.position;

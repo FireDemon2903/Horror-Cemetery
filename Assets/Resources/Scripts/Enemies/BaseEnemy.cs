@@ -14,10 +14,15 @@ public abstract class BaseEnemy : MonoBehaviour, IDamage, IAlive
     [DoNotSerialize] public Rigidbody mRigidbody;
     [DoNotSerialize] public NavMeshAgent mAgent;
 
+    internal delegate void Died();
+    internal event Died WasKilled;
+
     public virtual void Awake()
     {
         mRigidbody = GetComponent<Rigidbody>();
         mAgent = GetComponent<NavMeshAgent>();
+
+        WasKilled = () => PlayerController.Instance.killCount += 1;
     }
 
     public virtual void TakeDMG(IDamage DMGSource, float? dmg=null)
@@ -38,6 +43,7 @@ public abstract class BaseEnemy : MonoBehaviour, IDamage, IAlive
     //todo make ragdoll death :)
     public virtual void Die()
     {
+        WasKilled?.DynamicInvoke();
         Destroy(gameObject);
     }
 }

@@ -53,12 +53,14 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     Vector3 MovementDirection => new(transform.forward.x * movement.y + transform.right.x * movement.x, 0, transform.forward.z * movement.y + transform.right.z * movement.x);
     Vector3 NewVelocity => MovementDirection.normalized * Speed;
 
-    // --------------- Player Alive ---------------    
+    // --------------- Player Alive/stats ---------------    
     // From IAlive. Cannot be delegates, so no easy multipliers -_-
     public float DMGMult = 1;
     private const float _baseDMG = 10;
     public float Health { get; set; } = 10f;
     public float DMG { get { return _baseDMG * DMGMult; } set { } }
+
+    public int killCount = 0;
 
     // --------------- Player States ---------------
     bool IsRunning = false;
