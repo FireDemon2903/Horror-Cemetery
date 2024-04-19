@@ -65,13 +65,13 @@ public class HealthLinkZombie : GermanSoldier
 
     public override void Die()
     {
-        base.Die();
-
         foreach (var soldier in _soldiers)
         {
             soldier.WasAttacked -= OnSoldierTookDamage;
             _soldiers.Remove(soldier);
         }
+
+        base.Die();
     }
 
 }
