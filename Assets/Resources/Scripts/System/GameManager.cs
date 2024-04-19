@@ -87,13 +87,6 @@ public class GameManager : MonoBehaviour
         ObjectivePrefab = Resources.Load<GameObject>(@"Prefabs/FolderObjectives/Objective");
     }
 
-    private void Update()
-    {
-        // check through the conditions
-        OnObjectiveCompleted?.Invoke();
-
-    }
-
     private void Start()
     {
         NewObjective("Find gun barrel", () => { return PlayerController.Instance.OwnedParts.Contains(Parts.GunBarrel); });
@@ -101,7 +94,13 @@ public class GameManager : MonoBehaviour
         NewObjective("Find gun handle", () => { return PlayerController.Instance.OwnedParts.Contains(Parts.GunHandle); });
         NewObjective("Find bullet parts", () => { return CanCraftItem(PlayerController.Instance.OwnedParts, Parts.Gunpowder, Parts.Casing); });
         //NewObjective("Find notes")
-        //NewObjective("")
+        NewObjective("Kill 10 random enemies", () => { return PlayerController.Instance.killCount >= 10; });
+    }
+
+    private void FixedUpdate()
+    {
+        // check through the conditions
+        OnObjectiveCompleted?.Invoke();
     }
 
     // Called whenever a scene is loaded
