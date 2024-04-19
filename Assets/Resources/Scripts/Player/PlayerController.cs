@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 using Outline = cakeslice.Outline;
 
 [RequireComponent(typeof(PlayerInput))]                                 // Player input
-[RequireComponent(typeof(CapsuleCollider), typeof(Rigidbody))]         // Collision (and more)
+[RequireComponent(typeof(CapsuleCollider), typeof(Rigidbody))]          // Collision (and more)
 [RequireComponent(typeof(AudioSource))]                                 // Sound requirements
 
 public class PlayerController : MonoBehaviour, IAlive, IDamage
@@ -35,32 +35,32 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     }
 
     #region--------------- Player Attributes ---------------
-    const float GrabDist = 25f;                                                      // Grab/Interact/Attack distance
+    const float GrabDist = 25f;                                                                 // Grab/Interact/Attack distance
 
     // --------------- Player Movement ---------------
     readonly float BasePlayerSpeed = 15f;                                                       // Base player speed
-    //float jumpForce = 100;                                                           // The force with which the player jumps
-    public float RotationSens = 50f;                                                   // Mouse sensitivity
+    //float jumpForce = 100;                                                                    // The force with which the player jumps
+    public float RotationSens = 50f;                                                            // Mouse sensitivity
 
     // Priorities crouching speed. If player is crouched, then speed will remain halved,
     // even thought they are technically running in the eyes of the code.
-    float SpeedMultiplyer => IsCrouched ? .5f : IsRunning ? 1.5f : 1f;        // Player speed multiplier. Dependant on state
-    float Speed => BasePlayerSpeed * SpeedMultiplyer;                          // Total player speed after state checks
+    float SpeedMultiplyer => IsCrouched ? .5f : IsRunning ? 1.5f : 1f;                          // Player speed multiplier. Dependant on state
+    float Speed => BasePlayerSpeed * SpeedMultiplyer;                                           // Total player speed after state checks
 
-    Vector2 newRotation;                                                    // Rotation input
-    Vector2 movement;                                                       // Movement input
+    Vector2 newRotation;                                                                        // Rotation input
+    Vector2 movement;                                                                           // Movement input
 
+    // kill me... (at least it works -_-)
     Vector3 MovementDirection => new(transform.forward.x * movement.y + transform.right.x * movement.x, 0, transform.forward.z * movement.y + transform.right.z * movement.x);
     Vector3 NewVelocity => MovementDirection.normalized * Speed;
 
     // --------------- Player Alive/stats ---------------    
-    // From IAlive. Cannot be delegates, so no easy multipliers -_-
-    public float DMGMult = 1;
-    private const float _baseDMG = 10;
+    public float DMGMult = 1;           // Damage multiplier for player
+    private float BaseDMG => CurrentWeapon.Value == Gun ? 10f : CurrentWeapon.Value == Shovel ? 5f : 1f;
     public float Health { get; set; } = 10f;
-    public float DMG { get { return _baseDMG * DMGMult; } set { } }
+    public float DMG { get { return BaseDMG * DMGMult; } set { } }
 
-    public int killCount = 0;
+    public int killCount = 0;       // Amount of enemies killed by player. See BaseEnemy
 
     // --------------- Player States ---------------
     bool IsRunning = false;
@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     CapsuleCollider mCollider;
 
     // Audio
-    AudioSource[] mAudioSources;                                                    // 0: reading, 1: sound, 2: radio & BGM
+    AudioSource[] mAudioSources;                                                    // 0: reading, 1: general sound, 2: radio & BGM
     AudioMixer mAudioMixer;                                                         // Move to GM later
 
     // Light
@@ -109,10 +109,9 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
         if (_instance != null && _instance != this) { Destroy(gameObject); return; }
         else { _instance = this; }
 
-
+        // Assign components
         mRigidbody = GetComponent<Rigidbody>();
         mCollider = GetComponent<CapsuleCollider>();
-
         mAudioSources = GetComponents<AudioSource>();
 
         // Assign interactables layer
@@ -130,10 +129,15 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
         mLight = GetComponentInChildren<Light>();
         mLight.enabled = false;
 
+        // line renderer for aim testing
         mLineRenderer.enabled = true;
 
+        // assign weapons
         Gun = GameObject.Find("GunPrefab");
         Shovel = GameObject.Find("Shovel");
+
+        Gun.SetActive(false);
+        Shovel.SetActive(false);
 
         WeaponList.AddFirst(Gun);
         WeaponList.AddFirst(Shovel);
@@ -247,7 +251,7 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     }
 
     //todo tweak num of rays in player
-    int rays = 10;
+    int rays = 25;
     // This method casts multiple rays from the camera's position.
     void CastMultipleRays()
     {

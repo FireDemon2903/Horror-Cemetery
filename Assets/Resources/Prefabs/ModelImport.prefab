@@ -386,7 +386,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.5
+  m_Radius: 2.5
   m_Height: 17
   m_Direction: 1
   m_Center: {x: 0, y: -4.9, z: 0}
@@ -431,6 +431,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RotationSens: 50
   DMGMult: 1
+  killCount: 0
   LastObjectInSight: {fileID: 0}
   interactablesLayer:
     serializedVersion: 2

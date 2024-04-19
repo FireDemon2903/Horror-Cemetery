@@ -29,6 +29,9 @@ public interface IPart
 /// </summary>
 public interface IDamage
 {
+    /// <summary>
+    /// The default damage this object does when dealing damage
+    /// </summary>
     float DMG { get; set; }
 
     /// <summary>
