@@ -29,7 +29,7 @@ public class Hansi : BaseEnemy
     }
 
     //private float health = 10;
-    public override float Health { get; set; } = 100f;
+    public override float Health { get; set; } = 50f;
 
     //private float dmg = 1;
     public override float DMG { get; set; } = 1f;
