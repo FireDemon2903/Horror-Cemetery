@@ -1,9 +1,7 @@
 // Ignore Spelling: DMG
 
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.AI;
 using static GameManager;
 
 public class GermanSoldier : BaseEnemy
@@ -17,7 +15,7 @@ public class GermanSoldier : BaseEnemy
     // Canonically starts at one, because zombie :D
     private int timesRevived = 1;
 
-    readonly float detectDisctance = 50f;
+    readonly float detectDisctance = 100f;
     readonly float attackRange = 15f;
     bool attackCooldown = false;
 

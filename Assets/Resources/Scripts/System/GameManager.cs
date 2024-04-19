@@ -23,21 +23,20 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public GameObject Menu;
-    GameObject ObjectivePrefab;
-    public GameObject ObjectivesObj;
+    public GameObject Menu;                                     // menu object
+    GameObject ObjectivePrefab;                                 // objective prefab to be instantiated
+    public GameObject ObjectivesObj;                            // parent of objectives
 
-    public GameObject EventSystemObject;
+    public GameObject EventSystemObject;                        // used for settings and other
 
-    public delegate void MoveMode();
-    public delegate void RefreshCooldown();
+    public delegate void MoveMode();                            // delegate used in enemies to dictate their movement method
+    public delegate void RefreshCooldown();                     // delegate used to refresh cooldowns
 
-    public delegate bool ObjectiveCondition();
-    public delegate bool t(string str);
-    public event Action OnObjectiveCompleted;
-    readonly List<GameObject> Objectives = new();
+    public delegate bool ObjectiveCondition();                  // boolean delegate for objective conditions
+    public event Action OnObjectiveCompleted;                   // event Action multicast delegate to check wether objectives have been completed
+    readonly List<GameObject> Objectives = new();               // list of objective gameobjects
 
-    Transform[] positions;
+    Transform[] positions;                                      // positions of gameobjects tagged "station". Refreshes every scene load
 
     // Names of Areas to be used in ´Load´ objects
     public enum Scenenames
@@ -55,15 +54,13 @@ public class GameManager : MonoBehaviour
 
     public Vector3 PlayerSpawn => GameObject.FindWithTag("Respawn").transform.position;
 
-    // List of SubAreas
-    public List<Transform> ActiveZoneTransitions;
-    // The position of the last zone transition player used
-    public Vector3 EnteredFrom;
-    //public Quaternion RotationFrom;
+    public List<Transform> ActiveZoneTransitions;           // List of SubAreas
+    public Vector3 EnteredFrom;                             // The position of the last zone transition player used
 
+    // Parts the player can pick up
     public enum Parts { GunBarrel, GunHandle, GunCyllinder, Gunpowder, Casing }
 
-    Scene OldScene;
+    Scene OldScene;                                         // reference to the "old" scene (see on scene loaded)
 
     private void Awake()
     {
@@ -80,6 +77,7 @@ public class GameManager : MonoBehaviour
         Instantiate(Resources.Load<GameObject>(@"Prefabs/PlayerVariant"));
         DontDestroyOnLoad(PlayerController.Instance.gameObject);
 
+        // start pos
         EnteredFrom = PlayerSpawn;
 
         Menu = MenuManager.Instance.Menu;
@@ -89,6 +87,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        // create objectives
         NewObjective("Find gun barrel", () => { return PlayerController.Instance.OwnedParts.Contains(Parts.GunBarrel); });
         NewObjective("Find gun cylinder", () => { return PlayerController.Instance.OwnedParts.Contains(Parts.GunCyllinder); });
         NewObjective("Find gun handle", () => { return PlayerController.Instance.OwnedParts.Contains(Parts.GunHandle); });
@@ -115,7 +114,7 @@ public class GameManager : MonoBehaviour
         positions = GameObject.FindGameObjectsWithTag("Station").Select(x => x.transform).ToArray();
 
         // Move important object to new scene
-        StartCoroutine(MoveToNewScene(scene));
+        StartCoroutine(MoveToNewScene());
 
         OldScene = scene;
     }
@@ -125,15 +124,14 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(sceneName, mode);
     }
 
-    public IEnumerator MoveToNewScene(Scene scene)
+    public IEnumerator MoveToNewScene()
     {
         yield return new WaitForEndOfFrame();
 
-        if (SceneManager.GetActiveScene().name != "MainBuild")
+        if (SceneManager.GetActiveScene().name != Scenenames.MainBuildNotBlue.SelectedName(false))
         {
             // move player to spawn
             PlayerController.Instance.gameObject.transform.position = GameObject.FindWithTag("Respawn").transform.position;
-            //print(GameObject.FindWithTag("Respawn").transform.position);
         }
         else
         {

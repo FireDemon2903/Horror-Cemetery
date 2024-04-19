@@ -28,9 +28,10 @@ public class Interactor : MonoBehaviour, IInteractable
         {
             lightTest.Toggle(sender: sender);
         }
-
+        // Area entrance
         else if (TryGetComponent<EnterArea>(out var area))
         {
+            // Enter area
             area.Enter();
         }
     }
