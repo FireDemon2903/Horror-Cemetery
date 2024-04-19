@@ -230,6 +230,8 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
 
     public void DealDMG(IAlive target, float? dmg = null)
     {
+        print("Player attacked");
+
         // If the player has a gun, do ranged damage
         if (CurrentWeapon.Value == Gun) { DoRangedDMG(); return; }
 

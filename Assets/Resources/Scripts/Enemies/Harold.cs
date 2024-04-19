@@ -2,7 +2,6 @@
 
 using System.Linq;
 using UnityEngine;
-using UnityEngine.AI;
 using static GameManager;
 
 /// <summary>
@@ -25,7 +24,7 @@ public class Harold : BaseEnemy
 
     float VisibleTimer = 0f;
 
-    bool thisVisibleToPlayer => PlayerController.Instance.inSight.Contains(gameObject);
+    bool ThisVisibleToPlayer => PlayerController.Instance.inSight.Contains(gameObject);
 
     //float chaseTimer = 0f;
 
@@ -39,15 +38,7 @@ public class Harold : BaseEnemy
 
     private void FixedUpdate()
     {
-        //if (chaseTimer > 0f)
-        //{
-        //    Move = ChasePlayer;
-        //}
-
-        //print(Camera.main.WorldToScreenPoint(transform.position));
-
-
-        if (thisVisibleToPlayer)
+        if (ThisVisibleToPlayer)
         {
             // increment timer
             VisibleTimer += Time.fixedDeltaTime;
@@ -88,7 +79,6 @@ public class Harold : BaseEnemy
     /// </summary>
     void Freeze()
     {
-        print("freeze");
         mAgent.isStopped = true;
 
         IncreaseStats();
@@ -99,7 +89,6 @@ public class Harold : BaseEnemy
     /// </summary>
     void StalkPlayer()
     {
-        print("stalk");
         mAgent.SetDestination(PlayerController.Instance.Position);
         ResetStats();
     }
@@ -109,7 +98,6 @@ public class Harold : BaseEnemy
     /// </summary>
     void ChasePlayer()
     {
-        print("chase");
         mAgent.SetDestination(PlayerController.Instance.Position);
     }
 
@@ -118,8 +106,6 @@ public class Harold : BaseEnemy
     /// </summary>
     void RunFromPlayer()
     {
-        print("run");
-
         mAgent.isStopped = false;
 
         // find station

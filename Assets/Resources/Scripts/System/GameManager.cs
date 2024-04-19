@@ -6,6 +6,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
@@ -44,11 +45,12 @@ public class GameManager : MonoBehaviour
         MainBuildNotBlue,
         MainBuildCave,
         ArenaGermanSoldier,
+        ArenaHealthLink,
         ArenaHansi,
         ArenaHarold,
         ArenaHarry,
         ArenaHarvey,
-        ArenaHealthLink
+        TestingAreaLoading
     }
 
     public Vector3 PlayerSpawn => GameObject.FindWithTag("Respawn").transform.position;
@@ -203,4 +205,40 @@ public class GameManager : MonoBehaviour
 #nullable enable
     public Transform GetRandomPos(out Transform? t) { t = positions[Random.Range(0, positions.Length - 1)]; return t; }
 #nullable disable
+
+    // credit: https://forum.unity.com/threads/generating-a-random-position-on-navmesh.873364/#post-5796748
+    /// <summary>
+    /// Selects a random point on the game board (NavMesh).
+    /// </summary>
+    /// <returns>Vector3 of the random location.</returns>
+    public static Vector3 GetRandomGameBoardLocation()
+    {
+        NavMeshTriangulation navMeshData = NavMesh.CalculateTriangulation();
+
+        int maxIndices = navMeshData.indices.Length - 3;
+
+        // pick the first indice of a random triangle in the nav mesh
+        int firstVertexSelected = Random.Range(0, maxIndices);
+        int secondVertexSelected = Random.Range(0, maxIndices);
+
+        // spawn on verticies
+        Vector3 point = navMeshData.vertices[navMeshData.indices[firstVertexSelected]];
+
+        Vector3 firstVertexPosition = navMeshData.vertices[navMeshData.indices[firstVertexSelected]];
+        Vector3 secondVertexPosition = navMeshData.vertices[navMeshData.indices[secondVertexSelected]];
+
+        // eliminate points that share a similar X or Z position to stop spawining in square grid line formations
+        if ((int)firstVertexPosition.x == (int)secondVertexPosition.x || (int)firstVertexPosition.z == (int)secondVertexPosition.z)
+        {
+            point = GetRandomGameBoardLocation(); // re-roll a position - I'm not happy with this recursion it could be better
+        }
+        else
+        {
+            // select a random point on it
+            point = Vector3.Lerp(firstVertexPosition, secondVertexPosition, Random.Range(0.05f, 0.95f));
+        }
+
+        return point;
+    }
+
 }

@@ -1,21 +1,20 @@
 // Ignore Spelling: DMG
 
-using Cinemachine;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
 /// Special zombie.
 /// Links health with other nearby zombies
-/// All who are part of the link, shares a health-pool
-/// When health-pool reaches 0, all linked enemies die
+/// All who are part of the link, gets fraction of damage dealt to individuals
+/// Upon Death, all linkes will terminate, and remaining enemies will no longer have shared health
 /// </summary>
 public class HealthLinkZombie : GermanSoldier
 {
     public override float DMG { get; set; } = 1f;
     public override float Health { get; set; } = 20f;
 
+    //faster than list
     private readonly HashSet<GermanSoldier> _soldiers = new();
 
     const float detectDisctance = 25f;
@@ -61,6 +60,17 @@ public class HealthLinkZombie : GermanSoldier
         foreach (GermanSoldier soldier in _soldiers)
         {
             soldier.Health -= fractionedDamage;
+        }
+    }
+
+    public override void Die()
+    {
+        base.Die();
+
+        foreach (var soldier in _soldiers)
+        {
+            soldier.WasAttacked -= OnSoldierTookDamage;
+            _soldiers.Remove(soldier);
         }
     }
 

@@ -16,7 +16,7 @@ public class Harvey : BaseEnemy
     private static Harvey _instance;
     public static Harvey Instance { get { if (_instance.IsUnityNull()) Debug.LogError("Harvey was null"); return _instance; } }
 
-    private float health = 10f;
+    private float health = 50f;
     public override float Health { get => health; set => health = value; }
 
     private float dmg = 1000f;
