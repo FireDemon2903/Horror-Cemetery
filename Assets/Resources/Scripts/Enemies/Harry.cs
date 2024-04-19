@@ -16,7 +16,7 @@ using Random = UnityEngine.Random;
 public class Harry : BaseEnemy
 {
     public override float DMG { get; set; } = 0f;               // throws grenades who do damage
-    public override float Health { get; set; } = 10f;
+    public override float Health { get; set; } = 20f;
 
     GameObject HarryPrefab;
     // maybe use object pooling?
@@ -92,7 +92,7 @@ public class Harry : BaseEnemy
         for (int i = 0; i < ILLUSIONS; i++)
         {
             GameObject newIll = Instantiate(HarryPrefab, vectors[i], transform.rotation);
-            newIll.ScaleThis(.75f);
+            newIll.ScaleThis(10f);
 
             var h = newIll.GetComponent<Harry>();
             h.IsReal = false;
@@ -101,16 +101,20 @@ public class Harry : BaseEnemy
 
             _harries.Add(h);
         }
+
+        // make harry obvious
+        gameObject.ScaleThis(5f);
     }
 
     public override void Die()
     {
-        print("h: death");
-
-        // Destroy all illusions
-        for (int i = 0; i < ILLUSIONS; i++)
+        if (IsReal)
         {
-            Destroy(_harries[i].gameObject);
+            // Destroy all illusions
+            for (int i = 0; i < ILLUSIONS; i++)
+            {
+                Destroy(_harries[i].gameObject);
+            }
         }
 
         // destroy self
@@ -128,7 +132,7 @@ public class Harry : BaseEnemy
 
         //throw up
         // TODO maybe scale by dist from player?
-        vec.y += .15f;
+        vec.y += .05f;
 
         // normalize again
         vec = vec.normalized;

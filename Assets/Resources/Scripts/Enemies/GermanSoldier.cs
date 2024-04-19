@@ -33,8 +33,11 @@ public class GermanSoldier : BaseEnemy
     public delegate void Attacked(float damage);
     public event Attacked WasAttacked;
 
-    //Vector3 newStation => Instance.GetRandomPos();
-    //Vector3 targetStation;
+    // if the agents remaining distance is greater than the stopping distance
+    // and
+    // if the agent has a path or the agent is still moving
+    // cred: https://discussions.unity.com/t/how-can-i-tell-when-a-navmeshagent-has-reached-its-destination/52403/5
+    bool HasTarget => (mAgent.remainingDistance > mAgent.stoppingDistance) && (mAgent.hasPath || mAgent.velocity.sqrMagnitude != 0f);
 
     public override void Awake()
     {
@@ -86,16 +89,16 @@ public class GermanSoldier : BaseEnemy
     //TODO make soldier idle movement
     void IdleMovement()
     {
-        //if (Vector3.Distance(NavMeshAgent.pathEndPosition, transform.position) < 2f)
-        //{
-        //    NavMeshAgent.SetDestination(Instance.GetRandomPos());
-        //}
-        //else if (!NavMeshAgent.hasPath) { NavMeshAgent.SetDestination(Instance.GetRandomPos());
-        //}
+        if (!HasTarget)
+        {
+            mAgent.SetDestination(GetRandomGameBoardLocation());
+        }
     }
 
     public override void TakeDMG(IDamage DMGSource, float? dmg = null)
     {
+        print("soldier took damage");
+
         if (DMGSource == null) return;
 
         if (WasAttacked != null) { WasAttacked?.Invoke(dmg ?? DMGSource.DMG); }                 // if there are listeners, use them instead
@@ -107,15 +110,6 @@ public class GermanSoldier : BaseEnemy
         base.DealDMG(DMGTarget);
 
         attackCooldown = true;
-    }
-
-    public override void Die()
-    {
-        enabled = false;
-        Renderer r = gameObject.GetComponent<Renderer>();
-        r.material.color = Color.red;
-
-        mAgent.ResetPath();
     }
 
     public void Revive()

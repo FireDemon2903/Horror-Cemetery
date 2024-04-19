@@ -34,9 +34,11 @@ public class Grenade : MonoBehaviour, IDamage
                 // TODO distance grenade
                 //var dist = Vector3.Distance(collider.transform.position, gameObject.transform.position);
 
+                // self immune
                 if (collider.TryGetComponent<Harry>(out var _))
                 {
-                    rb.AddExplosionForce(FORCE * .2f, gameObject.transform.position, RADIUS, upwardsModifier: 3, ForceMode.Impulse);
+                    return;
+                    //rb.AddExplosionForce(FORCE * .2f, gameObject.transform.position, RADIUS, upwardsModifier: 3, ForceMode.Impulse);
                 }
                 rb.AddExplosionForce(FORCE, gameObject.transform.position, RADIUS, upwardsModifier: 3, ForceMode.Impulse);
 
