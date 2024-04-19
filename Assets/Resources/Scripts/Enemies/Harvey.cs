@@ -19,7 +19,7 @@ public class Harvey : BaseEnemy
     private float health = 50f;
     public override float Health { get => health; set => health = value; }
 
-    private float dmg = 1000f;
+    private float dmg = 5f;
     public override float DMG { get => dmg; set => dmg = value; }
 
     private readonly float DOTDamage = 1f;
