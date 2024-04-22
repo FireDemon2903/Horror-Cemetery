@@ -80,6 +80,8 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
     // Audio
     AudioSource[] mAudioSources;                                                    // 0: reading, 1: general sound, 2: radio & BGM
     AudioMixer mAudioMixer;                                                         // Move to GM later
+    AudioClip WalkGravel;
+
 
     // Light
     Light mLight;
@@ -125,6 +127,10 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
         mAudioSources[1].outputAudioMixerGroup = mAudioMixer.FindMatchingGroups("SFX")[0];
         mAudioSources[2].outputAudioMixerGroup = mAudioMixer.FindMatchingGroups("Music")[0];
 
+        WalkGravel = Resources.Load<AudioClip>(@"Audio/IMG_4677");
+        mAudioSources[1].clip = WalkGravel;
+        mAudioSources[1].loop = true;
+
         // Assign light
         mLight = GetComponentInChildren<Light>();
         mLight.enabled = false;
@@ -155,6 +161,15 @@ public class PlayerController : MonoBehaviour, IAlive, IDamage
 
     private void FixedUpdate()
     {
+        if (NewVelocity == Vector3.zero)
+        {
+            mAudioSources[1].Stop();
+        }
+        else if (NewVelocity != Vector3.zero && !mAudioSources[1].isPlaying)
+        {
+            mAudioSources[1].Play();
+        }
+
         mRigidbody.AddForce(NewVelocity + Physics.gravity, ForceMode.VelocityChange);
     }
 
