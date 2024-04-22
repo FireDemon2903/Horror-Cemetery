@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BaseEnemy">
+    <Position X="32.5" Y="3.5" Width="1.5" />
+    <NestedTypes>
+      <Delegate Name="BaseEnemy.Died" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Resources\Scripts\Enemies\BaseEnemy.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAIABgAgIAAAAAAAAAAgAACAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Resources\Scripts\Enemies\BaseEnemy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GermanSoldier">
+    <Position X="27" Y="8.5" Width="1.5" />
+    <NestedTypes>
+      <Delegate Name="GermanSoldier.Attacked" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Resources\Scripts\Enemies\GermanSoldier.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>CAAACAAAg4AEIIBABAIQEAAAQQAAAABgEAAAAAiAIEg=</HashCode>
+      <FileName>Assets\Resources\Scripts\Enemies\GermanSoldier.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Günther">
+    <Position X="29.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Resources\Scripts\Enemies\Günther.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hansi">
+    <Position X="31.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQECQAAACAAAAAAAAIAAAAAAAQAAIBAQAAAAAAAAmA=</HashCode>
+      <FileName>Assets\Resources\Scripts\Enemies\Hansi.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Harold">
+    <Position X="33.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAApAFYAAAAAIAAEAAACAAAAAAAAAAAAAAAEI=</HashCode>
+      <FileName>Assets\Resources\Scripts\Enemies\Harold.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Harry">
+    <Position X="36" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQACAAIAqBAgAQgAAIAEAAAAIABAAEAAAAEAEgAAEA=</HashCode>
+      <FileName>Assets\Resources\Scripts\Enemies\Harry.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Harvey">
+    <Position X="38.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQEGAAAAIAAIJAAAAIAAAAAAAAAAIBIQAAQAAAAAEg=</HashCode>
+      <FileName>Assets\Resources\Scripts\Enemies\Harvey.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HealthLinkZombie">
+    <Position X="29" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAIAAgAAIAIAAAAAAAAIBAQAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Resources\Scripts\Enemies\HealthLinkZombie.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Grenade" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="18.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACQAAAAAIgAAAABAAAIAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Resources\Scripts\Grenade.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="PlayerController" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="21" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CFQMDTBAgiAEIAtoBS4AQAEBAAEAAgSB0EAggIACoGA=</HashCode>
+      <FileName>Assets\Resources\Scripts\Player\PlayerController.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.219" />
+  </Class>
+  <Class Name="MixLevels" Collapsed="true">
+    <Position X="51.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACSAAAAIAAAAAgAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Resources\Scripts\System\Audio\MixLevels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Extensions" Collapsed="true">
+    <Position X="53.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAIAAAAAAAAAEAAAAAAAAAIAAAAMAIAEAAAAAA=</HashCode>
+      <FileName>Assets\Resources\Scripts\System\Extensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameManager" Collapsed="true">
+    <Position X="52" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAEEBACiAyoACAICAAABKIAIAAAIBAAAQAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Resources\Scripts\System\GameManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnterArea">
+    <Position X="14.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAAAEAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>Assets\Resources\Scripts\System\Interactables\EnterArea.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Interactor">
+    <Position X="8.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Resources\Scripts\System\Interactables\Interactor.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Casing">
+    <Position X="16.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Resources\Scripts\System\Interactables\Parts\Casing.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GunBarrel">
+    <Position X="0.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Resources\Scripts\System\Interactables\Parts\GunBarrel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GunCyllinder">
+    <Position X="3" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Resources\Scripts\System\Interactables\Parts\GunCyllinder.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GunHandle">
+    <Position X="5.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Resources\Scripts\System\Interactables\Parts\GunHandle.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Gunpowder">
+    <Position X="7.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Resources\Scripts\System\Interactables\Parts\Gunpowder.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Readable">
+    <Position X="9.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Resources\Scripts\System\Interactables\Readable.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ToggleLightTest">
+    <Position X="12" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Resources\Scripts\System\Interactables\ToggleLightTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MenuManager" Collapsed="true">
+    <Position X="57.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgEAIAABABAQAAAAAAAAAAgAAAIAAAAQAQAABgAIUE=</HashCode>
+      <FileName>Assets\Resources\Scripts\System\MenuManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="IInteractable">
+    <Position X="4.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Resources\Scripts\System\Interfaces.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IPart">
+    <Position X="6.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Resources\Scripts\System\Interfaces.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IDamage">
+    <Position X="2.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Resources\Scripts\System\Interfaces.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IAlive">
+    <Position X="1" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAIAAgAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Resources\Scripts\System\Interfaces.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
