@@ -165,7 +165,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
 
-        if (SceneManager.GetActiveScene().name != Scenenames.MainBuildNotBlue.SelectedName(false))
+        if (SceneManager.GetActiveScene().name != "MainBuildNotBlue")
         {
             // move player to spawn
             PlayerController.Instance.gameObject.transform.position = GameObject.FindWithTag("Respawn").transform.position;

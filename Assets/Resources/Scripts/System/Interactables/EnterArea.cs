@@ -9,7 +9,7 @@ public class EnterArea : Interactor
 
     public void Enter()
     {
-        if (GameManager.Instance.Locked.ContainsKey(Area.SelectedName(false)))
+        if (GameManager.Instance.Locked.ContainsKey(Area.ToString()))
         {
             // tell player they cannot enter
             return;
@@ -26,6 +26,6 @@ public class EnterArea : Interactor
         }
 
         // Load Area
-        GameManager.Instance.LoadScene(Area.SelectedName(false), LoadSceneMode.Additive);
+        GameManager.Instance.LoadScene(Area.ToString(), LoadSceneMode.Additive);
     }
 }
